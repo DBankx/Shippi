@@ -1,9 +1,15 @@
 // server setup
-
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors');
 const port = process.env.PORT || 4000;
+const connectDB = require('./database');
+
+// connect to the database
+connectDB();
+
+app.use(express.json({ extended: false }));
 
 // cors middleware
 app.use(cors());
@@ -17,5 +23,7 @@ app.get('/', (req, res) => {
 app.use('/api/user', require('./routes/api/user'));
 // product route
 app.use('/api/product', require('./routes/api/product'));
+// // auth route
+// app.use('/api/auth', require('./routes/api/auth'));
 
 app.listen(port, () => console.log(`App has started on port ${port}`));
