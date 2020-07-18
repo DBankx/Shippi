@@ -25,5 +25,7 @@ app.use('/api/user', require('./routes/api/user'));
 app.use('/api/product', require('./routes/api/product'));
 // auth route
 app.use('/api/auth', require('./routes/api/auth'));
+// profile route
+app.use('/api/profile', require('./routes/api/profile'));
 
 app.listen(port, () => console.log(`App has started on port ${port}`));
