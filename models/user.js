@@ -22,10 +22,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  companyName: {
-    type: String,
-    required: false
-  },
   username: {
     type: String,
     required: true
@@ -33,6 +29,14 @@ const userSchema = new mongoose.Schema({
   country: {
     type: String,
     required: true
+  },
+  avatar: {
+    type: String,
+    required: true
+  },
+  createdDate: {
+    type: Date,
+    default: Date.now
   }
 });
 
