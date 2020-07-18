@@ -13,7 +13,7 @@ router.get('/', auth, async (req, res) => {
     const profile = await Profile.findOne({ user: req.user.id });
 
     if (!profile) {
-      return res.status(404).json({ msg: 'Profile not found' });
+      return res.status(404).json({ errors: [{ msg: 'Profile not found' }] });
     }
 
     res.json(profile);
@@ -56,6 +56,7 @@ router.post(
 
     // fill up the object
     profileObject.user = req.user.id;
+    profileObject.username = user.username;
     if (companyName) profileObject.companyName = companyName;
     if (website) profileObject.website = website;
     if (storeLocation) profileObject.storeLocation = storeLocation;
@@ -96,5 +97,88 @@ router.post(
     }
   }
 );
+
+// get profile by username
+// @@@ - public
+router.get('/:username', async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      username: req.params.username
+    }).populate('user', ['avatar', 'username', 'email', 'role', 'country']);
+
+    if (!profile) {
+      return res.status(404).json({ errors: [{ msg: 'Profile not found' }] });
+    }
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// create address
+// @@@ - protected
+router.put(
+  '/address',
+  [
+    auth,
+    [
+      check('type', 'Address type is required').not().isEmpty(),
+      check('addressLine', 'Address is required').not().isEmpty(),
+      check('city', 'City name is required').not().isEmpty(),
+      check('postalCode', 'Post code is required').not().isEmpty(),
+      check('state', 'state is required').not().isEmpty(),
+      check('country', 'Country is required').not().isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {
+      type,
+      addressLine,
+      city,
+      state,
+      country,
+      postalCode,
+      additionalInfo
+    } = req.body;
+
+    // create object containing the data
+
+    const newAddress = {
+      type,
+      addressLine,
+      city,
+      state,
+      country,
+      postalCode,
+      additionalInfo
+    };
+
+    try {
+      let profile = await Profile.findOne({ user: req.user.id });
+
+      if (profile) {
+        // put the new address at the front
+        await profile.addresses.unshift(newAddress);
+
+        await profile.save();
+
+        res.json(profile);
+      }
+    } catch (err) {
+      console.error(err.message);
+      res.send(500).send('Server Error');
+    }
+  }
+);
+
+//@@@ todo - address, feedback, savedItems
 
 module.exports = router;

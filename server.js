@@ -4,14 +4,13 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const port = process.env.PORT || 4000;
-const connectDB = require('./database');
+const connectDB = require('./config/database');
 
 // connect to the database
 connectDB();
 
+// initalizing middleware
 app.use(express.json({ extended: false }));
-
-// cors middleware
 app.use(cors());
 
 // home page

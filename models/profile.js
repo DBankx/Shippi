@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { text } = require('body-parser');
 
 // profile schema
 const profileSchema = new mongoose.Schema({
@@ -49,6 +50,9 @@ const profileSchema = new mongoose.Schema({
       }
     }
   ],
+  username: {
+    type: String
+  },
   socials: {
     twitter: {
       type: String
@@ -88,7 +92,12 @@ const profileSchema = new mongoose.Schema({
         required: true
       },
       state: {
-        type: String
+        type: String,
+        required: true
+      },
+      country: {
+        type: String,
+        required: true
       }
     }
   ],
