@@ -5,6 +5,7 @@ const User = require('../../models/user');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const auth = require('../../middlewares/auth');
 
 // desc - create a user
 // @@@ - public
@@ -107,6 +108,65 @@ router.post(
           }
         }
       );
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// desc - edit & update user data
+// @@@ - protected
+router.patch(
+  '/',
+  [
+    auth,
+    [
+      check('email', 'valid email is required').isEmail(),
+      check('username', 'valid username is required').not().isEmpty(),
+      check('role', 'Please select a trader role').not().isEmpty(),
+      check('country', 'Country name is required').not().isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.send(400).json({ errors: errors.array() });
+    }
+
+    const { email, username, role, country } = req.body;
+    try {
+      // find the user by the data from the token
+      let user = await User.findOne({ _id: req.user.id });
+
+      if (!user) {
+        return res.status(404).json({ msg: 'user not found' });
+      }
+
+      if (user) {
+        // create a new object with changes you want to make and static changes
+        let newChanges = {
+          email,
+          username,
+          role,
+          country,
+          password: user.password,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          avatar: user.avatar
+        };
+
+        // update the db with the object above
+        user = await User.findOneAndUpdate(
+          { _id: req.user.id },
+          { $set: newChanges },
+          { new: true }
+        );
+
+        // respond with the new user data
+        res.json(user);
+      }
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
