@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 app.use('/api/user', require('./routes/api/user'));
 // product route
 app.use('/api/product', require('./routes/api/product'));
-// // auth route
-// app.use('/api/auth', require('./routes/api/auth'));
+// auth route
+app.use('/api/auth', require('./routes/api/auth'));
 
 app.listen(port, () => console.log(`App has started on port ${port}`));

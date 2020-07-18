@@ -6,7 +6,8 @@ const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// create a user
+// desc - create a user
+// @@@ - public
 router.post(
   '/',
   [
