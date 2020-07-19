@@ -212,6 +212,7 @@ router.patch('/notifications/:notificationId', auth, async (req, res) => {
 
     // set the isRead value to true
     notification.isRead = true;
+    notification.readAt = Date.now;
     notification.save();
 
     res.json(notification);
