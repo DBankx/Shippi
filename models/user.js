@@ -37,7 +37,13 @@ const userSchema = new mongoose.Schema({
   createdDate: {
     type: Date,
     default: Date.now
-  }
+  },
+  notifications: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'notification'
+    }
+  ]
 });
 
 module.exports = User = mongoose.model('user', userSchema);

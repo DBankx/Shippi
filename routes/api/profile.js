@@ -5,6 +5,7 @@ const Profile = require('../../models/profile');
 const User = require('../../models/user');
 const { check, validationResult } = require('express-validator/check');
 const profile = require('../../models/profile');
+const Notification = require('../../models/notification');
 
 // get the users profile
 // @@@ - protected
@@ -239,7 +240,27 @@ router.put(
       //   place the feedbackData in the feedback array
       await profileWithFeedback.feedback.unshift(feedbackData);
 
+      //   notification data
+      const notificationData = {
+        sender: req.user.id,
+        reciever: profileWithFeedback.user,
+        type: 'feedback',
+        message: `${userLeavingFeedback.username} gave you a feedback`
+      };
+
+      //   save as a new notification
+      const newNotification = new Notification(notificationData);
+
       await profileWithFeedback.save();
+      await newNotification.save();
+
+      //   get the user you want to notify
+      const userBeingNotified = await User.findById(profileWithFeedback.user);
+
+      //   push the notification to the use you want to notify
+      userBeingNotified.notifications.unshift(newNotification);
+
+      await userBeingNotified.save();
 
       res.json(profileWithFeedback);
     } catch (err) {

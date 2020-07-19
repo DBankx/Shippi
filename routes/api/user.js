@@ -6,6 +6,8 @@ const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const auth = require('../../middlewares/auth');
+const { options } = require('./profile');
+const Notification = require('../../models/notification');
 
 // desc - create a user
 // @@@ - public
@@ -173,5 +175,85 @@ router.patch(
     }
   }
 );
+
+// view all notifications
+// @@@ - protected
+router.get('/notifications', auth, async (req, res) => {
+  try {
+    let user = await User.findById(req.user.id).populate('notifications', [
+      'sender',
+      'reciever',
+      'type',
+      'message',
+      'isRead, readAt',
+      'createdAt'
+    ]);
+
+    let allNotifications = user.notifications;
+
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// read a notification
+// @@@ - protected
+router.patch('/notifications/:notificationId', auth, async (req, res) => {
+  try {
+    let notification = await Notification.findById(req.params.notificationId);
+
+    // check if notification is being viewed by the user
+
+    if (notification.reciever.toString() !== req.user.id) {
+      return res.status(401).json({ errors: [{ msg: 'Not authorized' }] });
+    }
+
+    // set the isRead value to true
+    notification.isRead = true;
+    notification.save();
+
+    res.json(notification);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// delete a notification
+// @@@ - protected
+router.delete('/notifications/:notificationId', auth, async (req, res) => {
+  try {
+    let user = await User.findById(req.user.id);
+    let notification = await Notification.findById(req.params.notificationId);
+    let mainNotification = await Notification.findOne({
+      _id: req.params.notificationId
+    });
+
+    // check if notification is being viewed by the user
+    if (notification.reciever.toString() !== req.user.id) {
+      return res.status(401).json({ errors: [{ msg: 'Not authorized' }] });
+    }
+
+    // get the index
+    const removeIndex = user.notifications
+      .map((notify) => notify.id)
+      .indexOf(req.params.notificationId);
+
+    // splice the experience from the array
+    user.notifications.splice(removeIndex, 1);
+
+    //  delete the notification entirely
+    await mainNotification.remove();
+
+    await user.save();
+
+    res.json(user.notifications);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
