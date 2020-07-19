@@ -29,14 +29,15 @@ const profileSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users'
       },
-      text: {
+      comment: {
         type: String,
         max: 400
       },
       rating: {
         type: Number,
         max: 5,
-        min: 0
+        min: 0,
+        required: true
       },
       avatar: {
         type: String

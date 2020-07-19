@@ -179,6 +179,120 @@ router.put(
   }
 );
 
-//@@@ todo - address, feedback, savedItems
+// delete an address
+// @@@ - protected
+
+router.delete('/address/:addressId', auth, async (req, res) => {
+  try {
+    let profile = await Profile.findOne({ user: req.user.id });
+
+    const addressId = req.params.addressId;
+
+    // get the index
+    const removeIndex = profile.addresses
+      .map((address) => address.id)
+      .indexOf(addressId);
+
+    // splice the experience from the array
+    profile.addresses.splice(removeIndex, 1);
+
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// leave feedback on a user
+// @@@ - protected
+router.put(
+  '/feedback/:profileId',
+  [auth, [check('rating', 'Rating is required').not().isEmpty()]],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { rating, comment } = req.body;
+
+    try {
+      const userLeavingFeedback = await User.findById(req.user.id);
+
+      // creating a new feeback object with the data
+      const feedbackData = {
+        user: req.user.id,
+        rating,
+        comment,
+        avatar: userLeavingFeedback.avatar,
+        username: userLeavingFeedback.username
+      };
+
+      //   find the user with the id from the url
+      const profileWithFeedback = await Profile.findOne({
+        _id: req.params.profileId
+      });
+
+      //   place the feedbackData in the feedback array
+      await profileWithFeedback.feedback.unshift(feedbackData);
+
+      await profileWithFeedback.save();
+
+      res.json(profileWithFeedback);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// delete a feeback
+// @@@ - protected
+
+router.delete('/feedback/:profileId/:feedbackId', auth, async (req, res) => {
+  const { profileId, feedbackId } = req.params;
+
+  try {
+    let profile = await Profile.findById(profileId);
+
+    // find the feedback
+    const feedback = profile.feedback.find(
+      (feedback) => feedback.id == feedbackId
+    );
+
+    // check if there is a profile
+    if (!profile) {
+      return res.status(404).json({ errors: [{ msg: 'Profile not found' }] });
+    }
+
+    // check if there is a feedback
+    if (!feedback) {
+      return res.status(404).json({ errors: [{ msg: 'Feedback not found' }] });
+    }
+
+    // check if it was the user that left the feedback
+    if (feedback.user.toString() !== req.user.id) {
+      return res.status(401).json({ errors: [{ msg: 'Not authorized' }] });
+    }
+
+    const removeIndex = profile.feedback
+      .map((fb) => fb._id)
+      .indexOf(feedbackId);
+
+    profile.feedback.splice(removeIndex, 1);
+
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+//@@@ todo -  savedItems
 
 module.exports = router;
