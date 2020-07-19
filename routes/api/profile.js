@@ -3,7 +3,7 @@ const auth = require('../../middlewares/auth');
 const router = express.Router();
 const Profile = require('../../models/profile');
 const User = require('../../models/user');
-const { check, validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator');
 const profile = require('../../models/profile');
 const Notification = require('../../models/notification');
 
@@ -314,6 +314,6 @@ router.delete('/feedback/:profileId/:feedbackId', auth, async (req, res) => {
   }
 });
 
-//@@@ todo -  savedItems
+//@@@ todo -  savedItems, delete account
 
 module.exports = router;
