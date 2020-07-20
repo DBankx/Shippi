@@ -102,14 +102,6 @@ const profileSchema = new mongoose.Schema({
       }
     }
   ],
-  savedItems: [
-    {
-      product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'product'
-      }
-    }
-  ],
   date: {
     type: Date,
     default: Date.now

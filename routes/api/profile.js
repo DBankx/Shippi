@@ -243,7 +243,7 @@ router.put(
       //   notification data
       const notificationData = {
         sender: req.user.id,
-        reciever: profileWithFeedback.user,
+        reciever: [{ user: profileWithFeedback.user }],
         type: 'feedback',
         message: `${userLeavingFeedback.username} gave you a feedback`
       };

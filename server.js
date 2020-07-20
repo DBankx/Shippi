@@ -30,6 +30,6 @@ app.use('/api/auth', require('./routes/api/auth'));
 // profile route
 app.use('/api/profile', require('./routes/api/profile'));
 // products route
-app.use('/products', require('./routes/api/product'));
+app.use('/api/products', require('./routes/api/product'));
 
 app.listen(port, () => console.log(`App has started on port ${port}`));

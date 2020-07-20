@@ -5,10 +5,14 @@ const notificationSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   },
-  reciever: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'user'
-  },
+  reciever: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+      }
+    }
+  ],
   type: {
     type: String,
     required: true

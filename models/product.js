@@ -13,8 +13,8 @@ const productSchema = new mongoose.Schema({
   subtitle: {
     type: String
   },
-  productImage: {
-    type: String,
+  productImages: {
+    type: [String],
     required: true
   },
   details: {
@@ -60,6 +60,14 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  watchers: [
+    {
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+      }
+    }
+  ],
   feedback: [
     {
       user: {

@@ -5,12 +5,10 @@ const Product = require('../../models/product');
 const User = require('../../models/user');
 const { check, validationResult } = require('express-validator');
 const multer = require('multer');
-const GridFsStorage = require('multer-gridfs-storage');
-const Grid = require('gridfs-stream');
+const Notification = require('../../models/notification');
 const fs = require('fs');
 const mongoose = require('mongoose');
-const conn = mongoose.connection;
-const MONGO_URI = process.env.MONGO_URI;
+var _ = require('lodash');
 
 // multer storage
 const storage = multer.diskStorage({
@@ -34,7 +32,11 @@ const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
     cb(null, true);
   } else {
-    cb(null, false);
+    return cb(
+      res
+        .status(400)
+        .json({ errors: [{ msg: '*only jpg and jpeg are allowed' }] })
+    );
   }
 };
 
@@ -47,21 +49,23 @@ let upload = multer({
   fileFilter
 });
 
+//  create a new product
+// @@@ - protected
 router.post(
   '/',
   [
-    auth
-    // [
-    //   (check('title', 'Product title is required').not().isEmpty(),
-    //   check('category', 'Category is required').not().isEmpty(),
-    //   check('condition', 'Condition is required').not().isEmpty(),
-    //   check('description', 'Description is required').not().isEmpty(),
-    //   check('price', 'Price must be a decimal').isDecimal(),
-    //   check('quantity', 'quantity is required').isNumeric(),
-    //   check('shippingPrice', 'Shipping price is required').isDecimal())
-    // ]
+    auth,
+    upload.array('productImages', 3),
+    [
+      (check('title', 'Product title is required').not().isEmpty(),
+      check('category', 'Category is required').not().isEmpty(),
+      check('condition', 'Condition is required').not().isEmpty(),
+      check('description', 'Description is required').not().isEmpty(),
+      check('price', 'Price must be a decimal').isDecimal(),
+      check('quantity', 'quantity is required').isNumeric(),
+      check('shippingPrice', 'Shipping price is required').isDecimal())
+    ]
   ],
-  upload.single('productImage'),
   async (req, res) => {
     const errors = validationResult(req);
 
@@ -97,10 +101,15 @@ router.post(
     try {
       const user = await User.findById(req.user.id).select('-password');
 
+      const images = [];
+
+      // loop through the files and store the paths
+      req.files.forEach((file) => images.push(file.path));
+
       // create a new object with the product data
       const newProduct = {};
       newProduct.user = req.user.id;
-      newProduct.productImage = req.file.path;
+      newProduct.productImages = images;
       if (title) newProduct.title = title;
       if (category) newProduct.category = category;
       if (condition) newProduct.condition = condition;
@@ -143,5 +152,274 @@ router.post(
     }
   }
 );
+
+// edit a product
+// @@@ - protected
+router.patch(
+  '/edit/:productId',
+  [
+    auth,
+    upload.array('productImages', 3),
+    [
+      (check('title', 'Product title is required').not().isEmpty(),
+      check('category', 'Category is required').not().isEmpty(),
+      check('condition', 'Condition is required').not().isEmpty(),
+      check('description', 'Description is required').not().isEmpty(),
+      check('price', 'Price must be a decimal').isDecimal(),
+      check('quantity', 'quantity is required').isNumeric(),
+      check('shippingPrice', 'Shipping price is required').isDecimal())
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {
+      title,
+      category,
+      condition,
+      description,
+      price,
+      quantity,
+      shippingPrice,
+      domesticShipping,
+      internationalShipping,
+      weight,
+      height,
+      depth,
+      width,
+      returns,
+      color,
+      size,
+      countryOrigin,
+      brandName,
+      releaseDate,
+      modelNumber,
+      subtitle,
+      features
+    } = req.body;
+
+    try {
+      let product = await Product.findById(req.params.productId);
+
+      const images = [];
+
+      // loop through the files and store the paths
+      req.files.forEach((file) => images.push(file.path));
+
+      if (!product) {
+        return res.status(404).json({ errors: [{ msg: 'product not found' }] });
+      }
+
+      if (product.user.toString() !== req.user.id) {
+        return res.status(404).json({ errors: [{ msg: 'Not Authorised' }] });
+      }
+
+      // create a new object with the product data
+      const newProduct = {};
+      newProduct.user = req.user.id;
+      newProduct.productImages = images;
+      if (title) newProduct.title = title;
+      if (category) newProduct.category = category;
+      if (condition) newProduct.condition = condition;
+      if (description) newProduct.description = description;
+      if (price) newProduct.price = price;
+      if (quantity) newProduct.quantity = quantity;
+      if (subtitle) newProduct.subtitle = subtitle;
+      newProduct.shippingDetails = {};
+      if (shippingPrice)
+        newProduct.shippingDetails.shippingPrice = shippingPrice;
+      if (domesticShipping)
+        newProduct.shippingDetails.domesticShipping = domesticShipping;
+      if (internationalShipping)
+        newProduct.shippingDetails.internationalShipping = internationalShipping;
+      if (weight) newProduct.shippingDetails.weight = weight;
+      if (height) newProduct.shippingDetails.height = height;
+      if (width) newProduct.shippingDetails.width = width;
+      if (depth) newProduct.shippingDetails.depth = depth;
+      if (returns) newProduct.returns = returns;
+      newProduct.details = {};
+      if (color) newProduct.details.color = color;
+      if (size) newProduct.details.size = size;
+      if (countryOrigin) newProduct.details.countryOrigin = countryOrigin;
+      if (brandName) newProduct.details.brandName = brandName;
+      if (releaseDate) newProduct.details.releaseDate = releaseDate;
+      if (modelNumber) newProduct.details.modelNumber = modelNumber;
+      if (features)
+        newProduct.details.features = features
+          .split(',')
+          .map((feature) => feature.trim());
+
+      // save the new data
+      product = await Product.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: newProduct },
+        { new: true }
+      );
+
+      res.json(product);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// watch a product
+// @@@ - protected
+
+router.put('/watch/:productId', auth, async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.productId);
+    const user = await User.findById(req.user.id);
+
+    if (!product) {
+      return res.status(404).json({ errors: [{ msg: 'product not found' }] });
+    }
+
+    // check if the product is by the user
+    if (product.user.toString() === req.user.id) {
+      return res
+        .status(404)
+        .json({ errors: [{ msg: 'you cant watch your product' }] });
+    }
+
+    // check if user is already watching
+    if (
+      product.watchers.filter(
+        (watcher) => watcher.user.toString() === req.user.id
+      ).length > 0
+    ) {
+      return res
+        .status(400)
+        .json({ errors: [{ msg: 'You are already watching' }] });
+    }
+
+    const newWatcher = {
+      user: req.user.id
+    };
+
+    product.watchers.unshift(newWatcher);
+
+    const watching = {
+      product: req.params.productId
+    };
+
+    user.watching.unshift(watching);
+
+    await product.save();
+    await user.save();
+
+    res.json(product.watchers);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// unwatch a product
+// @@@ - protected
+router.put('/unwatch/:productId', auth, async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.productId);
+    const user = await User.findById(req.user.id);
+
+    if (!product) {
+      return res.status(404).json({ errors: [{ msg: 'product not found' }] });
+    }
+
+    // check if post has been liked
+    if (
+      product.watchers.filter(
+        (watcher) => watcher.user.toString() === req.user.id
+      ).length === 0
+    ) {
+      return res.status(400).json({ msg: 'You are not watching the item' });
+    }
+
+    // get remove index of watcher from product
+    const removeIndex = _.findIndex(
+      product.watchers,
+      (watcher) => watcher.user == req.user.id
+    );
+    // get the index of the product from the user
+    const indexOfProduct = _.findIndex(
+      user.watching,
+      (product) => product.product == req.params.productId
+    );
+
+    // splice from product watcher array
+    product.watchers.splice(removeIndex, 1);
+    // splice from user watching array
+    user.watching.splice(indexOfProduct, 1);
+
+    await product.save();
+    await user.save();
+
+    res.json(product.watchers);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// get a product by id
+// @@@ - public
+router.get('/find/:productId', async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.productId);
+
+    if (!product) {
+      return res.status(404).json({ errors: [{ msg: 'Product not found' }] });
+    }
+
+    res.json(product);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// search for products by parameters
+// @@@ - public
+router.get('/find', async (req, res) => {
+  // get pagination values
+  let limit = req.query.limit ? parseInt(req.query.limit) : 100;
+  let order = req.query.order ? req.query.order : 'desc';
+  let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
+  let page = req.query.page ? parseInt(req.query.page) : 0;
+
+  try {
+    // setting the query parameters
+    // const { searchField, searchValue } = req.query;
+
+    // const queryObj = {};
+
+    // if (searchField !== '' && searchValue !== '') {
+    //   queryObj[searchField] = searchValue;
+    // }
+
+    let products = await Product.find(
+      _.omit(req.params, ['page', 'order', 'sortBy', 'page', 'limit'])
+    )
+      .sort([[sortBy, order]])
+      .limit(limit)
+      .skip(page * limit);
+
+    if (!products) {
+      return res.status(404).json({ errors: [{ msg: 'No products found' }] });
+    }
+
+    res.json(products);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @@@ - todo get by id, add feedback, notification, delete
 
 module.exports = router;
