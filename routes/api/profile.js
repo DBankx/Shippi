@@ -3,6 +3,7 @@ const auth = require('../../middlewares/auth');
 const router = express.Router();
 const Profile = require('../../models/profile');
 const User = require('../../models/user');
+const Product = require('../../models/product');
 const { check, validationResult } = require('express-validator');
 const profile = require('../../models/profile');
 const Notification = require('../../models/notification');
@@ -314,6 +315,22 @@ router.delete('/feedback/:profileId/:feedbackId', auth, async (req, res) => {
   }
 });
 
-//@@@ todo -  savedItems, delete account
+// delete a profile
+// @@@ - protected
+
+router.delete('/', auth, async (req, res) => {
+  try {
+    // delete everything
+    await Profile.findOneAndRemove({ user: req.user.id });
+    await Product.findOneAndRemove({ user: req.user.id });
+    await Notification.findOneAndRemove({ reciever: req.user.id });
+    await User.findOneAndRemove({ _id: req.user.id });
+    res.json({ msg: 'Account has been deleted' });
+    res.json(profiles);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;

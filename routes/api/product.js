@@ -491,6 +491,72 @@ router.put(
   }
 );
 
-// @@@ -  add feedback, notification, delete
+// delete feedback
+// @@@ - protected
+
+router.put('/feedback/:productId/:feedbackId', auth, async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.productId);
+    const feedback = product.feedback.find(
+      (feedback) => feedback.id === req.params.feedbackId
+    );
+
+    if (!product) {
+      return res.status(404).json({ errors: [{ msg: 'Product not found' }] });
+    }
+
+    if (!feedback) {
+      return res.status(404).json({ errors: [{ msg: 'Feedback not found' }] });
+    }
+
+    if (feedback.user.toString() !== req.user.id) {
+      return res
+        .status(401)
+        .json({ errors: [{ msg: 'You are not authorized' }] });
+    }
+
+    // get the remove index
+    const removeIndex = _.findIndex(
+      product.feedback,
+      (feedback) => feedback.id === req.params.feedbackId
+    );
+
+    // splice from array
+    product.feedback.splice(removeIndex, 1);
+
+    await product.save();
+
+    res.json(product.feedback);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// delete a product
+//  @@@ - protected
+
+router.delete('/:productId', auth, async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.productId);
+
+    if (!product) {
+      return res.status(404).json({ errors: [{ msg: 'Product not found' }] });
+    }
+
+    if (product.user.toString() !== req.user.id) {
+      return res
+        .status(401)
+        .json({ errors: [{ msg: 'You are not authorized' }] });
+    }
+
+    await product.remove();
+
+    res.json({ msg: 'Product has been deleted' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;

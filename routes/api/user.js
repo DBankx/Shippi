@@ -185,13 +185,14 @@ router.get('/notifications', auth, async (req, res) => {
       'reciever',
       'type',
       'message',
-      'isRead, readAt',
+      'isRead',
+      'readAt',
       'createdAt'
     ]);
 
     let allNotifications = user.notifications;
 
-    res.json(user);
+    res.json(user.notifications);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -251,6 +252,22 @@ router.delete('/notifications/:notificationId', auth, async (req, res) => {
     await user.save();
 
     res.json(user.notifications);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// view all watching products
+// @@ - protected
+router.get('/watching', auth, async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.user.id }).populate({
+      path: 'watching',
+      populate: { path: 'product' }
+    });
+
+    res.json(user.watching);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
