@@ -51,6 +51,26 @@ const userSchema = new mongoose.Schema({
         ref: 'product'
       }
     }
+  ],
+  cart: [
+    {
+      product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'product'
+      }
+    }
+  ],
+  orders: [
+    {
+      product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'product'
+      },
+      timeBought: {
+        type: Date,
+        default: Date.now
+      }
+    }
   ]
 });
 

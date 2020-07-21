@@ -383,8 +383,9 @@ router.get('/find/:productId', async (req, res) => {
   }
 });
 
-// search for products by parameters
+// get products from search
 // @@@ - public
+
 router.get('/find', async (req, res) => {
   // get pagination values
   let limit = req.query.limit ? parseInt(req.query.limit) : 100;
@@ -392,25 +393,25 @@ router.get('/find', async (req, res) => {
   let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
   let page = req.query.page ? parseInt(req.query.page) : 0;
 
+  // omit the pagination values from the query params
+  let queryParams = _.omit(req.query, [
+    'page',
+    'limit',
+    'order',
+    'sortBy',
+    'page'
+  ]);
+
+  console.log(queryParams);
+
   try {
-    // setting the query parameters
-    // const { searchField, searchValue } = req.query;
-
-    // const queryObj = {};
-
-    // if (searchField !== '' && searchValue !== '') {
-    //   queryObj[searchField] = searchValue;
-    // }
-
-    let products = await Product.find(
-      _.omit(req.params, ['page', 'order', 'sortBy', 'page', 'limit'])
-    )
+    let products = await Product.find(queryParams)
       .sort([[sortBy, order]])
       .limit(limit)
       .skip(page * limit);
 
     if (!products) {
-      return res.status(404).json({ errors: [{ msg: 'No products found' }] });
+      return res.status(404).json({ errors: [{ msg: 'No item was found' }] });
     }
 
     res.json(products);
@@ -420,6 +421,76 @@ router.get('/find', async (req, res) => {
   }
 });
 
-// @@@ - todo get by id, add feedback, notification, delete
+// leave feedback on a product
+// @@@ - protected
+
+router.put(
+  '/feedback/:productId',
+  [auth, [check('rating', 'Please leave a rating').isNumeric()]],
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { rating, comment } = req.body;
+
+    try {
+      let product = await Product.findById(req.params.productId);
+      let user = await User.findById(req.user.id);
+
+      if (!product) {
+        return res.status(404).json({ errors: [{ msg: 'Product not found' }] });
+      }
+
+      if (product.user.toString() === req.user.id) {
+        return res.status(400).json({
+          errors: [{ msg: 'You cannot leave a feedback on your product' }]
+        });
+      }
+
+      const feedbackData = {
+        user: req.user.id,
+        rating,
+        comment,
+        avatar: user.avatar,
+        username: user.username
+      };
+
+      // leave feedback
+
+      await product.feedback.unshift(feedbackData);
+
+      await product.save();
+
+      // send notification to the owner of the product
+      const notificationData = {
+        sender: req.user.id,
+        reciever: [{ user: product.user }],
+        type: 'feedback',
+        message: `${user.username} left a feedback on ${product.title}`
+      };
+
+      const newNotification = new Notification(notificationData);
+
+      await newNotification.save();
+
+      //   get the user you want to notify
+      const userBeingNotified = await User.findById(product.user);
+
+      userBeingNotified.notifications.unshift(newNotification);
+
+      await userBeingNotified.save();
+
+      res.json(product.feedback);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @@@ -  add feedback, notification, delete
 
 module.exports = router;

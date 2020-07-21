@@ -58,7 +58,13 @@ const productSchema = new mongoose.Schema({
   },
   quantity: {
     type: Number,
-    required: true
+    required: true,
+    default: 1
+  },
+  sold: {
+    type: Number,
+    default: 0,
+    maxlength: 100
   },
   watchers: [
     {
