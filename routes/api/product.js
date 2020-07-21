@@ -533,6 +533,19 @@ router.put('/feedback/:productId/:feedbackId', auth, async (req, res) => {
   }
 });
 
+// get all products
+// @@@ - public
+router.get('/', async (req, res) => {
+  try {
+    const products = await Product.find();
+
+    res.json(products);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 // delete a product
 //  @@@ - protected
 

@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const auth = require('../../middlewares/auth');
 const { options } = require('./profile');
 const Notification = require('../../models/notification');
+const _ = require('lodash');
 
 // desc - create a user
 // @@@ - public
@@ -268,6 +269,94 @@ router.get('/watching', auth, async (req, res) => {
     });
 
     res.json(user.watching);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// ==================================
+// ==================================
+// payment / cart & orders routes
+// ===================================
+// ====================================
+
+// add an item to cart
+//  @@@ - protected
+
+router.put('/add/:productId', auth, async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.productId);
+    const user = await User.findById(req.user.id);
+
+    if (!product) {
+      return res.status(404).json({ errors: [{ msg: 'Product not found' }] });
+    }
+
+    //  check if item already in cart
+    if (
+      user.cart.filter(
+        (item) => item.product.toString() === req.params.productId
+      ).length > 0
+    ) {
+      return res
+        .status(400)
+        .json({ errors: [{ msg: 'Product already in cart' }] });
+    }
+
+    const cartData = {
+      product: req.params.productId,
+      quantity: req.body.quantity,
+      price: parseInt(req.body.quantity) * product.price,
+      shippingPrice:
+        parseInt(req.body.quantity) * product.shippingDetails.shippingPrice
+    };
+
+    user.cart.unshift(cartData);
+
+    await user.save();
+
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// remove item from cart
+//  @@@ - protected
+router.put('/remove/:productId', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+
+    // get the remove index of the item from cart
+    const removeIndex = _.findIndex(
+      user.cart,
+      (item) => item.product === req.params.productId
+    );
+
+    // splice it from the array
+    user.cart.splice(removeIndex, 1);
+
+    user.save();
+
+    res.json(user.cart);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// view users cart
+// @@@ - protected
+router.get('/cart', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).populate({
+      path: 'cart',
+      populate: { path: 'product' }
+    });
+
+    res.json(user.cart);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
