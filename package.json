@@ -5,11 +5,16 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "server": "nodemon server",
+    "start": "node server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Hundeyin Oluwadamilola",
   "license": "ISC",
   "dependencies": {
+    "ant-design": "^1.0.0",
+    "antd": "^4.4.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -22,5 +27,8 @@
     "lodash": "^4.17.19",
     "mongoose": "^5.9.24",
     "multer": "^1.4.2"
+  },
+  "devDependencies": {
+    "concurrently": "^5.2.0"
   }
 }

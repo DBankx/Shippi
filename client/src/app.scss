@@ -1,0 +1,126 @@
+$dark-color: #092532;
+$main: #89c9b8;
+$accent: #c7e2b2;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  padding: 0 1em;
+}
+
+// navbar styling
+.navbar-nav {
+  border: 1px solid #dddddd;
+}
+
+.logo-top {
+  width: 70%;
+}
+
+@media (max-width: 500px) {
+  .logo-top {
+    width: 70%;
+    margin-left: 2em;
+  }
+
+  .hide-sm {
+    display: none;
+  }
+}
+
+.search-top {
+  background-color: $main;
+}
+
+.left-menu {
+  button {
+    background-color: $main;
+    outline: none;
+    border-color: $main;
+
+    &:hover {
+      background-color: $accent;
+      border-color: $accent;
+    }
+  }
+}
+
+.top-links {
+  margin-left: 2em;
+  button {
+    font-size: 1.5rem;
+    color: #9c9c9c;
+
+    &:hover {
+      color: $main;
+    }
+  }
+}
+
+.login {
+  background-color: #fff;
+  padding: 1em;
+
+  form {
+    margin-top: 2em;
+
+    button {
+      width: 100%;
+      height: 40px;
+      font-weight: 600;
+      background-color: $main;
+      border-color: $main;
+
+      &:hover {
+        background-color: darken($main, 10%);
+        border-color: darken($main, 10%);
+      }
+    }
+  }
+}
+
+.hide {
+  display: none;
+}
+
+.call {
+  border: 1px solid #dddddd;
+  border-top: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+
+  padding: 0.2em;
+
+  strong {
+    color: #000;
+    margin-left: 1em;
+  }
+
+  p {
+    color: #9c9c9c;
+    margin-left: 1em;
+  }
+}
+
+.bottom {
+  position: absolute;
+  bottom: 0;
+  padding-top: 1em;
+}
+
+// navbar styling for different devices
+
+@media (max-width: 1176px) and (min-width: 800px) {
+  .hide-lg {
+    display: none;
+  }
+}
+@media (min-width: 1176px) {
+  .hide-xl {
+    display: none;
+  }
+}

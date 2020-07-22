@@ -1,0 +1,117 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  padding: 0 1em;
+}
+
+.navbar-nav {
+  border: 1px solid #dddddd;
+}
+
+.logo-top {
+  width: 70%;
+}
+
+@media (max-width: 500px) {
+  .logo-top {
+    width: 70%;
+    margin-left: 2em;
+  }
+  .hide-sm {
+    display: none;
+  }
+}
+
+.search-top {
+  background-color: #89c9b8;
+}
+
+.left-menu button {
+  background-color: #89c9b8;
+  outline: none;
+  border-color: #89c9b8;
+}
+
+.left-menu button:hover {
+  background-color: #c7e2b2;
+  border-color: #c7e2b2;
+}
+
+.top-links {
+  margin-left: 2em;
+}
+
+.top-links button {
+  font-size: 1.5rem;
+  color: #9c9c9c;
+}
+
+.top-links button:hover {
+  color: #89c9b8;
+}
+
+.login {
+  background-color: #fff;
+  padding: 1em;
+}
+
+.login form {
+  margin-top: 2em;
+}
+
+.login form button {
+  width: 100%;
+  height: 40px;
+  font-weight: 600;
+  background-color: #89c9b8;
+  border-color: #89c9b8;
+}
+
+.login form button:hover {
+  background-color: #66b9a3;
+  border-color: #66b9a3;
+}
+
+.hide {
+  display: none;
+}
+
+.call {
+  border: 1px solid #dddddd;
+  border-top: 0px;
+  border-right: 0px;
+  border-bottom: 0px;
+  padding: 0.2em;
+}
+
+.call strong {
+  color: #000;
+  margin-left: 1em;
+}
+
+.call p {
+  color: #9c9c9c;
+  margin-left: 1em;
+}
+
+.bottom {
+  position: absolute;
+  bottom: 0;
+  padding-top: 1em;
+}
+
+@media (max-width: 1176px) and (min-width: 800px) {
+  .hide-lg {
+    display: none;
+  }
+}
+
+@media (min-width: 1176px) {
+  .hide-xl {
+    display: none;
+  }
+}
