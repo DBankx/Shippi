@@ -37,7 +37,7 @@ const InputTop = () => {
   );
 
   return (
-    <div>
+    <div className='input-top'>
       <Input
         placeholder='Search Products...'
         addonBefore={select}

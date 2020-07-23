@@ -7,15 +7,21 @@ import {
   Popover,
   Input,
   Form,
-  Checkbox
+  Checkbox,
+  Badge
 } from 'antd';
 import {
   ShoppingCartOutlined,
   UserOutlined,
   LockOutlined,
   PhoneOutlined,
-  MailOutlined
+  MailOutlined,
+  TwitterOutlined,
+  RedditOutlined,
+  InstagramOutlined
 } from '@ant-design/icons';
+import logo from '../../../images/logo.svg';
+import { Link } from 'react-router-dom';
 
 const RightMenu = () => {
   const [visible, setVisible] = useState(false);
@@ -83,13 +89,38 @@ const RightMenu = () => {
     </div>
   );
 
-  // const contactDetails = (
-
-  // )
+  const contactDetails = (
+    <div className='details-top'>
+      <h2>
+        Contact <img src={logo} alt='logo' className='logo-contact' />
+      </h2>
+      <p>
+        Email us: <strong>damiHundeyin@gmail.com</strong>
+      </p>
+      <p>
+        Call us: <strong>+1-(0)-321-456-733</strong>
+      </p>
+      <p>
+        Find us:
+        <Row style={{ marginTop: '1em' }}>
+          <Col span={6}>
+            <TwitterOutlined style={{ fontSize: '30px' }} />
+          </Col>
+          <Col span={6}>
+            <InstagramOutlined style={{ fontSize: '30px' }} />
+          </Col>
+          <Col span={6}>
+            <RedditOutlined style={{ fontSize: '30px' }} />
+          </Col>
+        </Row>
+      </p>
+      <Button type='primary'>Send a Request</Button>
+    </div>
+  );
 
   const guestLinks = (
     <div className='top-links'>
-      <Row align='middle'>
+      <Row align='middle' justify='space-between'>
         <Col xs={0} xl={4} lg={8} md={12}>
           <Popover content={loginMenu} placement='bottomRight'>
             <Button type='link'>
@@ -98,14 +129,23 @@ const RightMenu = () => {
           </Popover>
         </Col>
         <Col span={4} xs={24} xl={4} lg={8} md={12}>
-          <Tooltip placement='bottom' title={<span>Login to use cart</span>}>
+          <Tooltip
+            placement='bottom'
+            title={
+              <span>
+                <Link to='/login'>Sign In</Link> to use cart
+              </span>
+            }
+          >
             <Button type='link'>
-              <ShoppingCartOutlined />
+              <Badge count={0} showZero>
+                <ShoppingCartOutlined style={{ fontSize: '1.5rem' }} />
+              </Badge>
             </Button>
           </Tooltip>
         </Col>
         <Col xs={0} xl={4} lg={8} md={0}>
-          <Popover placement='bottomRight'>
+          <Popover placement='bottomRight' content={contactDetails}>
             <Button type='link'>
               <MailOutlined />
             </Button>

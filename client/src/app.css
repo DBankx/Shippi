@@ -37,8 +37,8 @@
 }
 
 .left-menu button:hover {
-  background-color: #c7e2b2;
-  border-color: #c7e2b2;
+  background-color: #66b9a3;
+  border-color: #66b9a3;
 }
 
 .top-links {
@@ -113,5 +113,97 @@
 @media (min-width: 1176px) {
   .hide-xl {
     display: none;
+  }
+}
+
+.logo-contact {
+  width: 60px;
+  top: 10;
+  position: absolute;
+  margin-left: 0.3em;
+}
+
+.details-top button {
+  background-color: #89c9b8;
+  outline: none;
+  border-color: #89c9b8;
+  width: 100%;
+  margin-top: 0.5em;
+}
+
+.details-top button:hover {
+  background-color: #66b9a3;
+  border-color: #66b9a3;
+}
+
+.banner {
+  background-image: url(images/banner-image.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: auto;
+}
+
+.banner .banner-info {
+  margin-top: 3.5em;
+  margin-bottom: 3.5em;
+}
+
+.banner .banner-info h1 {
+  font-weight: 700;
+  font-size: 3rem;
+  color: #fff;
+}
+
+.banner .banner-info ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+
+.banner .banner-info ul li {
+  margin-right: 2em;
+  color: #fff;
+}
+
+.banner .banner-info ul li a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #fff;
+}
+
+.banner .banner-info ul li a:hover {
+  color: #89c9b8;
+}
+
+.banner .banner-info ul li button {
+  background-color: #89c9b8;
+  outline: none;
+  border-color: #89c9b8;
+  width: 100%;
+  height: 40px;
+  margin-top: 0;
+  width: 140px;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.banner .banner-info ul li button:hover {
+  background-color: #66b9a3;
+  border-color: #66b9a3;
+}
+
+@media (max-width: 600px) {
+  .banner {
+    height: auto;
+  }
+  .banner .banner-info h1 {
+    font-size: 2rem;
+  }
+  .banner .banner-info ul {
+    display: block;
+  }
+  .banner .banner-info ul li button {
+    margin-bottom: 2em;
   }
 }
