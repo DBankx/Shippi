@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import { Drawer, Button, Divider } from 'antd';
-import { UnorderedListOutlined } from '@ant-design/icons';
+import {
+  UnorderedListOutlined,
+  SettingOutlined,
+  LockOutlined,
+  BulbOutlined,
+  UserOutlined
+} from '@ant-design/icons';
 
 function LeftMenu(props) {
   const [visible, setVisible] = useState(false);
@@ -48,10 +54,18 @@ function LeftMenu(props) {
         <Divider />
         <div className='bottom'>
           <h3>HELP & SETTINGS</h3>
-          <p>Your Account</p>
-          <p>Contact Shippi</p>
-          <p>About Shippi</p>
-          <p>Sign In</p>
+          <p>
+            <UserOutlined /> Your Account
+          </p>
+          <p>
+            <SettingOutlined /> Settings
+          </p>
+          <p>
+            <BulbOutlined /> About Shippi
+          </p>
+          <p>
+            <LockOutlined /> Sign In
+          </p>
         </div>
       </Drawer>
     </div>
