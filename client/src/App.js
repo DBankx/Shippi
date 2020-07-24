@@ -7,6 +7,7 @@ import Register from './components/auth/Register';
 import { Provider } from 'react-redux';
 import store from './store';
 import AlertSet from './components/layout/layoutUtils/Alert';
+import Login from './components/auth/Login';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route exact path='/' component={Landing} />
           <Switch>
             <Route exact path='/register' component={Register} />
+            <Route exact path='/login' component={Login} />
           </Switch>
         </Router>
       </Provider>

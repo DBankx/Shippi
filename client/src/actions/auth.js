@@ -1,4 +1,9 @@
-import { REGISTER_FAILURE, REGISTER_SUCCESS } from './types';
+import {
+  REGISTER_FAILURE,
+  REGISTER_SUCCESS,
+  LOGIN_SUCCESS,
+  LOGIN_ERROR
+} from './types';
 import axios from 'axios';
 import { setAlert } from './alert';
 
@@ -54,6 +59,35 @@ export const registerUser = ({
 
     dispatch({
       type: REGISTER_FAILURE
+    });
+  }
+};
+
+// login a user
+export const loginUser = (email, password) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  const body = JSON.stringify({ email, password });
+
+  try {
+    const res = await axios.post('/api/auth', body, config);
+
+    dispatch({ type: LOGIN_SUCCESS, payload: res.data });
+  } catch (err) {
+    // get the array of errors
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((err) => dispatch(setAlert(err.msg, null, 'error')));
+    }
+
+    dispatch({
+      type: LOGIN_ERROR,
+      payload: 'Server Error'
     });
   }
 };

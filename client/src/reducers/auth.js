@@ -1,10 +1,16 @@
-import { REGISTER_SUCCESS, REGISTER_FAILURE } from '../actions/types';
+import {
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE,
+  LOGIN_ERROR,
+  LOGIN_SUCCESS
+} from '../actions/types';
 
 const initialState = {
   token: null,
   isAuthenticated: false,
   loading: true,
-  user: null
+  user: null,
+  errors: []
 };
 
 const auth = (state = initialState, action) => {
@@ -16,15 +22,23 @@ const auth = (state = initialState, action) => {
         ...state,
         isAuthenticated: true,
         loading: false,
-        token: payload,
-        user: null
+        token: payload
       };
     case REGISTER_FAILURE:
+    case LOGIN_ERROR:
       return {
         ...state,
         isAuthenticated: false,
         loading: true,
-        user: null
+        user: null,
+        errors: [payload]
+      };
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        isAuthenticated: true,
+        loading: false,
+        token: payload
       };
 
     default:
