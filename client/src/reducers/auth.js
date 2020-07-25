@@ -2,13 +2,14 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
   LOGIN_ERROR,
-  LOGIN_SUCCESS
+  LOGIN_SUCCESS,
+  LOGIN_LOAD
 } from '../actions/types';
 
 const initialState = {
   token: null,
   isAuthenticated: false,
-  loading: true,
+  loading: false,
   user: null,
   errors: []
 };
@@ -24,12 +25,17 @@ const auth = (state = initialState, action) => {
         loading: false,
         token: payload
       };
+    case LOGIN_LOAD:
+      return {
+        ...state,
+        loading: true
+      };
     case REGISTER_FAILURE:
     case LOGIN_ERROR:
       return {
         ...state,
         isAuthenticated: false,
-        loading: true,
+        loading: false,
         user: null,
         errors: [payload]
       };

@@ -2,10 +2,18 @@ import {
   REGISTER_FAILURE,
   REGISTER_SUCCESS,
   LOGIN_SUCCESS,
-  LOGIN_ERROR
+  LOGIN_ERROR,
+  LOGIN_LOAD
 } from './types';
 import axios from 'axios';
 import { setAlert } from './alert';
+
+// load details
+export const loadDetails = () => (dispatch) => {
+  dispatch({
+    type: LOGIN_LOAD
+  });
+};
 
 // register a user
 export const registerUser = ({
@@ -32,6 +40,8 @@ export const registerUser = ({
     role,
     country
   });
+
+  dispatch(loadDetails());
 
   try {
     // send the data to the endpoint for making users from the backend
@@ -70,6 +80,7 @@ export const loginUser = (email, password) => async (dispatch) => {
       'Content-Type': 'application/json'
     }
   };
+  dispatch(loadDetails());
 
   const body = JSON.stringify({ email, password });
 

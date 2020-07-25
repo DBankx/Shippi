@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { loginUser } from '../../actions/auth';
 import { Link } from 'react-router-dom';
 
-const Login = ({ loginUser }) => {
+const Login = ({ loginUser, loadDetails, auth: { loading } }) => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -38,7 +38,9 @@ const Login = ({ loginUser }) => {
                 initialValues={{
                   remember: true
                 }}
-                onFinish={() => loginUser(email, password)}
+                onFinish={() => {
+                  loginUser(email, password);
+                }}
               >
                 <Form.Item
                   name='username'
@@ -89,6 +91,7 @@ const Login = ({ loginUser }) => {
                     type='primary'
                     htmlType='submit'
                     className='login-form-button'
+                    loading={loading === false ? false : true}
                   >
                     Log in
                   </Button>
@@ -103,4 +106,8 @@ const Login = ({ loginUser }) => {
   );
 };
 
-export default connect(null, { loginUser })(Login);
+const mapState = ({ auth }) => ({
+  auth
+});
+
+export default connect(mapState, { loginUser })(Login);

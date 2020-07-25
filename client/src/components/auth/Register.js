@@ -7,7 +7,7 @@ import { registerUser } from '../../actions/auth';
 
 const { Option } = Select;
 
-const Register = ({ setAlert, registerUser }) => {
+const Register = ({ setAlert, registerUser, auth: { loading } }) => {
   const tailLayout = {
     wrapperCol: {
       span: 16,
@@ -256,7 +256,12 @@ const Register = ({ setAlert, registerUser }) => {
             </Checkbox>
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>
-            <Button type='primary' htmlType='submit'>
+            <Button
+              type='primary'
+              htmlType='submit'
+              className='login-form-button'
+              loading={loading === false ? false : true}
+            >
               Register
             </Button>
           </Form.Item>
@@ -266,4 +271,8 @@ const Register = ({ setAlert, registerUser }) => {
   );
 };
 
-export default connect(null, { setAlert, registerUser })(Register);
+const mapState = ({ auth }) => ({
+  auth
+});
+
+export default connect(mapState, { setAlert, registerUser })(Register);

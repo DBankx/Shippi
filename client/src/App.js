@@ -5,14 +5,14 @@ import Landing from './components/layout/home/Landing';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Register from './components/auth/Register';
 import { Provider } from 'react-redux';
-import store from './store';
+import configureStore from './store';
 import AlertSet from './components/layout/layoutUtils/Alert';
 import Login from './components/auth/Login';
 
 function App() {
   return (
     <div className='App'>
-      <Provider store={store}>
+      <Provider store={configureStore()}>
         <Router>
           <Navbar />
           <AlertSet />
