@@ -5,10 +5,15 @@ import {
   SettingOutlined,
   LockOutlined,
   BulbOutlined,
-  UserOutlined
+  UserOutlined,
+  PoweroffOutlined,
+  AccountBookOutlined
 } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logout } from '../../../actions/auth';
 
-function LeftMenu(props) {
+function LeftMenu({ auth: { isAuthenticated, loading, user }, logout }) {
   const [visible, setVisible] = useState(false);
 
   function showDrawer() {
@@ -20,6 +25,48 @@ function LeftMenu(props) {
   }
 
   const placement = 'left';
+
+  const authHelpLinks = (
+    <div className='authLinks'>
+      <p>
+        <Link to='/account'>
+          <UserOutlined /> Your Account
+        </Link>
+      </p>
+      <p>
+        <Link to='/account'>
+          <AccountBookOutlined /> Orders
+        </Link>
+      </p>
+      <p>
+        <Link to='/account'>
+          <SettingOutlined /> Settings
+        </Link>
+      </p>
+      <p>
+        <Link onClick={() => logout()}>
+          <PoweroffOutlined /> Log out
+        </Link>
+      </p>
+    </div>
+  );
+
+  const guestHelpLinks = (
+    <div className='guestLinks'>
+      <p>
+        <UserOutlined /> Your Account
+      </p>
+      <p>
+        <SettingOutlined /> Settings
+      </p>
+      <p>
+        <BulbOutlined /> About Shippi
+      </p>
+      <p>
+        <LockOutlined /> Sign In
+      </p>
+    </div>
+  );
 
   return (
     <div className='left-menu'>
@@ -33,7 +80,7 @@ function LeftMenu(props) {
       <Drawer
         title='SHOP BY CATEGORY'
         placement={placement}
-        closable={false}
+        closable={true}
         onClose={onClose}
         visible={visible}
         key={placement}
@@ -54,22 +101,17 @@ function LeftMenu(props) {
         <Divider />
         <div className='bottom'>
           <h3>HELP & SETTINGS</h3>
-          <p>
-            <UserOutlined /> Your Account
-          </p>
-          <p>
-            <SettingOutlined /> Settings
-          </p>
-          <p>
-            <BulbOutlined /> About Shippi
-          </p>
-          <p>
-            <LockOutlined /> Sign In
-          </p>
+          {loading === false && isAuthenticated && user !== null
+            ? authHelpLinks
+            : guestHelpLinks}
         </div>
       </Drawer>
     </div>
   );
 }
 
-export default LeftMenu;
+const mapState = ({ auth }) => ({
+  auth
+});
+
+export default connect(mapState, { logout })(LeftMenu);

@@ -5,7 +5,8 @@ import {
   LOGIN_SUCCESS,
   LOGIN_LOAD,
   LOAD_USER,
-  AUTH_ERROR
+  AUTH_ERROR,
+  LOGOUT_USER
 } from '../actions/types';
 
 const initialState = {
@@ -36,6 +37,7 @@ const auth = (state = initialState, action) => {
     case REGISTER_FAILURE:
     case LOGIN_ERROR:
     case AUTH_ERROR:
+    case LOGOUT_USER:
       return {
         ...state,
         isAuthenticated: false,

@@ -5,7 +5,7 @@ import { ShoppingCartOutlined } from '@ant-design/icons';
 const CartIcon = ({ cart }) => {
   return (
     <div>
-      <Badge count={cart.length} showZero>
+      <Badge count={cart.length}>
         <ShoppingCartOutlined style={{ fontSize: '1.5rem' }} />
       </Badge>
     </div>

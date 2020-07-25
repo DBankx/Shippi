@@ -74,11 +74,13 @@ $accent: #c7e2b2;
     margin-top: 2em;
 
     button {
+      background-color: $main;
+      outline: none;
+      border-color: $main;
       width: 100%;
       height: 40px;
+      margin-top: 0;
       font-weight: 600;
-      background-color: $main;
-      border-color: $main;
 
       &:hover {
         background-color: darken($main, 10%);
@@ -308,4 +310,18 @@ $accent: #c7e2b2;
 // right auth navbar styling
 .avatar-link {
   display: block;
+}
+
+// left menu
+.authLinks {
+  p {
+    a {
+      display: block;
+      text-decoration: none;
+      color: #000;
+      &:hover {
+        color: $main;
+      }
+    }
+  }
 }

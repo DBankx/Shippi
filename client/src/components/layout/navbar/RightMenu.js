@@ -16,17 +16,36 @@ import {
   UserOutlined,
   LockOutlined,
   PhoneOutlined,
-  MailOutlined,
   TwitterOutlined,
   RedditOutlined,
-  InstagramOutlined
+  InstagramOutlined,
+  MailOutlined
 } from '@ant-design/icons';
 import logo from '../../../images/logo.svg';
 import { Link } from 'react-router-dom';
 import AuthLinks from './authLinks/AuthLinks';
+import { loginUser } from '../../../actions/auth';
 
-const RightMenu = ({ auth: { isAuthenticated, user, loading } }) => {
+const RightMenu = ({ auth: { isAuthenticated, user, loading }, loginUser }) => {
   const [visible, setVisible] = useState(false);
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+
+    setFormData((prevValue) => {
+      return {
+        ...prevValue,
+        [name]: value
+      };
+    });
+  }
+
+  const { email, password } = formData;
 
   const loginMenu = (
     <div className='login'>
@@ -36,6 +55,9 @@ const RightMenu = ({ auth: { isAuthenticated, user, loading } }) => {
         className='login-form'
         initialValues={{
           remember: true
+        }}
+        onFinish={() => {
+          loginUser(email, password);
         }}
       >
         <Form.Item
@@ -48,8 +70,11 @@ const RightMenu = ({ auth: { isAuthenticated, user, loading } }) => {
           ]}
         >
           <Input
-            prefix={<UserOutlined className='site-form-item-icon' />}
+            prefix={<MailOutlined className='site-form-item-icon' />}
             placeholder='Email'
+            value={email}
+            onChange={handleChange}
+            name='email'
           />
         </Form.Item>
         <Form.Item
@@ -61,10 +86,13 @@ const RightMenu = ({ auth: { isAuthenticated, user, loading } }) => {
             }
           ]}
         >
-          <Input
+          <Input.Password
             prefix={<LockOutlined className='site-form-item-icon' />}
             type='password'
             placeholder='Password'
+            value='password'
+            onChange={handleChange}
+            name='password'
           />
         </Form.Item>
         <Form.Item>
@@ -82,6 +110,7 @@ const RightMenu = ({ auth: { isAuthenticated, user, loading } }) => {
             type='primary'
             htmlType='submit'
             className='login-form-button'
+            loading={loading ? true : false}
           >
             Log in
           </Button>
@@ -175,4 +204,4 @@ const mapState = ({ auth }) => ({
   auth
 });
 
-export default connect(mapState)(RightMenu);
+export default connect(mapState, { loginUser })(RightMenu);

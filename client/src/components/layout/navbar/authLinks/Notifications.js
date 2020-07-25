@@ -5,7 +5,7 @@ import { BellOutlined } from '@ant-design/icons';
 const Notifications = ({ notifications }) => {
   return (
     <div>
-      <Badge count={notifications.length} showZero>
+      <Badge count={notifications.length}>
         <BellOutlined style={{ fontSize: '1.5rem' }} />
       </Badge>
     </div>

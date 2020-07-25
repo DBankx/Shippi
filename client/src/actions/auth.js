@@ -5,7 +5,8 @@ import {
   LOGIN_ERROR,
   LOGIN_LOAD,
   LOAD_USER,
-  AUTH_ERROR
+  AUTH_ERROR,
+  LOGOUT_USER
 } from './types';
 import axios from 'axios';
 import { setAlert } from './alert';
@@ -120,4 +121,9 @@ export const loginUser = (email, password) => async (dispatch) => {
       payload: 'Server Error'
     });
   }
+};
+
+// logout a user
+export const logout = () => (dispatch) => {
+  dispatch({ type: LOGOUT_USER });
 };
