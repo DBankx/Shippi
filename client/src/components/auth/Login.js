@@ -3,9 +3,13 @@ import { Form, Input, Row, Col, Button, Checkbox } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import { loginUser } from '../../actions/auth';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
-const Login = ({ loginUser, loadDetails, auth: { loading } }) => {
+const Login = ({
+  loginUser,
+  loadDetails,
+  auth: { loading, isAuthenticated }
+}) => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -23,6 +27,11 @@ const Login = ({ loginUser, loadDetails, auth: { loading } }) => {
   }
 
   const { email, password } = formData;
+
+  // redirect to homepage if user is authenticated
+  if (isAuthenticated) {
+    return <Redirect to='/' />;
+  }
 
   return (
     <div className='login-box'>

@@ -9,7 +9,7 @@ const Navbar = () => {
   return (
     <div className='navbar-nav'>
       <div className='container'>
-        <Row align='middle' justify='middle' className='nav'>
+        <Row align='middle' className='nav'>
           <Col xs={6} lg={2} md={2} sm={2}>
             <LeftMenu />
           </Col>

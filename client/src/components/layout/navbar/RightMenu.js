@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import {
   Row,
   Col,
@@ -22,8 +23,9 @@ import {
 } from '@ant-design/icons';
 import logo from '../../../images/logo.svg';
 import { Link } from 'react-router-dom';
+import AuthLinks from './authLinks/AuthLinks';
 
-const RightMenu = () => {
+const RightMenu = ({ auth: { isAuthenticated, user, loading } }) => {
   const [visible, setVisible] = useState(false);
 
   const loginMenu = (
@@ -100,8 +102,8 @@ const RightMenu = () => {
       <p>
         Call us: <strong>+1-(0)-321-456-733</strong>
       </p>
-      <p>
-        Find us:
+      <div>
+        <p>Find us:</p>
         <Row style={{ marginTop: '1em' }}>
           <Col span={6}>
             <TwitterOutlined style={{ fontSize: '30px' }} />
@@ -113,7 +115,7 @@ const RightMenu = () => {
             <RedditOutlined style={{ fontSize: '30px' }} />
           </Col>
         </Row>
-      </p>
+      </div>
       <Button type='primary'>Send a Request</Button>
     </div>
   );
@@ -123,9 +125,7 @@ const RightMenu = () => {
       <Row align='middle' justify='space-between'>
         <Col xs={0} xl={4} lg={8} md={12}>
           <Popover content={loginMenu} placement='bottomRight'>
-            <Button type='link'>
-              <UserOutlined />
-            </Button>
+            <UserOutlined style={{ fontSize: '1.5rem' }} />
           </Popover>
         </Col>
         <Col span={4} xs={24} xl={4} lg={8} md={12}>
@@ -137,18 +137,14 @@ const RightMenu = () => {
               </span>
             }
           >
-            <Button type='link'>
-              <Badge count={0} showZero>
-                <ShoppingCartOutlined style={{ fontSize: '1.5rem' }} />
-              </Badge>
-            </Button>
+            <Badge count={0} showZero>
+              <ShoppingCartOutlined style={{ fontSize: '1.5rem' }} />
+            </Badge>
           </Tooltip>
         </Col>
         <Col xs={0} xl={4} lg={8} md={0}>
           <Popover placement='bottomRight' content={contactDetails}>
-            <Button type='link'>
-              <MailOutlined />
-            </Button>
+            <MailOutlined style={{ fontSize: '1.5rem' }} />
           </Popover>
         </Col>
         <Col lg={0} xs={0} md={0} xl={12}>
@@ -163,7 +159,20 @@ const RightMenu = () => {
     </div>
   );
 
-  return <div className='right-links'>{guestLinks}</div>;
+  const authLinks = <AuthLinks />;
+
+  // check if a user is loaded and render the right navbar
+  return (
+    <div className='right-links'>
+      {loading === false && isAuthenticated && user !== null
+        ? authLinks
+        : guestLinks}
+    </div>
+  );
 };
 
-export default RightMenu;
+const mapState = ({ auth }) => ({
+  auth
+});
+
+export default connect(mapState)(RightMenu);

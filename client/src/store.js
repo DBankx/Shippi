@@ -6,17 +6,12 @@ import rootReducer from './reducers/index';
 const initialState = {};
 
 // configure the store;
+const middleware = [thunk];
 
-const configureStore = () => {
-  const middleware = [thunk];
+const store = createStore(
+  rootReducer,
+  initialState,
+  composeWithDevTools(applyMiddleware(...middleware))
+);
 
-  const store = createStore(
-    rootReducer,
-    initialState,
-    composeWithDevTools(applyMiddleware(...middleware))
-  );
-
-  return store;
-};
-
-export default configureStore;
+export default store;

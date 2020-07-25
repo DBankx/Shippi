@@ -10,6 +10,7 @@
     "ant-design": "^1.0.0",
     "antd": "^4.4.3",
     "axios": "^0.19.2",
+    "mobile-device-detect": "^0.4.3",
     "moment": "^2.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

@@ -3,16 +3,35 @@ import {
   REGISTER_SUCCESS,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
-  LOGIN_LOAD
+  LOGIN_LOAD,
+  LOAD_USER,
+  AUTH_ERROR
 } from './types';
 import axios from 'axios';
 import { setAlert } from './alert';
+import setAuthToken from '../helpers/setToken';
 
 // load details
 export const loadDetails = () => (dispatch) => {
   dispatch({
     type: LOGIN_LOAD
   });
+};
+
+// load the user
+export const loadUser = () => async (dispatch) => {
+  // checks if there is a token in local storage
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  try {
+    const res = await axios.get('/api/auth');
+
+    dispatch({ type: LOAD_USER, payload: res.data });
+  } catch (err) {
+    dispatch({ type: AUTH_ERROR });
+  }
 };
 
 // register a user
@@ -53,12 +72,10 @@ export const registerUser = ({
     });
 
     dispatch(
-      setAlert(
-        'Account Created',
-        'Your account has been created and is up and running',
-        'success'
-      )
+      setAlert('Account Created', 'Your account is up and running', 'success')
     );
+
+    dispatch(loadUser());
   } catch (err) {
     // get the array of errors
     const errors = err.response.data.errors;
@@ -88,6 +105,8 @@ export const loginUser = (email, password) => async (dispatch) => {
     const res = await axios.post('/api/auth', body, config);
 
     dispatch({ type: LOGIN_SUCCESS, payload: res.data });
+
+    dispatch(loadUser());
   } catch (err) {
     // get the array of errors
     const errors = err.response.data.errors;

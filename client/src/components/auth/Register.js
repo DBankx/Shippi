@@ -4,10 +4,15 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import { setAlert } from '../../actions/alert';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/auth';
+import { Redirect } from 'react-router-dom';
 
 const { Option } = Select;
 
-const Register = ({ setAlert, registerUser, auth: { loading } }) => {
+const Register = ({
+  setAlert,
+  registerUser,
+  auth: { loading, isAuthenticated }
+}) => {
   const tailLayout = {
     wrapperCol: {
       span: 16,
@@ -64,6 +69,10 @@ const Register = ({ setAlert, registerUser, auth: { loading } }) => {
   } = formData;
 
   console.log(formData);
+
+  if (isAuthenticated) {
+    return <Redirect to='/profile-Setup' />;
+  }
 
   return (
     <div className='register'>

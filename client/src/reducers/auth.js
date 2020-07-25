@@ -3,11 +3,13 @@ import {
   REGISTER_FAILURE,
   LOGIN_ERROR,
   LOGIN_SUCCESS,
-  LOGIN_LOAD
+  LOGIN_LOAD,
+  LOAD_USER,
+  AUTH_ERROR
 } from '../actions/types';
 
 const initialState = {
-  token: null,
+  token: localStorage.getItem('token'),
   isAuthenticated: false,
   loading: false,
   user: null,
@@ -19,11 +21,12 @@ const auth = (state = initialState, action) => {
 
   switch (type) {
     case REGISTER_SUCCESS:
+      localStorage.setItem('token', payload.token);
       return {
         ...state,
+        ...payload,
         isAuthenticated: true,
-        loading: false,
-        token: payload
+        loading: false
       };
     case LOGIN_LOAD:
       return {
@@ -32,19 +35,29 @@ const auth = (state = initialState, action) => {
       };
     case REGISTER_FAILURE:
     case LOGIN_ERROR:
+    case AUTH_ERROR:
       return {
         ...state,
         isAuthenticated: false,
         loading: false,
         user: null,
-        errors: [payload]
+        token: localStorage.removeItem('token')
       };
-    case LOGIN_SUCCESS:
+    case LOAD_USER:
       return {
         ...state,
-        isAuthenticated: true,
+        user: payload,
         loading: false,
-        token: payload
+        errors: null,
+        isAuthenticated: true
+      };
+    case LOGIN_SUCCESS:
+      localStorage.setItem('token', payload.token);
+      return {
+        ...state,
+        ...payload,
+        isAuthenticated: true,
+        loading: false
       };
 
     default:
