@@ -14,3 +14,6 @@ export const LOGIN_LOAD = 'LOGIN_LOAD';
 export const LOAD_USER = 'LOAD_USER';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const LOGOUT_USER = 'LOGOUT_USER';
+export const GET_PROFILE = 'GET_PROFILE';
+export const PROFILE_ERROR = 'PROFILE_ERROR';
+export const LOAD_PROFILE = 'LOAD_PROFILE';

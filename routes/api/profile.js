@@ -10,7 +10,7 @@ const Notification = require('../../models/notification');
 
 // get the users profile
 // @@@ - protected
-router.get('/', auth, async (req, res) => {
+router.get('/me', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ user: req.user.id });
 

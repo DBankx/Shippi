@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Button, Input, Select, Radio, Checkbox } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
 import { setAlert } from '../../actions/alert';
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/auth';
 import { Redirect } from 'react-router-dom';
+import { getNames } from 'country-list';
 
 const { Option } = Select;
+
+const countryNames = getNames();
 
 const Register = ({
   setAlert,
@@ -37,7 +39,6 @@ const Register = ({
   };
 
   const [formData, setFormData] = useState({
-    country: '',
     role: '',
     username: '',
     email: '',
@@ -46,6 +47,12 @@ const Register = ({
     firstName: '',
     lastName: ''
   });
+
+  const [country, getCountry] = useState('');
+
+  function handleCountry({ target }) {
+    getCountry(target.value);
+  }
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -58,7 +65,6 @@ const Register = ({
   }
 
   const {
-    country,
     role,
     password,
     email,
@@ -110,12 +116,16 @@ const Register = ({
             rules={[{ required: true, message: 'Please add a country' }]}
             hasFeedback
           >
-            <Input
-              type-='text'
-              name='country'
+            <Select
               value={country}
-              onChange={handleChange}
-            />
+              name='country'
+              onChange={handleCountry}
+              placeholder='Please select a Country'
+            >
+              {countryNames.map((country) => (
+                <option value={country}>{country}</option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item
             label='Please select a role'

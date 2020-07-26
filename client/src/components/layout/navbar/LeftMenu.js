@@ -29,7 +29,7 @@ function LeftMenu({ auth: { isAuthenticated, loading, user }, logout }) {
   const authHelpLinks = (
     <div className='authLinks'>
       <p>
-        <Link to='/account'>
+        <Link to={`/profile/${user && user.username}`}>
           <UserOutlined /> Your Account
         </Link>
       </p>
@@ -44,7 +44,7 @@ function LeftMenu({ auth: { isAuthenticated, loading, user }, logout }) {
         </Link>
       </p>
       <p>
-        <Link onClick={() => logout()}>
+        <Link to='#' onClick={() => logout()}>
           <PoweroffOutlined /> Log out
         </Link>
       </p>

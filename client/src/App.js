@@ -10,6 +10,7 @@ import AlertSet from './components/layout/layoutUtils/Alert';
 import Login from './components/auth/Login';
 import setAuthToken from './helpers/setToken';
 import { loadUser } from './actions/auth';
+import Profile from './components/profile/Profile';
 
 function App() {
   // try loading the user as soon as app starts
@@ -26,6 +27,7 @@ function App() {
           <Switch>
             <Route exact path='/register' component={Register} />
             <Route exact path='/login' component={Login} />
+            <Route exact path='/profile/:username' component={Profile} />
           </Switch>
         </Router>
       </Provider>
