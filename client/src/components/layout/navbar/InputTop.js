@@ -2,8 +2,6 @@ import React from 'react';
 import { Select, Input, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
-const { Search } = Input;
-
 const InputTop = () => {
   const select = (
     <Select defaultValue='All'>

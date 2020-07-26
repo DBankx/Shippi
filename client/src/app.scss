@@ -337,3 +337,10 @@ $accent: #c7e2b2;
 .profile-box {
   margin-top: 6em;
 }
+
+@media (min-width: 600px) and (max-width: 800px) {
+  .other {
+    text-align: center;
+    margin: 0 auto;
+  }
+}

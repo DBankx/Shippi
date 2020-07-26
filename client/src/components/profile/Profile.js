@@ -19,8 +19,8 @@ const Profile = ({
     <div>
       {!loading && profile !== null ? (
         <div className='profile-section'>
-          <Row align='center' justify='center' className='profile-box'>
-            <Col span={16}>
+          <Row align='middle' justify='center' className='profile-box'>
+            <Col xl={16} xs={24} lg={18} md={23} sm={24}>
               <ProfileTop profile={profile && profile} />
             </Col>
           </Row>

@@ -1,9 +1,9 @@
 import React from 'react';
 import { List, Avatar } from 'antd';
-import lookup from 'country-code-lookup';
-import { getNames } from 'country-list';
+import { getCode } from 'country-list';
+import OverallRating from './OverallRating';
 
-const NameDisplay = ({ profile: { user } }) => {
+const NameDisplay = ({ profile: { user, feedback } }) => {
   const data = [
     {
       title: user.username
@@ -11,11 +11,7 @@ const NameDisplay = ({ profile: { user } }) => {
   ];
 
   //   get the country code;
-  const countryCode = lookup.byCountry(user.country);
-
-  console.log(countryCode);
-  console.log(getNames());
-  console.log(lookup.byCountry('nigeria'));
+  const countryCode = getCode(user.country);
 
   return (
     <div>
@@ -24,22 +20,25 @@ const NameDisplay = ({ profile: { user } }) => {
         renderItem={(item) => (
           <List.Item>
             <List.Item.Meta
-              avatar={<Avatar size={200} src={user.avatar} />}
-              title={<h1>{user.username}</h1>}
+              avatar={<Avatar size={150} src={user.avatar} alt='avatar' />}
+              title={
+                <p style={{ fontSize: '2em', color: '#000' }}>{item.title}</p>
+              }
               description={
                 <div className='description'>
                   <p>{user.role === 'both' ? 'Buyer/Seller' : user.role}</p>
                   {countryCode !== null ? (
                     <p>
                       <img
-                        src={`https://www.countryflags.io/${countryCode.internet}/shiny/64.png`}
+                        src={`https://www.countryflags.io/${countryCode}/shiny/64.png`}
                         style={{ width: '30px' }}
                       />{' '}
-                      {countryCode.internet}
+                      {countryCode}
                     </p>
                   ) : (
                     <p>{user.country}</p>
                   )}
+                  <OverallRating feedback={feedback} role={user.role} />
                 </div>
               }
             />

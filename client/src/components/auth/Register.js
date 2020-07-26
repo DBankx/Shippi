@@ -6,8 +6,6 @@ import { registerUser } from '../../actions/auth';
 import { Redirect } from 'react-router-dom';
 import { getNames } from 'country-list';
 
-const { Option } = Select;
-
 const countryNames = getNames();
 
 const Register = ({
@@ -50,8 +48,9 @@ const Register = ({
 
   const [country, getCountry] = useState('');
 
-  function handleCountry({ target }) {
-    getCountry(target.value);
+  // gets the country value and pass it into the handleCountry function
+  function handleCountry(value) {
+    getCountry(value);
   }
 
   function handleChange(e) {
@@ -73,8 +72,6 @@ const Register = ({
     firstName,
     lastName
   } = formData;
-
-  console.log(formData);
 
   if (isAuthenticated) {
     return <Redirect to='/profile-Setup' />;
@@ -119,7 +116,7 @@ const Register = ({
             <Select
               value={country}
               name='country'
-              onChange={handleCountry}
+              onSelect={(value) => handleCountry(value)}
               placeholder='Please select a Country'
             >
               {countryNames.map((country) => (
@@ -136,7 +133,7 @@ const Register = ({
             <Radio.Group name='role' value={role} onChange={handleChange}>
               <Radio value='Buyer'>Buyer</Radio>
               <Radio value='Seller'>Seller</Radio>
-              <Radio value='Both'>Both</Radio>
+              <Radio value='Trader'>Trader</Radio>
             </Radio.Group>
           </Form.Item>
           <Form.Item

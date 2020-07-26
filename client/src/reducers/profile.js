@@ -4,7 +4,7 @@ const initialState = {
   loading: false,
   profile: null,
   profiles: [],
-  errors: {}
+  errors: []
 };
 
 const profile = (state = initialState, action) => {
@@ -20,7 +20,7 @@ const profile = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        errors: { msg: payload.msg, status: payload.status }
+        errors: [payload]
       };
     case LOAD_PROFILE:
       return {
