@@ -54,6 +54,34 @@ const profileSchema = new mongoose.Schema({
   username: {
     type: String
   },
+  contactInformation: {
+    fax: {
+      type: String
+    },
+    mobile: {
+      type: String
+    },
+    alternativeEmail: {
+      type: String
+    }
+  },
+  companyInfo: {
+    yearEstablished: {
+      type: Date
+    },
+    officialWebsite: {
+      type: String
+    },
+    businessType: {
+      type: String
+    },
+    registeredAddress: {
+      type: String
+    },
+    aboutCompany: {
+      type: String
+    }
+  },
   socials: {
     twitter: {
       type: String

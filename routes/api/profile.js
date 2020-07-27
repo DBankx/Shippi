@@ -47,7 +47,15 @@ router.post(
       facebook,
       twitter,
       storeLocation,
-      status
+      status,
+      fax,
+      mobile,
+      alternativeEmail,
+      yearEstablished,
+      officialWebsite,
+      businessType,
+      registeredAddress,
+      aboutCompany
     } = req.body;
 
     // find a user
@@ -70,6 +78,20 @@ router.post(
     if (facebook) profileObject.socials.facebook = facebook;
     if (youtube) profileObject.socials.youtube = youtube;
     if (amazon) profileObject.socials.amazon = amazon;
+    profileObject.companyInfo = {};
+    if (yearEstablished)
+      profileObject.companyInfo.yearEstablished = yearEstablished;
+    if (officialWebsite)
+      profileObject.companyInfo.officialWebsite = officialWebsite;
+    if (businessType) profileObject.companyInfo.businessType = businessType;
+    if (registeredAddress)
+      profileObject.companyInfo.registeredAddress = registeredAddress;
+    if (aboutCompany) profileObject.companyInfo.aboutCompany = aboutCompany;
+    profileObject.contactInformation = {};
+    if (fax) profileObject.contactInformation.fax = fax;
+    if (mobile) profileObject.contactInformation.mobile = mobile;
+    if (alternativeEmail)
+      profileObject.contactInformation.alternativeEmail = alternativeEmail;
 
     try {
       let profile = await Profile.findOne({ user: req.user.id });
@@ -106,7 +128,15 @@ router.get('/:username', async (req, res) => {
   try {
     const profile = await Profile.findOne({
       username: req.params.username
-    }).populate('user', ['avatar', 'username', 'email', 'role', 'country']);
+    }).populate('user', [
+      'avatar',
+      'username',
+      'email',
+      'role',
+      'country',
+      'firstName',
+      'lastName'
+    ]);
 
     if (!profile) {
       return res.status(404).json({ errors: [{ msg: 'Profile not found' }] });

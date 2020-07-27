@@ -11,6 +11,7 @@ import {
 import axios from 'axios';
 import { setAlert } from './alert';
 import setAuthToken from '../helpers/setToken';
+import { clearProfile } from './profile';
 
 // load details
 export const loadDetails = () => (dispatch) => {
@@ -125,5 +126,6 @@ export const loginUser = (email, password) => async (dispatch) => {
 
 // logout a user
 export const logout = () => (dispatch) => {
+  dispatch(clearProfile());
   dispatch({ type: LOGOUT_USER });
 };

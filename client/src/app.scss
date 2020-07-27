@@ -334,13 +334,77 @@ $accent: #c7e2b2;
   transform: translate(50%, 50%);
 }
 
+// profile styling
 .profile-box {
-  margin-top: 6em;
+  margin-top: 3em;
 }
 
 @media (min-width: 600px) and (max-width: 800px) {
-  .other {
-    text-align: center;
-    margin: 0 auto;
+  .hide-md {
+    display: none;
+  }
+}
+
+.tab-list {
+  margin-top: 2em;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.tab-list li {
+  width: 100%;
+  padding: 15px;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  outline: none;
+}
+
+.tab-list li:before {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #89c9b8;
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.tab-list li:hover,
+.tab-list li.active {
+  margin-bottom: 1em;
+  transition: 400ms;
+  color: #89c9b8;
+}
+
+.tab-list li:hover::before,
+.tab-list li.active:before {
+  opacity: 1;
+}
+
+@media (max-width: 600px) {
+  .hide-sm {
+    display: none;
+  }
+}
+
+.address {
+  button {
+    background-color: $main;
+    outline: none;
+    border-color: $main;
+    margin-left: 2em;
+
+    &:hover {
+      background-color: darken($main, 10%);
+      border-color: darken($main, 10%);
+    }
   }
 }

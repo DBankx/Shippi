@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { GET_PROFILE, PROFILE_ERROR, LOAD_PROFILE } from './types';
+import {
+  GET_PROFILE,
+  PROFILE_ERROR,
+  LOAD_PROFILE,
+  CLEAR_PROFILE
+} from './types';
 
 // load profile
 export const loadProfile = () => (dispatch) => {
@@ -19,4 +24,9 @@ export const getProfile = (username) => async (dispatch) => {
       payload: 'Error occurred'
     });
   }
+};
+
+// clear the profile from state
+export const clearProfile = () => (dispatch) => {
+  dispatch({ type: 'CLEAR_PROFILE' });
 };

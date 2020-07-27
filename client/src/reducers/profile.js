@@ -1,4 +1,9 @@
-import { PROFILE_ERROR, GET_PROFILE, LOAD_PROFILE } from '../actions/types';
+import {
+  PROFILE_ERROR,
+  GET_PROFILE,
+  LOAD_PROFILE,
+  CLEAR_PROFILE
+} from '../actions/types';
 
 const initialState = {
   loading: false,
@@ -26,6 +31,11 @@ const profile = (state = initialState, action) => {
       return {
         ...state,
         loading: true
+      };
+    case CLEAR_PROFILE:
+      return {
+        ...state,
+        profile: null
       };
     default:
       return state;

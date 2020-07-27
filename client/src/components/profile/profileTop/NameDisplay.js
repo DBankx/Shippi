@@ -1,9 +1,11 @@
 import React from 'react';
-import { List, Avatar } from 'antd';
+import { List, Avatar, Button } from 'antd';
 import { getCode } from 'country-list';
 import OverallRating from './OverallRating';
+import { connect } from 'react-redux';
+import { MailOutlined } from '@ant-design/icons';
 
-const NameDisplay = ({ profile: { user, feedback } }) => {
+const NameDisplay = ({ profile: { user, feedback, _id }, auth }) => {
   const data = [
     {
       title: user.username
@@ -39,6 +41,21 @@ const NameDisplay = ({ profile: { user, feedback } }) => {
                     <p>{user.country}</p>
                   )}
                   <OverallRating feedback={feedback} role={user.role} />
+                  {(auth && auth.user === null) || auth.user._id !== _id ? (
+                    <div className='hide-lg hide-xl hide-md'>
+                      <Button
+                        type='primary'
+                        icon={<MailOutlined />}
+                        style={{
+                          backgroundColor: '#89c9b8',
+                          borderColor: '#89c9b8',
+                          marginTop: '2.5em'
+                        }}
+                      >
+                        Contact
+                      </Button>
+                    </div>
+                  ) : null}
                 </div>
               }
             />
@@ -49,4 +66,8 @@ const NameDisplay = ({ profile: { user, feedback } }) => {
   );
 };
 
-export default NameDisplay;
+const mapState = ({ auth }) => ({
+  auth
+});
+
+export default connect(mapState)(NameDisplay);

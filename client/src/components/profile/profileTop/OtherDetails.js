@@ -6,7 +6,7 @@ import { EditOutlined } from '@ant-design/icons';
 import { Statistic } from 'antd';
 import { LikeOutlined, MailOutlined } from '@ant-design/icons';
 
-const OtherDetails = ({ profile, auth }) => {
+const OtherDetails = ({ profile, auth: { user } }) => {
   return (
     <div
       className='other'
@@ -17,7 +17,7 @@ const OtherDetails = ({ profile, auth }) => {
         paddingBottom: '1em'
       }}
     >
-      {auth.user._id !== profile.user._id ? null : (
+      {user === null || user._id !== profile.user._id ? null : (
         <Button
           type='link'
           icon={<EditOutlined />}
@@ -32,11 +32,15 @@ const OtherDetails = ({ profile, auth }) => {
         prefix={<LikeOutlined />}
         style={{ marginTop: '2em' }}
       />
-      {auth.user._id !== profile.user._id ? (
+      {user === null || user._id !== profile.user._id ? (
         <Button
           type='primary'
           icon={<MailOutlined />}
-          style={{ backgroundColor: '#89c9b8', borderColor: '#89c9b8' }}
+          style={{
+            backgroundColor: '#89c9b8',
+            borderColor: '#89c9b8',
+            marginTop: '2.5em'
+          }}
         >
           Contact
         </Button>
