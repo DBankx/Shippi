@@ -18,3 +18,5 @@ export const GET_PROFILE = 'GET_PROFILE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
 export const LOAD_PROFILE = 'LOAD_PROFILE';
 export const CLEAR_PROFILE = 'CLEAR_PROFILE';
+export const ADD_FEEDBACK = 'ADD_FEEDBACK';
+export const DELETE_FEEDBACK = 'DELETE_FEEDBACK';

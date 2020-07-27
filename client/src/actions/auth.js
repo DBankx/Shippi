@@ -125,7 +125,8 @@ export const loginUser = (email, password) => async (dispatch) => {
 };
 
 // logout a user
-export const logout = () => (dispatch) => {
+export const logout = (history) => (dispatch) => {
   dispatch(clearProfile());
+  history.push('/login');
   dispatch({ type: LOGOUT_USER });
 };

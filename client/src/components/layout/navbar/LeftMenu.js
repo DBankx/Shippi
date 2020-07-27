@@ -9,11 +9,15 @@ import {
   PoweroffOutlined,
   AccountBookOutlined
 } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../../actions/auth';
 
-function LeftMenu({ auth: { isAuthenticated, loading, user }, logout }) {
+function LeftMenu({
+  auth: { isAuthenticated, loading, user },
+  logout,
+  history
+}) {
   const [visible, setVisible] = useState(false);
 
   function showDrawer() {
@@ -44,7 +48,7 @@ function LeftMenu({ auth: { isAuthenticated, loading, user }, logout }) {
         </Link>
       </p>
       <p>
-        <Link to='#' onClick={() => logout()}>
+        <Link to='#' onClick={() => logout(history)}>
           <PoweroffOutlined /> Log out
         </Link>
       </p>
@@ -114,4 +118,4 @@ const mapState = ({ auth }) => ({
   auth
 });
 
-export default connect(mapState, { logout })(LeftMenu);
+export default connect(mapState, { logout })(withRouter(LeftMenu));

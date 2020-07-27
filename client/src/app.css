@@ -381,3 +381,19 @@
   background-color: #66b9a3;
   border-color: #66b9a3;
 }
+
+.feedback-profile-form button {
+  background-color: #89c9b8;
+  outline: none;
+  border-color: #89c9b8;
+}
+
+.feedback-profile-form button:hover {
+  background-color: #66b9a3;
+  border-color: #66b9a3;
+}
+
+.feedback-profile-form button::selection {
+  background-color: #66b9a3;
+  border-color: #66b9a3;
+}

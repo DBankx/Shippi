@@ -274,7 +274,7 @@ router.put(
       //   notification data
       const notificationData = {
         sender: req.user.id,
-        reciever: [{ user: profileWithFeedback.user }],
+        reciever: profileWithFeedback.user,
         type: 'feedback',
         message: `${userLeavingFeedback.username} gave you a feedback`
       };
@@ -293,7 +293,7 @@ router.put(
 
       await userBeingNotified.save();
 
-      res.json(profileWithFeedback);
+      res.json(profileWithFeedback.feedback);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
@@ -338,7 +338,7 @@ router.delete('/feedback/:profileId/:feedbackId', auth, async (req, res) => {
 
     await profile.save();
 
-    res.json(profile);
+    res.json(profile.feedback);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

@@ -23,7 +23,7 @@ const Profile = ({
           <Row align='middle' justify='center' className='profile-box'>
             <Col xl={16} xs={24} lg={18} md={23} sm={24}>
               <ProfileTop profile={profile && profile} />
-              <TabView profile={profile && profile} />
+              <TabView profile={profile && profile} user={user && user} />
             </Col>
           </Row>
         </div>

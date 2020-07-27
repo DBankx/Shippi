@@ -2,7 +2,9 @@ import {
   PROFILE_ERROR,
   GET_PROFILE,
   LOAD_PROFILE,
-  CLEAR_PROFILE
+  CLEAR_PROFILE,
+  ADD_FEEDBACK,
+  DELETE_FEEDBACK
 } from '../actions/types';
 
 const initialState = {
@@ -36,6 +38,22 @@ const profile = (state = initialState, action) => {
       return {
         ...state,
         profile: null
+      };
+    case ADD_FEEDBACK:
+      return {
+        ...state,
+        profile: { ...state.profile, feedback: payload }
+      };
+    case DELETE_FEEDBACK:
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          feedback: state.profile.feedback.filter(
+            (feedback) => feedback._id !== payload
+          )
+        },
+        loading: false
       };
     default:
       return state;

@@ -33,7 +33,9 @@ const Address = ({ address }) => {
             ))}
           </Row>
         </div>
-      ) : null}
+      ) : (
+        'No addresses added'
+      )}
     </div>
   );
 };

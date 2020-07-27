@@ -408,3 +408,21 @@ $accent: #c7e2b2;
     }
   }
 }
+
+.feedback-profile-form {
+  button {
+    background-color: $main;
+    outline: none;
+    border-color: $main;
+
+    &:hover {
+      background-color: darken($main, 10%);
+      border-color: darken($main, 10%);
+    }
+
+    &::selection {
+      background-color: darken($main, 10%);
+      border-color: darken($main, 10%);
+    }
+  }
+}

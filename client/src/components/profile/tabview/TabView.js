@@ -1,9 +1,10 @@
 import React from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ProfileDetails from './profileDetails/ProfileDetails';
+import Feedback from './feedback/Feedback';
 
 import 'react-tabs/style/react-tabs.css';
-const TabView = ({ profile }) => {
+const TabView = ({ profile, user }) => {
   return (
     <div>
       <Tabs>
@@ -12,18 +13,24 @@ const TabView = ({ profile }) => {
           {profile.user.role !== 'Buyer' ? (
             <Tab selectedClassName='active'>Inventory</Tab>
           ) : null}
-          <Tab selectedClassName='active'>Orders</Tab>
+          {user && user._id === profile.user._id ? (
+            <Tab selectedClassName='active'>Orders</Tab>
+          ) : null}
+
           <Tab selectedClassName='active'>Feedback</Tab>
         </TabList>
         <TabPanel>
-          <ProfileDetails profile={profile} />
+          <ProfileDetails profile={profile} user={user} />
         </TabPanel>
         {profile.user.role !== 'Buyer' ? (
           <TabPanel>This is Inventory</TabPanel>
         ) : null}
-
-        <TabPanel>This is orders</TabPanel>
-        <TabPanel>This is feedback</TabPanel>
+        {user && user._id === profile.user._id ? (
+          <TabPanel>This is orders</TabPanel>
+        ) : null}
+        <TabPanel>
+          <Feedback profile={profile} user={user} />
+        </TabPanel>
       </Tabs>
     </div>
   );

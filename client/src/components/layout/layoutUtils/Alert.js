@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 const AlertSet = ({ alerts }) => {
   return (
-    <div className='alert'>
+    <div className='alert' style={{ position: 'fixed', zIndex: '100' }}>
       {alerts.length > 0 &&
         alerts.map((alert) => {
           return (
