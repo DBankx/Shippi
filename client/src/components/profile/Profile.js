@@ -1,10 +1,11 @@
-import React, { useEffect, Fragment } from 'react';
+import React, { useEffect } from 'react';
 import ProfileTop from './profileTop/ProfileTop';
 import { connect } from 'react-redux';
 import { getProfile } from '../../actions/profile';
 import Spinner from '../layout/layoutUtils/Spinner';
 import { Row, Col } from 'antd';
 import TabView from './tabview/TabView';
+import EmptyProfile from './EmptyProfile';
 
 const Profile = ({
   getProfile,
@@ -27,6 +28,12 @@ const Profile = ({
             </Col>
           </Row>
         </div>
+      ) : !loading && profile == null ? (
+        <EmptyProfile
+          profile={profile}
+          user={user}
+          main={match.params.username}
+        />
       ) : (
         <Spinner />
       )}

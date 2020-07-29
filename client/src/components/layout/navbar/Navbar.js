@@ -4,6 +4,7 @@ import { Row, Col } from 'antd';
 import InputTop from './InputTop';
 import LeftMenu from './LeftMenu';
 import RightMenu from './RightMenu';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
@@ -14,7 +15,9 @@ const Navbar = () => {
             <LeftMenu />
           </Col>
           <Col lg={3} xs={12} md={4} sm={4}>
-            <img src={logo} alt='logo' className='logo-top' />
+            <Link to='/'>
+              <img src={logo} alt='logo' className='logo-top' />
+            </Link>
           </Col>
           <Col lg={12} xs={0} md={12} sm={12}>
             <InputTop />

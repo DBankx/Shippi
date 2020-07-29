@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { EditOutlined } from '@ant-design/icons';
 import { Statistic } from 'antd';
 import { LikeOutlined, MailOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 const OtherDetails = ({ profile, auth: { user } }) => {
   return (
@@ -18,13 +19,15 @@ const OtherDetails = ({ profile, auth: { user } }) => {
       }}
     >
       {user === null || user._id !== profile.user._id ? null : (
-        <Button
-          type='link'
-          icon={<EditOutlined />}
-          style={{ color: '#89c9b8' }}
-        >
-          Edit Profile
-        </Button>
+        <Link to='/edit-profile'>
+          <Button
+            type='link'
+            icon={<EditOutlined />}
+            style={{ color: '#89c9b8' }}
+          >
+            Edit Profile
+          </Button>
+        </Link>
       )}
       <Statistic
         title='Feedback'

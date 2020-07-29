@@ -29,7 +29,16 @@ router.get('/me', auth, async (req, res) => {
 // @@@ - protected
 router.post(
   '/',
-  [auth, [check('status', 'Status is required').not().isEmpty()]],
+  [
+    auth,
+    [
+      check('status', 'Status is required').not().isEmpty(),
+      check(
+        'alternativeEmail',
+        'Please input a correct email address'
+      ).isEmail()
+    ]
+  ],
   async (req, res) => {
     const errors = validationResult(req);
 
@@ -202,7 +211,7 @@ router.put(
 
         await profile.save();
 
-        res.json(profile);
+        res.json(profile.addresses);
       }
     } catch (err) {
       console.error(err.message);
@@ -230,7 +239,7 @@ router.delete('/address/:addressId', auth, async (req, res) => {
 
     await profile.save();
 
-    res.json(profile);
+    res.json(profile.addresses);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

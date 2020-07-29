@@ -4,11 +4,17 @@ import {
   LOAD_PROFILE,
   CLEAR_PROFILE,
   ADD_FEEDBACK,
-  DELETE_FEEDBACK
+  DELETE_FEEDBACK,
+  LOAD_FEEDBACK,
+  GET_USER_PROFILE,
+  UPDATE_PROFILE,
+  DELETE_ADDRESS,
+  ADD_ADDRESS
 } from '../actions/types';
 
 const initialState = {
   loading: false,
+  otherLoading: false,
   profile: null,
   profiles: [],
   errors: []
@@ -42,7 +48,9 @@ const profile = (state = initialState, action) => {
     case ADD_FEEDBACK:
       return {
         ...state,
-        profile: { ...state.profile, feedback: payload }
+        profile: { ...state.profile, feedback: payload },
+        loading: false,
+        otherLoading: false
       };
     case DELETE_FEEDBACK:
       return {
@@ -53,7 +61,31 @@ const profile = (state = initialState, action) => {
             (feedback) => feedback._id !== payload
           )
         },
+        loading: false,
+        otherLoading: false
+      };
+    case LOAD_FEEDBACK:
+      return {
+        ...state,
+        otherLoading: true
+      };
+    case GET_USER_PROFILE:
+      return {
+        ...state,
+        profile: payload,
         loading: false
+      };
+    case UPDATE_PROFILE:
+      return {
+        ...state,
+        loading: false,
+        profile: payload,
+        otherLoading: false
+      };
+    case ADD_ADDRESS:
+      return {
+        ...state,
+        profile: { ...state.profile, addresses: payload }
       };
     default:
       return state;

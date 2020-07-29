@@ -7,7 +7,11 @@ import { addFeedback } from '../../../../actions/profile';
 
 const { TextArea } = Input;
 
-const FeedbackInput = ({ profile, auth, addFeedback }) => {
+const FeedbackInput = ({
+  profile: { profile, otherLoading },
+  auth,
+  addFeedback
+}) => {
   const [rating, setRate] = useState(0);
   const [comment, setComment] = useState('');
 
@@ -68,7 +72,11 @@ const FeedbackInput = ({ profile, auth, addFeedback }) => {
                   />
                 </Form.Item>
                 <Form.Item>
-                  <Button htmlType='submit' type='primary'>
+                  <Button
+                    htmlType='submit'
+                    type='primary'
+                    loading={otherLoading ? true : false}
+                  >
                     Give Feedback
                   </Button>
                 </Form.Item>
@@ -83,8 +91,9 @@ const FeedbackInput = ({ profile, auth, addFeedback }) => {
   );
 };
 
-const mapState = ({ auth }) => ({
-  auth
+const mapState = ({ auth, profile }) => ({
+  auth,
+  profile
 });
 
 export default connect(mapState, { addFeedback })(FeedbackInput);

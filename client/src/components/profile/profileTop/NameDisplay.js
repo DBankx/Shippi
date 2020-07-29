@@ -1,11 +1,11 @@
 import React from 'react';
-import { List, Avatar, Button } from 'antd';
+import { List, Avatar, Button, Badge, Tooltip } from 'antd';
 import { getCode } from 'country-list';
 import OverallRating from './OverallRating';
 import { connect } from 'react-redux';
 import { MailOutlined } from '@ant-design/icons';
 
-const NameDisplay = ({ profile: { user, feedback, _id }, auth }) => {
+const NameDisplay = ({ profile: { user, feedback, _id, status }, auth }) => {
   const data = [
     {
       title: user.username
@@ -13,7 +13,7 @@ const NameDisplay = ({ profile: { user, feedback, _id }, auth }) => {
   ];
 
   //   get the country code;
-  const countryCode = getCode(user.country);
+  const countryCode = getCode(user && user.country);
 
   return (
     <div>
@@ -22,7 +22,17 @@ const NameDisplay = ({ profile: { user, feedback, _id }, auth }) => {
         renderItem={(item) => (
           <List.Item>
             <List.Item.Meta
-              avatar={<Avatar size={150} src={user.avatar} alt='avatar' />}
+              avatar={
+                <Tooltip title={status}>
+                  <Badge
+                    dot
+                    color={status === 'Online' ? '#87d068' : '#f50'}
+                    offset={[-20, 20]}
+                  >
+                    <Avatar size={150} src={user.avatar} alt='avatar' />
+                  </Badge>
+                </Tooltip>
+              }
               title={
                 <p style={{ fontSize: '2em', color: '#000' }}>{item.title}</p>
               }

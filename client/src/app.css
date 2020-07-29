@@ -18,7 +18,7 @@
 }
 
 .logo-top {
-  width: 70%;
+  width: 60%;
 }
 
 @media (max-width: 500px) {
@@ -81,10 +81,6 @@
 .login form button:hover {
   background-color: #66b9a3;
   border-color: #66b9a3;
-}
-
-.hide {
-  display: none;
 }
 
 .call {
@@ -394,6 +390,95 @@
 }
 
 .feedback-profile-form button::selection {
+  background-color: #66b9a3;
+  border-color: #66b9a3;
+}
+
+.edit-profile .ant-switch-checked {
+  background-color: #66b9a3;
+}
+
+.edit-profile .edit {
+  background-color: #89c9b8;
+  outline: none;
+  border-color: #89c9b8;
+  width: 100%;
+  height: 40px;
+  width: 140px;
+  font-size: 1.1rem;
+}
+
+.edit-profile .edit:hover {
+  background-color: #66b9a3;
+  border-color: #66b9a3;
+}
+
+.edit-profile .edit::selection {
+  background-color: #66b9a3;
+  border-color: #66b9a3;
+}
+
+.btn {
+  background-color: #89c9b8;
+  outline: none;
+  border-color: #89c9b8;
+  width: 100%;
+  height: 40px;
+  width: 140px;
+  font-size: 1.1rem;
+}
+
+.btn:hover {
+  background-color: #66b9a3;
+  border-color: #66b9a3;
+}
+
+.btn::selection {
+  background-color: #66b9a3;
+  border-color: #66b9a3;
+}
+
+.form-modal button {
+  background-color: #89c9b8;
+  outline: none;
+  border-color: #89c9b8;
+  width: 100%;
+  height: 40px;
+  width: 140px;
+  font-size: 1.1rem;
+}
+
+.form-modal button:hover {
+  background-color: #66b9a3;
+  border-color: #66b9a3;
+}
+
+.form-modal button::selection {
+  background-color: #66b9a3;
+  border-color: #66b9a3;
+}
+
+.empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.empty button {
+  background-color: #89c9b8;
+  outline: none;
+  border-color: #89c9b8;
+  height: 40px;
+  width: 140px;
+}
+
+.empty button:hover {
+  background-color: #66b9a3;
+  border-color: #66b9a3;
+}
+
+.empty button::selection {
   background-color: #66b9a3;
   border-color: #66b9a3;
 }

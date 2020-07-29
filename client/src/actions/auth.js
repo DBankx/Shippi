@@ -6,12 +6,12 @@ import {
   LOGIN_LOAD,
   LOAD_USER,
   AUTH_ERROR,
-  LOGOUT_USER
+  LOGOUT_USER,
+  CLEAR_PROFILE
 } from './types';
 import axios from 'axios';
 import { setAlert } from './alert';
 import setAuthToken from '../helpers/setToken';
-import { clearProfile } from './profile';
 
 // load details
 export const loadDetails = () => (dispatch) => {
@@ -126,7 +126,7 @@ export const loginUser = (email, password) => async (dispatch) => {
 
 // logout a user
 export const logout = (history) => (dispatch) => {
-  dispatch(clearProfile());
-  history.push('/login');
   dispatch({ type: LOGOUT_USER });
+  history.push('/login');
+  dispatch({ type: CLEAR_PROFILE });
 };

@@ -8,9 +8,16 @@ import { Provider } from 'react-redux';
 import store from './store';
 import AlertSet from './components/layout/layoutUtils/Alert';
 import Login from './components/auth/Login';
-import setAuthToken from './helpers/setToken';
+import setToken from './helpers/setToken';
 import { loadUser } from './actions/auth';
 import Profile from './components/profile/Profile';
+import PrivateRoute from './helpers/PrivateRoute';
+import EditProfile from './components/profile/editProfile/EditProfile';
+import ProfileSetup from './components/profile/profileSetup/ProfileSetup';
+
+if (localStorage.token) {
+  setToken(localStorage.token);
+}
 
 function App() {
   // try loading the user as soon as app starts
@@ -28,6 +35,12 @@ function App() {
             <Route exact path='/register' component={Register} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/profile/:username' component={Profile} />
+            <PrivateRoute exact path='/edit-profile' component={EditProfile} />
+            <PrivateRoute
+              exact
+              path='/profile-setup'
+              component={ProfileSetup}
+            />
           </Switch>
         </Router>
       </Provider>

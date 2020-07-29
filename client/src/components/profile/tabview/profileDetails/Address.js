@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col, Card, Button, Tooltip } from 'antd';
 import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
+import AddressModal from './AddressModal';
 
 const Address = ({ address }) => {
   return (
@@ -8,25 +9,24 @@ const Address = ({ address }) => {
       <h3 style={{ fontSize: '16px', fontWeight: 'bold' }}>
         Addresses{' '}
         <Tooltip title='Add address' placement='top'>
-          <Button
-            shape='circle'
-            type='primary'
-            icon={<PlusOutlined />}
-          ></Button>
+          <AddressModal />
         </Tooltip>
       </h3>
 
       {address.length > 0 ? (
         <div className=''>
-          <Row align='middle'>
+          <Row align='middle' gutter={[16, 24]}>
             {address.map((add) => (
               <Col key={add._id} xl={8} lg={8} md={12} sm={12} xs={24}>
-                <Card title={add.type} extra={<CloseOutlined />}>
+                <Card>
+                  <CloseOutlined />
                   <p>
-                    {add.addressLine}, {add.city}, {add.state}
+                    <strong>{add.type}</strong>
                   </p>
-                  <p>country: {add.country}</p>
-                  <p>post code: {add.postalCode}</p>
+                  <p>
+                    {add.addressLine}, {add.city}, {add.state}, {add.country},{' '}
+                    {add.postalCode}
+                  </p>
                   <p>more info: {add.additionalInfo}</p>
                 </Card>
               </Col>

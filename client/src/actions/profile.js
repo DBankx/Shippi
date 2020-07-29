@@ -5,13 +5,23 @@ import {
   LOAD_PROFILE,
   CLEAR_PROFILE,
   ADD_FEEDBACK,
-  DELETE_FEEDBACK
+  DELETE_FEEDBACK,
+  LOAD_FEEDBACK,
+  GET_USER_PROFILE,
+  UPDATE_PROFILE,
+  DELETE_ADDRESS,
+  ADD_ADDRESS
 } from './types';
 import { setAlert } from './alert';
 
 // load profile
 export const loadProfile = () => (dispatch) => {
   dispatch({ type: LOAD_PROFILE });
+};
+
+// load feedback
+export const loadFeedback = () => (dispatch) => {
+  dispatch({ type: LOAD_FEEDBACK });
 };
 
 // get profile by username
@@ -44,6 +54,7 @@ export const addFeedback = (rating, comment, profileId) => async (dispatch) => {
 
   const body = JSON.stringify({ rating, comment });
 
+  dispatch(loadFeedback());
   try {
     const res = await axios.put(
       `/api/profile/feedback/${profileId}`,
@@ -60,6 +71,7 @@ export const addFeedback = (rating, comment, profileId) => async (dispatch) => {
   }
 };
 
+// delete feedback from a user
 export const deleteFeedback = (profileId, feedbackId) => async (dispatch) => {
   try {
     const res = await axios.delete(
@@ -67,6 +79,90 @@ export const deleteFeedback = (profileId, feedbackId) => async (dispatch) => {
     );
     dispatch({ type: DELETE_FEEDBACK, payload: feedbackId });
     dispatch(setAlert('Feedback Deleted', null, 'success'));
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: 'Error occurred'
+    });
+  }
+};
+
+// get current users profile
+export const getMyProfile = () => async (dispatch) => {
+  try {
+    const res = await axios.get('/api/profile/me');
+
+    dispatch({ type: GET_USER_PROFILE, payload: res.data });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: 'Error occurred'
+    });
+  }
+};
+
+// edit or create a profile
+export const editProfile = (formData, history, edit = false) => async (
+  dispatch
+) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  try {
+    const res = await axios.post('/api/profile', formData, config);
+
+    dispatch({ type: ADD_ADDRESS, payload: res.data });
+
+    dispatch(
+      setAlert(
+        edit ? 'Profile updated' : 'Profile Activated',
+        edit ? null : 'profile has been activated. Welcome to shippi!',
+        'success'
+      )
+    );
+
+    history.push('/');
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: 'Error occurred'
+    });
+  }
+};
+
+// add an address
+export const addAddress = (formData) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+
+    const res = await axios.put('/api/profile/address', formData, config);
+
+    dispatch({ type: ADD_ADDRESS, payload: res.data });
+
+    dispatch(setAlert('New address created', null, 'success'));
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: 'Error occurred'
+    });
+  }
+};
+
+// delete an address
+export const deleteAddress = (addressId) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/address/${addressId}`);
+
+    dispatch({ type: DELETE_ADDRESS, payload: res.data });
+
+    dispatch(setAlert('Address deleted', null, 'success'));
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,

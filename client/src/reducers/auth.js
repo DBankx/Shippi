@@ -38,19 +38,19 @@ const auth = (state = initialState, action) => {
     case LOGIN_ERROR:
     case AUTH_ERROR:
     case LOGOUT_USER:
+      localStorage.removeItem('token');
       return {
         ...state,
         isAuthenticated: false,
         loading: false,
         user: null,
-        token: localStorage.removeItem('token')
+        token: null
       };
     case LOAD_USER:
       return {
         ...state,
         user: payload,
         loading: false,
-        errors: null,
         isAuthenticated: true
       };
     case LOGIN_SUCCESS:
