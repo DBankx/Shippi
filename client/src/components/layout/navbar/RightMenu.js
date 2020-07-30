@@ -27,8 +27,6 @@ import AuthLinks from './authLinks/AuthLinks';
 import { loginUser } from '../../../actions/auth';
 
 const RightMenu = ({ auth: { isAuthenticated, user, loading }, loginUser }) => {
-  const [visible, setVisible] = useState(false);
-
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -100,7 +98,7 @@ const RightMenu = ({ auth: { isAuthenticated, user, loading }, loginUser }) => {
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
 
-          <a className='login-form-forgot' href=''>
+          <a className='login-form-forgot' href='/#'>
             Forgot password
           </a>
         </Form.Item>
@@ -114,7 +112,7 @@ const RightMenu = ({ auth: { isAuthenticated, user, loading }, loginUser }) => {
           >
             Log in
           </Button>
-          Or <a href=''>register now!</a>
+          Or <a href='/#'>register now!</a>
         </Form.Item>
       </Form>
     </div>

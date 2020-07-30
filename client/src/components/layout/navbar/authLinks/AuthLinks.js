@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Avatar, Row, Col, List } from 'antd';
-import { Link } from 'react-router-dom';
 import CartIcon from './CartIcon';
 import Notifications from './Notifications';
 import Watching from './Watching';

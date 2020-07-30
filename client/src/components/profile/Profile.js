@@ -16,7 +16,7 @@ const Profile = ({
   // get username from the url
   useEffect(() => {
     getProfile(match.params.username);
-  }, [getProfile]);
+  }, [getProfile, match.params.username]);
   return (
     <div className='container'>
       {!loading && profile !== null ? (

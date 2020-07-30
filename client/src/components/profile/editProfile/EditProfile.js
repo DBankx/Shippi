@@ -102,7 +102,7 @@ const EditProfile = ({
           ? profile.companyInfo.aboutCompany
           : ''
     });
-  }, [getMyProfile, setFormData]);
+  }, [getMyProfile, setFormData, profile]);
 
   // form layout
   const tailLayout = {
@@ -182,9 +182,7 @@ const EditProfile = ({
     instagram,
     twitter,
     youtube,
-    bio,
-    amazon,
-    instagram
+    bio
   };
 
   return (

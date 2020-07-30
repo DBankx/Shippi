@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { Modal, Button, Form, Input, Select, Row, Col, Divider } from 'antd';
+import {
+  Modal,
+  Button,
+  Form,
+  Input,
+  Select,
+  Row,
+  Col,
+  Divider,
+  Tooltip
+} from 'antd';
 import { addAddress } from '../../../../actions/profile';
 import { connect } from 'react-redux';
 
@@ -56,17 +66,20 @@ const AddressModal = ({ addAddress }) => {
     postalCode,
     state,
     additionalInfo,
-    addressLine
+    addressLine,
+    country
   };
 
   return (
     <div>
-      <Button
-        shape='circle'
-        type='primary'
-        onClick={ShowModal}
-        icon={<PlusOutlined />}
-      ></Button>
+      <Tooltip title='Add address' placement='top'>
+        <Button
+          shape='circle'
+          type='primary'
+          onClick={ShowModal}
+          icon={<PlusOutlined />}
+        ></Button>
+      </Tooltip>
       <Modal
         title='Add an address'
         visible={visible}
@@ -77,6 +90,9 @@ const AddressModal = ({ addAddress }) => {
         <Form
           onFinish={() => {
             addAddress(addressData);
+            closeModal();
+            setFormData('');
+            setType('');
           }}
           initialValues={{
             remember: true
@@ -170,6 +186,9 @@ const AddressModal = ({ addAddress }) => {
               row={4}
               type='text'
               placeholder='Additional information'
+              name='additionalInfo'
+              value={additionalInfo}
+              onChange={handleChange}
             />
           </Form.Item>
           <Divider style={{ width: '100%' }} />
@@ -181,7 +200,7 @@ const AddressModal = ({ addAddress }) => {
                   style={{
                     backgroundColor: '#fff',
                     borderColor: '#ddd',
-                    color: '#000'
+                    color: '#fff'
                   }}
                   onClick={closeModal}
                 >

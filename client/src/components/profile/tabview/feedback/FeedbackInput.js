@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Rate, Comment, Avatar, Button, List, Input, Form } from 'antd';
+import { Rate, Button, Input, Form } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PlusOutlined, MinusOutlined } from '@ant-design/icons';

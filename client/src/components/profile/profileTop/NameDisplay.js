@@ -8,7 +8,7 @@ import { MailOutlined } from '@ant-design/icons';
 const NameDisplay = ({ profile: { user, feedback, _id, status }, auth }) => {
   const data = [
     {
-      title: user.username
+      title: user && user.username
     }
   ];
 
@@ -43,6 +43,7 @@ const NameDisplay = ({ profile: { user, feedback, _id, status }, auth }) => {
                     <p>
                       <img
                         src={`https://www.countryflags.io/${countryCode}/shiny/64.png`}
+                        alt='country flag'
                         style={{ width: '30px' }}
                       />{' '}
                       {countryCode}

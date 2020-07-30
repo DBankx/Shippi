@@ -85,8 +85,21 @@ const profile = (state = initialState, action) => {
     case ADD_ADDRESS:
       return {
         ...state,
-        profile: { ...state.profile, addresses: payload }
+        profile: { ...state.profile, addresses: payload },
+        loading: false
       };
+    case DELETE_ADDRESS: {
+      return {
+        ...state,
+        profile: {
+          ...state.profile,
+          addresses: state.profile.addresses.filter(
+            (add) => add._id !== payload
+          ),
+          loading: false
+        }
+      };
+    }
     default:
       return state;
   }

@@ -119,8 +119,10 @@ const Register = ({
               onSelect={(value) => handleCountry(value)}
               placeholder='Please select a Country'
             >
-              {countryNames.map((country) => (
-                <option value={country}>{country}</option>
+              {countryNames.map((country, index) => (
+                <option key={index} value={country}>
+                  {country}
+                </option>
               ))}
             </Select>
           </Form.Item>
@@ -268,7 +270,7 @@ const Register = ({
             {...tailFormItemLayout}
           >
             <Checkbox>
-              I have read the <a href=''>agreement</a>
+              I have read the <a href='/#'>agreement</a>
             </Checkbox>
           </Form.Item>
           <Form.Item {...tailFormItemLayout}>

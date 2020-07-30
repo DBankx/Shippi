@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Steps, Button, Form, Input, Select, DatePicker } from 'antd';
+import { Steps, Button, Form, Input, Select, DatePicker, Row, Col } from 'antd';
 import {
   TwitterOutlined,
   InstagramOutlined,
@@ -8,12 +8,20 @@ import {
   AmazonOutlined,
   ContactsOutlined
 } from '@ant-design/icons';
+import { connect } from 'react-redux';
+import { editProfile } from '../../../actions/profile';
+import { withRouter, Redirect } from 'react-router-dom';
 
 const { Step } = Steps;
 const { Option } = Select;
 const { TextArea } = Input;
 
-const ProfileSetup = () => {
+const ProfileSetup = ({
+  auth,
+  editProfile,
+  history,
+  profile: { loading, profile }
+}) => {
   // form layout
   const tailLayout = {
     wrapperCol: {
@@ -94,7 +102,7 @@ const ProfileSetup = () => {
 
   //   setting the form components
   const contactInfo = (
-    <div className='setup-box'>
+    <div style={{ marginTop: '2em' }}>
       <Form.Item
         name='status'
         label='status'
@@ -150,7 +158,7 @@ const ProfileSetup = () => {
   );
 
   const companyInfo = (
-    <div className='setup-box'>
+    <div style={{ marginTop: '2em' }}>
       <Form.Item hasFeedback name='companyName' label='Company Name'>
         <Input
           value={companyName}
@@ -195,7 +203,7 @@ const ProfileSetup = () => {
   );
 
   const socials = (
-    <div className='setup-box'>
+    <div style={{ marginTop: '2em' }}>
       <Form.Item name='twitter' label='twitter' hasFeedback>
         <Input
           prefix={<TwitterOutlined />}
@@ -280,44 +288,74 @@ const ProfileSetup = () => {
     instagram
   };
 
-  return (
-    <div className='container profile-setup'>
-      <h1>Setup your profile</h1>
-      <Steps current={current}>
-        <Step title='Contact Info' />
-        <Step title='Company Info' />
-        <Step title='Add Socials' />
-      </Steps>
+  if (profile !== null) {
+    return <Redirect to={`/profile/${profile.username}`} />;
+  }
 
-      <div className='steps-content'>
-        {' '}
-        <Form {...tailLayout} onFinish={() => console.log(profileData)}>
-          {steps[current].content}{' '}
-        </Form>
-      </div>
-      <div className='steps-actions'>
-        {current > 0 && (
-          <Button type='primary' onClick={() => prev()}>
-            Prev
-          </Button>
-        )}
-        {current < steps.length - 1 && (
-          <Button type='primary' onClick={() => next()}>
-            Next
-          </Button>
-        )}
-        {current === steps.length - 1 && (
-          <Button
-            type='primary'
-            htmlType='submit'
-            onClick={() => console.log(profileData)}
-          >
-            Done
-          </Button>
-        )}
-      </div>
+  return (
+    <div className='container'>
+      <Row align='middle' justify='center'>
+        <Col xl={16} xs={24} lg={18} md={23} sm={24}>
+          <h1 style={{ textAlign: 'center', marginTop: '1em' }}>
+            Setup your profile
+          </h1>
+          <Steps current={current}>
+            <Step title='Contact Info' />
+            <Step title='Company Info' />
+            <Step title='Add Socials' />
+          </Steps>
+
+          <div className='steps-content'>
+            {' '}
+            <Form
+              style={{ marginTop: '2em' }}
+              className='setup-box'
+              {...tailLayout}
+              onFinish={() => editProfile(profileData, history, false)}
+              initialValues={{ remember: true }}
+            >
+              {steps[current].content}{' '}
+              <div
+                className='steps-actions'
+                style={{ textAlign: 'center', marginBottom: '2em' }}
+              >
+                {current > 0 && (
+                  <Button
+                    style={{ marginRight: '1em' }}
+                    type='primary'
+                    className='btn'
+                    onClick={() => prev()}
+                  >
+                    Prev
+                  </Button>
+                )}
+                {current < steps.length - 1 && (
+                  <Button type='primary' className='btn' onClick={() => next()}>
+                    Next
+                  </Button>
+                )}
+                {current === steps.length - 1 && (
+                  <Button
+                    type='primary'
+                    className='btn'
+                    htmlType='submit'
+                    loading={loading ? true : false}
+                  >
+                    Done
+                  </Button>
+                )}
+              </div>
+            </Form>
+          </div>
+        </Col>
+      </Row>
     </div>
   );
 };
 
-export default ProfileSetup;
+const mapState = ({ auth, profile }) => ({
+  auth,
+  profile
+});
+
+export default connect(mapState, { editProfile })(withRouter(ProfileSetup));

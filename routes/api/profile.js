@@ -29,16 +29,7 @@ router.get('/me', auth, async (req, res) => {
 // @@@ - protected
 router.post(
   '/',
-  [
-    auth,
-    [
-      check('status', 'Status is required').not().isEmpty(),
-      check(
-        'alternativeEmail',
-        'Please input a correct email address'
-      ).isEmail()
-    ]
-  ],
+  [auth, [check('status', 'Status is required').not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
 

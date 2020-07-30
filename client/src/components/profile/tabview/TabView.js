@@ -10,7 +10,7 @@ const TabView = ({ profile, user }) => {
       <Tabs>
         <TabList className='tab-list'>
           <Tab selectedClassName='active'>Profile</Tab>
-          {profile.user.role !== 'Buyer' ? (
+          {user && user.role !== 'Buyer' ? (
             <Tab selectedClassName='active'>Inventory</Tab>
           ) : null}
           {user && user._id === profile.user._id ? (
@@ -22,10 +22,10 @@ const TabView = ({ profile, user }) => {
         <TabPanel>
           <ProfileDetails profile={profile} user={user} />
         </TabPanel>
-        {profile.user.role !== 'Buyer' ? (
+        {profile && profile.user.role !== 'Buyer' ? (
           <TabPanel>This is Inventory</TabPanel>
         ) : null}
-        {user && user._id === profile.user._id ? (
+        {user && profile && user._id === profile.user._id ? (
           <TabPanel>This is orders</TabPanel>
         ) : null}
         <TabPanel>

@@ -18,7 +18,9 @@ const OtherDetails = ({ profile, auth: { user } }) => {
         paddingBottom: '1em'
       }}
     >
-      {user === null || user._id !== profile.user._id ? null : (
+      {user === null ||
+      profile === null ||
+      (user && user._id !== profile.user._id) ? null : (
         <Link to='/edit-profile'>
           <Button
             type='link'
@@ -35,7 +37,7 @@ const OtherDetails = ({ profile, auth: { user } }) => {
         prefix={<LikeOutlined />}
         style={{ marginTop: '2em' }}
       />
-      {user === null || user._id !== profile.user._id ? (
+      {user === null || profile === null || user._id !== profile.user._id ? (
         <Button
           type='primary'
           icon={<MailOutlined />}

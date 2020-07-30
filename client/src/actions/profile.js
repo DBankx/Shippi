@@ -111,6 +111,8 @@ export const editProfile = (formData, history, edit = false) => async (
     }
   };
 
+  dispatch(loadProfile());
+
   try {
     const res = await axios.post('/api/profile', formData, config);
 
@@ -126,6 +128,14 @@ export const editProfile = (formData, history, edit = false) => async (
 
     history.push('/');
   } catch (err) {
+    // get the errors from the validation checks
+    const errors = err.response.data.errors;
+
+    // loop through the alert and dispatch an alert for each
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, null, 'error')));
+    }
+
     dispatch({
       type: PROFILE_ERROR,
       payload: 'Error occurred'
@@ -135,6 +145,7 @@ export const editProfile = (formData, history, edit = false) => async (
 
 // add an address
 export const addAddress = (formData) => async (dispatch) => {
+  dispatch(loadFeedback());
   try {
     const config = {
       headers: {
@@ -146,8 +157,16 @@ export const addAddress = (formData) => async (dispatch) => {
 
     dispatch({ type: ADD_ADDRESS, payload: res.data });
 
-    dispatch(setAlert('New address created', null, 'success'));
+    dispatch(setAlert('New address added', null, 'success'));
   } catch (err) {
+    // get the errors from the validation checks
+    const errors = err.response.data.errors;
+
+    // loop through the alert and dispatch an alert for each
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, null, 'error')));
+    }
+
     dispatch({
       type: PROFILE_ERROR,
       payload: 'Error occurred'
@@ -158,9 +177,9 @@ export const addAddress = (formData) => async (dispatch) => {
 // delete an address
 export const deleteAddress = (addressId) => async (dispatch) => {
   try {
-    const res = await axios.delete(`/api/address/${addressId}`);
+    await axios.delete(`/api/profile/address/${addressId}`);
 
-    dispatch({ type: DELETE_ADDRESS, payload: res.data });
+    dispatch({ type: DELETE_ADDRESS, payload: addressId });
 
     dispatch(setAlert('Address deleted', null, 'success'));
   } catch (err) {

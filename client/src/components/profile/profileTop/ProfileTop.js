@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import NameDisplay from './NameDisplay';
 import { Row, Col } from 'antd';
 import OtherDetails from './OtherDetails';
