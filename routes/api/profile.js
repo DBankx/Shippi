@@ -66,6 +66,9 @@ router.post(
 
     // fill up the object
     profileObject.user = req.user.id;
+    profileObject.country = user.country;
+    profileObject.role = user.role;
+    profileObject.avatar = user.avatar;
     profileObject.username = user.username;
     if (companyName) profileObject.companyName = companyName;
     if (website) profileObject.website = website;

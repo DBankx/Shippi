@@ -1,17 +1,20 @@
 import React, { useEffect } from 'react';
 import ProfileTop from './profileTop/ProfileTop';
 import { connect } from 'react-redux';
-import { getProfile } from '../../actions/profile';
+import { getProfile, deleteAccount } from '../../actions/profile';
 import Spinner from '../layout/layoutUtils/Spinner';
-import { Row, Col } from 'antd';
+import { Row, Col, Button } from 'antd';
 import TabView from './tabview/TabView';
 import EmptyProfile from './EmptyProfile';
+import { withRouter } from 'react-router-dom';
 
 const Profile = ({
   getProfile,
   match,
   auth: { user },
-  profile: { loading, profile }
+  profile: { loading, profile },
+  deleteAccount,
+  history
 }) => {
   // get username from the url
   useEffect(() => {
@@ -46,4 +49,6 @@ const mapState = ({ auth, profile }) => ({
   auth
 });
 
-export default connect(mapState, { getProfile })(Profile);
+export default connect(mapState, { getProfile, deleteAccount })(
+  withRouter(Profile)
+);

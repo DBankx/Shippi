@@ -6,7 +6,8 @@ import {
   LOGIN_LOAD,
   LOAD_USER,
   AUTH_ERROR,
-  LOGOUT_USER
+  LOGOUT_USER,
+  DELETE_ACCOUNT
 } from '../actions/types';
 
 const initialState = {
@@ -60,6 +61,15 @@ const auth = (state = initialState, action) => {
         ...payload,
         isAuthenticated: true,
         loading: false
+      };
+    case DELETE_ACCOUNT:
+      localStorage.removeItem('token');
+      return {
+        ...state,
+        token: null,
+        isAuthenticated: false,
+        loading: false,
+        user: null
       };
 
     default:

@@ -8,10 +8,10 @@ const ProfileTop = ({ profile }) => {
     <div className='profile-top'>
       <Row>
         <Col xl={12} xs={24} lg={12} md={12} sm={24}>
-          <NameDisplay profile={profile} />
+          <NameDisplay profile={profile && profile} />
         </Col>
         <Col xl={12} xs={0} lg={12} md={12} sm={0}>
-          <OtherDetails profile={profile} />
+          <OtherDetails profile={profile && profile} />
         </Col>
       </Row>
     </div>

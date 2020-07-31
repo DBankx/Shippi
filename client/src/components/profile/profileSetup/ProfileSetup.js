@@ -5,8 +5,7 @@ import {
   InstagramOutlined,
   YoutubeOutlined,
   FacebookOutlined,
-  AmazonOutlined,
-  ContactsOutlined
+  AmazonOutlined
 } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import { editProfile } from '../../../actions/profile';
@@ -17,7 +16,6 @@ const { Option } = Select;
 const { TextArea } = Input;
 
 const ProfileSetup = ({
-  auth,
   editProfile,
   history,
   profile: { loading, profile }
@@ -283,13 +281,11 @@ const ProfileSetup = ({
     instagram,
     twitter,
     youtube,
-    bio,
-    amazon,
-    instagram
+    bio
   };
 
   if (profile !== null) {
-    return <Redirect to={`/profile/${profile.username}`} />;
+    return <Redirect to={'/'} />;
   }
 
   return (
@@ -353,8 +349,7 @@ const ProfileSetup = ({
   );
 };
 
-const mapState = ({ auth, profile }) => ({
-  auth,
+const mapState = ({ profile }) => ({
   profile
 });
 

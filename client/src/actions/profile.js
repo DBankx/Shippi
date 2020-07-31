@@ -3,14 +3,14 @@ import {
   GET_PROFILE,
   PROFILE_ERROR,
   LOAD_PROFILE,
-  CLEAR_PROFILE,
   ADD_FEEDBACK,
   DELETE_FEEDBACK,
   LOAD_FEEDBACK,
   GET_USER_PROFILE,
-  UPDATE_PROFILE,
   DELETE_ADDRESS,
-  ADD_ADDRESS
+  ADD_ADDRESS,
+  DELETE_ACCOUNT,
+  UPDATE_PROFILE
 } from './types';
 import { setAlert } from './alert';
 
@@ -74,9 +74,7 @@ export const addFeedback = (rating, comment, profileId) => async (dispatch) => {
 // delete feedback from a user
 export const deleteFeedback = (profileId, feedbackId) => async (dispatch) => {
   try {
-    const res = await axios.delete(
-      `/api/profile/feedback/${profileId}/${feedbackId}`
-    );
+    await axios.delete(`/api/profile/feedback/${profileId}/${feedbackId}`);
     dispatch({ type: DELETE_FEEDBACK, payload: feedbackId });
     dispatch(setAlert('Feedback Deleted', null, 'success'));
   } catch (err) {
@@ -116,7 +114,7 @@ export const editProfile = (formData, history, edit = false) => async (
   try {
     const res = await axios.post('/api/profile', formData, config);
 
-    dispatch({ type: ADD_ADDRESS, payload: res.data });
+    dispatch({ type: UPDATE_PROFILE, payload: res.data });
 
     dispatch(
       setAlert(
@@ -187,5 +185,23 @@ export const deleteAddress = (addressId) => async (dispatch) => {
       type: PROFILE_ERROR,
       payload: 'Error occurred'
     });
+  }
+};
+
+// delete users account
+export const deleteAccount = (history) => async (dispatch) => {
+  // ask if they are sure in a window
+  if (window.confirm('Are you sure you want to delete your account ?')) {
+    try {
+      await axios.delete('/api/profile');
+
+      history.push('/');
+
+      dispatch({ type: DELETE_ACCOUNT });
+
+      dispatch(setAlert('Account Deleted', null, 'warning'));
+    } catch (err) {
+      dispatch({ type: PROFILE_ERROR });
+    }
   }
 };

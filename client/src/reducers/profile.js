@@ -9,7 +9,8 @@ import {
   GET_USER_PROFILE,
   UPDATE_PROFILE,
   DELETE_ADDRESS,
-  ADD_ADDRESS
+  ADD_ADDRESS,
+  DELETE_ACCOUNT
 } from '../actions/types';
 
 const initialState = {
@@ -98,6 +99,14 @@ const profile = (state = initialState, action) => {
           ),
           loading: false
         }
+      };
+    }
+    case DELETE_ACCOUNT: {
+      return {
+        ...state,
+        profile: null,
+        loading: false,
+        profiles: null
       };
     }
     default:

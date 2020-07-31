@@ -7,6 +7,15 @@ const profileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
   },
+  avatar: {
+    type: String
+  },
+  role: {
+    type: String
+  },
+  country: {
+    type: String
+  },
   companyName: {
     type: String
   },

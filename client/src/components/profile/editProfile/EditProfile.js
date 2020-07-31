@@ -102,7 +102,7 @@ const EditProfile = ({
           ? profile.companyInfo.aboutCompany
           : ''
     });
-  }, [getMyProfile, setFormData, profile]);
+  }, [getMyProfile]);
 
   // form layout
   const tailLayout = {

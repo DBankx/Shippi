@@ -5,15 +5,14 @@ import OverallRating from './OverallRating';
 import { connect } from 'react-redux';
 import { MailOutlined } from '@ant-design/icons';
 
-const NameDisplay = ({ profile: { user, feedback, _id, status }, auth }) => {
+const NameDisplay = ({ profile, auth }) => {
   const data = [
     {
-      title: user && user.username
+      title: profile && profile.username
     }
   ];
 
-  //   get the country code;
-  const countryCode = getCode(user && user.country);
+  let countryCode = getCode(profile !== null && profile.country);
 
   return (
     <div>
@@ -23,13 +22,21 @@ const NameDisplay = ({ profile: { user, feedback, _id, status }, auth }) => {
           <List.Item>
             <List.Item.Meta
               avatar={
-                <Tooltip title={status}>
+                <Tooltip title={profile && profile.status}>
                   <Badge
                     dot
-                    color={status === 'Online' ? '#87d068' : '#f50'}
+                    color={
+                      profile && profile.status === 'Online'
+                        ? '#87d068'
+                        : '#f50'
+                    }
                     offset={[-20, 20]}
                   >
-                    <Avatar size={150} src={user.avatar} alt='avatar' />
+                    <Avatar
+                      size={150}
+                      src={profile && profile.avatar}
+                      alt='avatar'
+                    />
                   </Badge>
                 </Tooltip>
               }
@@ -38,7 +45,7 @@ const NameDisplay = ({ profile: { user, feedback, _id, status }, auth }) => {
               }
               description={
                 <div className='description'>
-                  <p>{user.role === 'both' ? 'Buyer/Seller' : user.role}</p>
+                  <p>{profile && profile.role}</p>
                   {countryCode !== null ? (
                     <p>
                       <img
@@ -49,10 +56,14 @@ const NameDisplay = ({ profile: { user, feedback, _id, status }, auth }) => {
                       {countryCode}
                     </p>
                   ) : (
-                    <p>{user.country}</p>
+                    <p>{profile && profile.country}</p>
                   )}
-                  <OverallRating feedback={feedback} role={user.role} />
-                  {(auth && auth.user === null) || auth.user._id !== _id ? (
+                  <OverallRating
+                    feedback={profile && profile.feedback}
+                    role={profile && profile.role}
+                  />
+                  {(auth && auth.user === null) ||
+                  auth.user._id !== profile.user ? (
                     <div className='hide-lg hide-xl hide-md'>
                       <Button
                         type='primary'
