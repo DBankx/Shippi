@@ -25,19 +25,21 @@ const productSchema = new mongoose.Schema({
       type: Date
     },
     brandName: {
-      type: String
+      type: String,
+      required: true
     },
     countryOrigin: {
       type: String
     },
-    Size: {
+    size: {
       type: String
     },
     features: {
       type: [String]
     },
     color: {
-      type: String
+      type: String,
+      required: true
     }
   },
   category: {
@@ -63,8 +65,15 @@ const productSchema = new mongoose.Schema({
   },
   sold: {
     type: Number,
-    default: 0,
-    maxlength: 100
+    default: 0
+  },
+  format: {
+    type: String,
+    required: true
+  },
+  status: {
+    type: String,
+    default: 'OnGoing'
   },
   watchers: [
     {
@@ -103,18 +112,24 @@ const productSchema = new mongoose.Schema({
     }
   ],
   returns: {
-    type: Boolean
+    type: Boolean,
+    default: true
   },
   shippingDetails: {
     domesticShipping: {
-      type: Boolean
+      type: Boolean,
+      default: true
     },
     internationalShipping: {
-      type: Boolean
+      type: Boolean,
+      default: false
     },
     shippingPrice: {
       type: Number,
       required: true
+    },
+    nameOfService: {
+      type: String
     },
     weight: {
       type: Number
@@ -127,6 +142,9 @@ const productSchema = new mongoose.Schema({
     },
     depth: {
       type: Number
+    },
+    itemLocation: {
+      type: String
     }
   },
   lastUpdated: {

@@ -7,7 +7,6 @@ const { check, validationResult } = require('express-validator');
 const multer = require('multer');
 const Notification = require('../../models/notification');
 const fs = require('fs');
-const mongoose = require('mongoose');
 var _ = require('lodash');
 
 // multer storage
@@ -55,7 +54,7 @@ router.post(
   '/',
   [
     auth,
-    upload.array('productImages', 3),
+    upload.array('productImages', 5),
     [
       (check('title', 'Product title is required').not().isEmpty(),
       check('category', 'Category is required').not().isEmpty(),
@@ -63,7 +62,10 @@ router.post(
       check('description', 'Description is required').not().isEmpty(),
       check('price', 'Price must be a decimal').isDecimal(),
       check('quantity', 'quantity is required').isNumeric(),
-      check('shippingPrice', 'Shipping price is required').isDecimal())
+      check('shippingPrice', 'Shipping price is required').isDecimal(),
+      check('brandName', 'Brand name is required').not().isEmpty(),
+      check('color', 'Colour of item is required').not().isEmpty(),
+      check('format', 'Price format is required').not().isEmpty())
     ]
   ],
   async (req, res) => {
@@ -95,7 +97,10 @@ router.post(
       releaseDate,
       modelNumber,
       subtitle,
-      features
+      features,
+      nameOfService,
+      itemLocation,
+      format
     } = req.body;
 
     try {
@@ -115,6 +120,7 @@ router.post(
       if (condition) newProduct.condition = condition;
       if (description) newProduct.description = description;
       if (price) newProduct.price = price;
+      if (format) newProduct.format = format;
       if (quantity) newProduct.quantity = quantity;
       if (subtitle) newProduct.subtitle = subtitle;
       newProduct.shippingDetails = {};
@@ -125,6 +131,9 @@ router.post(
       if (internationalShipping)
         newProduct.shippingDetails.internationalShipping = internationalShipping;
       if (weight) newProduct.shippingDetails.weight = weight;
+      if (itemLocation) newProduct.shippingDetails.itemLocation = itemLocation;
+      if (nameOfService)
+        newProduct.shippingDetails.nameOfService = nameOfService;
       if (height) newProduct.shippingDetails.height = height;
       if (width) newProduct.shippingDetails.width = width;
       if (depth) newProduct.shippingDetails.depth = depth;

@@ -26,3 +26,5 @@ export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 export const ADD_ADDRESS = 'ADD_ADDRESS';
 export const DELETE_ADDRESS = 'DELETE_ADDRESS';
 export const DELETE_ACCOUNT = 'DELETE_ACCOUNT';
+export const CREATE_LISTING = 'CREATE_LISTING';
+export const ITEM_ERROR = 'ITEM_ERROR';

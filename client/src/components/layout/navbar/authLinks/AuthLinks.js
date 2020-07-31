@@ -1,17 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Avatar, Row, Col, List } from 'antd';
+import { Row, Col } from 'antd';
 import CartIcon from './CartIcon';
 import Notifications from './Notifications';
 import Watching from './Watching';
+import UserDisplay from './UserDisplay';
 
-const AuthLinks = ({ auth: { loading, user } }) => {
-  const data = [
-    {
-      title: user && user.username
-    }
-  ];
-
+const AuthLinks = ({ auth: { user } }) => {
   return (
     <div className='top-links'>
       <Row align='middle' justify='end'>
@@ -25,18 +20,7 @@ const AuthLinks = ({ auth: { loading, user } }) => {
           <Watching watching={user && user.watching} />
         </Col>
         <Col xl={12} lg={12} md={0} sm={0} xs={0}>
-          <List
-            dataSource={data}
-            renderItem={(item) => (
-              <List.Item>
-                <List.Item.Meta
-                  avatar={<Avatar src={user && user.avatar} />}
-                  title={item.title}
-                  description={user && user.firstName + ' ' + user.lastName}
-                />
-              </List.Item>
-            )}
-          ></List>
+          <UserDisplay user={user && user} />
         </Col>
       </Row>
     </div>

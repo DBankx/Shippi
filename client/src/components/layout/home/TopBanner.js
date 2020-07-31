@@ -1,6 +1,7 @@
 import React from 'react';
 import { Row, Col, Button, Badge } from 'antd';
 import { Link } from 'react-router-dom';
+import { ShoppingOutlined } from '@ant-design/icons';
 
 const TopBanner = () => {
   return (
@@ -12,7 +13,9 @@ const TopBanner = () => {
               <h1>The best p2p ecommerce platform across the globe</h1>
               <ul>
                 <li>
-                  <Button type='primary'>Shop now</Button>
+                  <Button type='primary' icon={<ShoppingOutlined />}>
+                    Shop now
+                  </Button>
                 </li>
                 <li>
                   <Badge dot offset={[0, 5]}>
