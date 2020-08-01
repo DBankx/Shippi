@@ -13,10 +13,11 @@ const productSchema = new mongoose.Schema({
   subtitle: {
     type: String
   },
-  productImages: {
-    type: [String],
-    required: true
-  },
+  productImages: [
+    {
+      image: { data: Buffer, contentType: String }
+    }
+  ],
   details: {
     modelNumber: {
       type: String

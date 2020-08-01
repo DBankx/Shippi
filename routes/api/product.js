@@ -108,8 +108,14 @@ router.post(
 
       const images = [];
 
-      // loop through the files and store the paths
-      req.files.forEach((file) => images.push(file.path));
+      req.files.forEach((file) =>
+        images.push({
+          image: {
+            data: fs.readFileSync(file.path),
+            contentType: file.mimetype
+          }
+        })
+      );
 
       // create a new object with the product data
       const newProduct = {};
@@ -216,8 +222,14 @@ router.patch(
 
       const images = [];
 
-      // loop through the files and store the paths
-      req.files.forEach((file) => images.push(file.path));
+      req.files.forEach((file) =>
+        images.push({
+          image: {
+            data: fs.readFileSync(file.path),
+            contentType: file.mimetype
+          }
+        })
+      );
 
       if (!product) {
         return res.status(404).json({ errors: [{ msg: 'product not found' }] });

@@ -1,14 +1,21 @@
 import axios from 'axios';
-import { CREATE_LISTING, ITEM_ERROR } from './types';
+import { CREATE_LISTING, ITEM_ERROR, LOADING_PRODUCT } from './types';
 import { setAlert } from './alert';
+
+// dispatch loading state
+export const loading = () => (dispatch) => {
+  dispatch({ type: LOADING_PRODUCT });
+};
 
 // list an item on shippi
 export const createListing = (listingData) => async (dispatch) => {
   const config = {
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'multipart/form-data'
     }
   };
+
+  dispatch(loading());
 
   try {
     const res = await axios.post('/api/product', listingData, config);

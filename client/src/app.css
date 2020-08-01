@@ -625,3 +625,14 @@ small {
 .triggers {
   padding-bottom: 3em;
 }
+
+.cancel button {
+  background-color: #cc3838 !important;
+  color: #fff;
+  border-color: #cc3838 !important;
+}
+
+.cancel button:hover {
+  background-color: #d66161 !important;
+  border-color: #d66161 !important;
+}

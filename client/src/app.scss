@@ -665,3 +665,19 @@ small {
 .triggers {
   padding-bottom: 3em;
 }
+
+.cancel {
+  button {
+    background-color: rgb(204, 56, 56) !important;
+    color: #fff;
+    border-color: rgb(204, 56, 56) !important;
+
+    &:hover {
+      background-color: lighten(
+        $color: rgb(204, 56, 56),
+        $amount: 10%
+      ) !important;
+      border-color: lighten($color: rgb(204, 56, 56), $amount: 10%) !important;
+    }
+  }
+}
