@@ -9,10 +9,6 @@ html {
   --scroll-bar: 0;
 }
 
-body {
-  background: #eef2f7;
-}
-
 .container {
   padding: 0 1em;
 }
@@ -55,6 +51,10 @@ body {
   border-color: #66b9a3;
 }
 
+#root {
+  background: #f5f5f5;
+}
+
 .top-links {
   margin-left: 2em;
 }
@@ -66,6 +66,10 @@ body {
 
 .top-links button:hover {
   color: #89c9b8;
+}
+
+.navbar-nav {
+  background-color: #fff;
 }
 
 .login {
@@ -510,6 +514,11 @@ body {
   border-color: #66b9a3;
 }
 
+.profile-area {
+  background-color: #fff;
+  padding: 1em;
+}
+
 .setup-box {
   border: 1px solid #dddddd;
   padding: 2em;
@@ -635,4 +644,74 @@ small {
 .cancel button:hover {
   background-color: #d66161 !important;
   border-color: #d66161 !important;
+}
+
+.carousel .carousel-slider {
+  background: #fff;
+  width: 70%;
+}
+
+.carousel .slide {
+  background: #fff;
+}
+
+.slider {
+  background-color: #fff;
+}
+
+.thumbs {
+  text-align: center;
+}
+
+.carousel .thumb.selected,
+.carousel .thumb:hover {
+  border: 1px solid #000;
+}
+
+.carousel.carousel-slider .control-arrow {
+  top: 130;
+  color: #fff;
+  background: #000;
+  font-size: 26px;
+  bottom: 130;
+  margin-top: 0;
+  padding: 5px;
+  z-index: 4;
+}
+
+.carousel .control-dots .dot {
+  background: #000;
+}
+
+.carousel .control-dots .dot:hover {
+  background: #000;
+}
+
+.carousel.carousel-slider .control-arrow:hover {
+  background: rgba(0, 0, 0, 0.2);
+  color: #000;
+}
+
+.user-profile-view {
+  border: 1px solid #dddddd;
+  padding: 1em;
+  border-radius: 5px;
+}
+
+.user-profile-view .ant-divider-horizontal {
+  margin: 2px 0;
+}
+
+.user-profile-view .ant-list p {
+  margin-bottom: 0.3em;
+}
+
+.price-details {
+  font-size: 23px;
+  font-weight: 600;
+  color: #092532;
+}
+
+.checkout-box {
+  border: 1px solid #dddddd;
 }

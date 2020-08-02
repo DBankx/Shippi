@@ -121,6 +121,10 @@ const productSchema = new mongoose.Schema({
       type: Boolean,
       default: true
     },
+    estimatedDelivery: {
+      type: Date,
+      required: true
+    },
     internationalShipping: {
       type: Boolean,
       default: false

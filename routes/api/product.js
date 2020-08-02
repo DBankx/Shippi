@@ -65,7 +65,10 @@ router.post(
       check('shippingPrice', 'Shipping price is required').isDecimal(),
       check('brandName', 'Brand name is required').not().isEmpty(),
       check('color', 'Colour of item is required').not().isEmpty(),
-      check('format', 'Price format is required').not().isEmpty())
+      check('format', 'Price format is required').not().isEmpty(),
+      check('estimatedDelivery', 'Estimated Delivery date is required')
+        .not()
+        .isEmpty())
     ]
   ],
   async (req, res) => {
@@ -141,6 +144,8 @@ router.post(
       if (nameOfService)
         newProduct.shippingDetails.nameOfService = nameOfService;
       if (height) newProduct.shippingDetails.height = height;
+      if (estimatedDelivery)
+        newProduct.shippingDetails.estimatedDelivery = estimatedDelivery;
       if (width) newProduct.shippingDetails.width = width;
       if (depth) newProduct.shippingDetails.depth = depth;
       if (returns) newProduct.returns = returns;
@@ -182,7 +187,13 @@ router.patch(
       check('description', 'Description is required').not().isEmpty(),
       check('price', 'Price must be a decimal').isDecimal(),
       check('quantity', 'quantity is required').isNumeric(),
-      check('shippingPrice', 'Shipping price is required').isDecimal())
+      check('shippingPrice', 'Shipping price is required').isDecimal(),
+      check('brandName', 'Brand name is required').not().isEmpty(),
+      check('color', 'Colour of item is required').not().isEmpty(),
+      check('format', 'Price format is required').not().isEmpty(),
+      check('estimatedDelivery', 'Estimated Delivery date is required')
+        .not()
+        .isEmpty())
     ]
   ],
   async (req, res) => {
@@ -214,7 +225,10 @@ router.patch(
       releaseDate,
       modelNumber,
       subtitle,
-      features
+      features,
+      nameOfService,
+      itemLocation,
+      format
     } = req.body;
 
     try {
@@ -250,6 +264,7 @@ router.patch(
       if (price) newProduct.price = price;
       if (quantity) newProduct.quantity = quantity;
       if (subtitle) newProduct.subtitle = subtitle;
+      if (format) newProduct.format = format;
       newProduct.shippingDetails = {};
       if (shippingPrice)
         newProduct.shippingDetails.shippingPrice = shippingPrice;
@@ -259,8 +274,13 @@ router.patch(
         newProduct.shippingDetails.internationalShipping = internationalShipping;
       if (weight) newProduct.shippingDetails.weight = weight;
       if (height) newProduct.shippingDetails.height = height;
+      if (itemLocation) newProduct.shippingDetails.itemLocation = itemLocation;
+      if (nameOfService)
+        newProduct.shippingDetails.nameOfService = nameOfService;
       if (width) newProduct.shippingDetails.width = width;
       if (depth) newProduct.shippingDetails.depth = depth;
+      if (estimatedDelivery)
+        newProduct.shippingDetails.estimatedDelivery = estimatedDelivery;
       if (returns) newProduct.returns = returns;
       newProduct.details = {};
       if (color) newProduct.details.color = color;

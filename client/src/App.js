@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Navbar from './components/layout/navbar/Navbar';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import './app.css';
 import Landing from './components/layout/home/Landing';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -15,6 +16,7 @@ import PrivateRoute from './helpers/PrivateRoute';
 import EditProfile from './components/profile/editProfile/EditProfile';
 import ProfileSetup from './components/profile/profileSetup/ProfileSetup';
 import ProductForm from './components/product/createProduct/ProductForm';
+import Preview from './components/product/createProduct/Preview';
 
 if (localStorage.token) {
   setToken(localStorage.token);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   DatePicker,
   Form,
@@ -22,11 +22,17 @@ import {
 import { connect } from 'react-redux';
 import { createListing } from '../../../actions/product';
 import { Link } from 'react-router-dom';
+import Preview from './Preview';
+import View from './View';
 
 const { TextArea } = Input;
 const { Option } = Select;
 
-const ProductForm = ({ createListing, product: { loading } }) => {
+const ProductForm = ({
+  createListing,
+  product: { loading },
+  auth: { user }
+}) => {
   const [fileList, setFileList] = useState([]);
 
   const tailLayout = {
@@ -55,7 +61,8 @@ const ProductForm = ({ createListing, product: { loading } }) => {
     height: 0,
     depth: 0,
     width: 0,
-    shippingPrice: ''
+    shippingPrice: '',
+    estimatedDevlivery: ''
   });
 
   function handleFormData({ target }) {
@@ -99,7 +106,8 @@ const ProductForm = ({ createListing, product: { loading } }) => {
     height,
     depth,
     width,
-    shippingPrice
+    shippingPrice,
+    estimatedDelivery
   } = formData;
 
   const countryNames = getNames();
@@ -146,10 +154,52 @@ const ProductForm = ({ createListing, product: { loading } }) => {
     createListing(itemData);
   };
 
+  //   data that is going to be showed in the view
+  const viewData = {
+    condition,
+    category,
+    countryOrigin,
+    domesticShipping,
+    internationalShipping,
+    itemLocation,
+    returns,
+    format,
+    releaseDate,
+    fileList,
+    title,
+    subtitle,
+    brandName,
+    color,
+    size,
+    features,
+    modelNumber,
+    description,
+    price,
+    quantity,
+    nameOfService,
+    weight,
+    height,
+    depth,
+    width,
+    shippingPrice,
+    user,
+    estimatedDelivery
+  };
+
+  //   state handling for preview window
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
+  const togglePreviewWindow = () => setIsPreviewOpen(!isPreviewOpen);
+  const closePreviewWindow = () => setIsPreviewOpen(false);
+
+  useEffect(() =>
+    window.addEventListener('beforeunload', () => closePreviewWindow())
+  );
+
   return (
     <div className='container sell'>
       <Row align='middle' justify='center' className=''>
-        <Col xl={16} xs={24} lg={18} md={23} sm={24}>
+        <Col xl={18} xs={24} lg={18} md={23} sm={24}>
           <h1>Sell your products</h1>
 
           <Form
@@ -273,7 +323,7 @@ const ProductForm = ({ createListing, product: { loading } }) => {
                 }
                 hasFeedback
               >
-                <ImgCrop rotate>
+                <ImgCrop aspect={3 / 2} rotate>
                   <Upload
                     action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
                     listType='picture-card'
@@ -554,6 +604,24 @@ const ProductForm = ({ createListing, product: { loading } }) => {
                   </Radio>
                 </Radio.Group>
               </Form.Item>
+              <Form.Item
+                name='estimatedDelivery'
+                label='Estimated Devlivery'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Estimated delivery date is required'
+                  }
+                ]}
+              >
+                <Input
+                  size='large'
+                  type='date'
+                  name='estimatedDelivery'
+                  value={estimatedDelivery}
+                  onChange={handleFormData}
+                />
+              </Form.Item>
               <Form.Item label='Shipping specifics' hasFeedback>
                 <Input.Group size='large'>
                   <Row gutter={8}>
@@ -666,6 +734,8 @@ const ProductForm = ({ createListing, product: { loading } }) => {
                         height: '50px',
                         fontSize: '1.25rem'
                       }}
+                      type='button'
+                      onClick={togglePreviewWindow}
                     >
                       Preview
                     </Button>
@@ -691,12 +761,19 @@ const ProductForm = ({ createListing, product: { loading } }) => {
           </Form>
         </Col>
       </Row>
+      {/* checks if the popupWindow is open */}
+      {isPreviewOpen && (
+        <Preview closeWindow={closePreviewWindow}>
+          <View data={viewData} />
+        </Preview>
+      )}
     </div>
   );
 };
 
-const mapState = ({ product }) => ({
-  product
+const mapState = ({ product, auth }) => ({
+  product,
+  auth
 });
 
 export default connect(mapState, { createListing })(ProductForm);
