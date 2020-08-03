@@ -18,6 +18,7 @@ const Profile = ({
   useEffect(() => {
     getProfile(match.params.username);
   }, [getProfile, match.params.username]);
+
   return (
     <div className='container'>
       {!loading && profile !== null ? (
@@ -48,7 +49,6 @@ const Profile = ({
     </div>
   );
 };
-
 const mapState = ({ auth, profile }) => ({
   profile,
   auth

@@ -103,7 +103,8 @@ router.post(
       features,
       nameOfService,
       itemLocation,
-      format
+      format,
+      estimatedDelivery
     } = req.body;
 
     try {
@@ -228,7 +229,8 @@ router.patch(
       features,
       nameOfService,
       itemLocation,
-      format
+      format,
+      estimatedDelivery
     } = req.body;
 
     try {

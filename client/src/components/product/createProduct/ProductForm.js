@@ -16,12 +16,11 @@ import { getNames } from 'country-list';
 import {
   DropboxOutlined,
   DollarOutlined,
-  FileTextOutlined,
-  HomeOutlined
+  FileTextOutlined
 } from '@ant-design/icons';
 import { connect } from 'react-redux';
 import { createListing } from '../../../actions/product';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Preview from './Preview';
 import View from './View';
 
@@ -30,7 +29,7 @@ const { Option } = Select;
 
 const ProductForm = ({
   createListing,
-  product: { loading },
+  product: { loading, item },
   auth: { user }
 }) => {
   const [fileList, setFileList] = useState([]);
@@ -61,7 +60,7 @@ const ProductForm = ({
     height: 0,
     depth: 0,
     width: 0,
-    shippingPrice: 0,
+    shippingPrice: '',
     estimatedDevlivery: ''
   });
 
@@ -195,6 +194,11 @@ const ProductForm = ({
   useEffect(() =>
     window.addEventListener('beforeunload', () => closePreviewWindow())
   );
+
+  // redirect if product has been succesfully added
+  if (loading && item !== null) {
+    return <Redirect to={`/item/${item._id}`} />;
+  }
 
   return (
     <div className='container sell'>

@@ -37,6 +37,8 @@ import { Carousel } from 'react-responsive-carousel';
 import PaymentIcons from './PaymentIcons';
 import Moment from 'react-moment';
 import { getCode } from 'country-list';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
 
 const View = ({ data }) => {
   console.log(data);
@@ -87,7 +89,7 @@ const View = ({ data }) => {
         </div>
         <div className='preview-body'>
           <Row gutter={6} justify='center'>
-            <Col xl={8}>
+            <Col xl={8} lg={8} md={8} sm={24}>
               <Carousel>
                 {data.fileList.map((file, index) => {
                   return (
@@ -98,71 +100,119 @@ const View = ({ data }) => {
                 })}
               </Carousel>
             </Col>
-            <Col xl={8}>
-              <div className=''>
-                {data.shippingPrice ? (
-                  <Tag color='green'>Ready to ship</Tag>
-                ) : null}
-                <Tag color='warning'>{data.format}</Tag>
-                {data.internationalShipping && (
-                  <Tag color='' icon={<FlagOutlined />}>
-                    International
-                  </Tag>
-                )}
-              </div>
-              <span style={{ margin: '2px', fontSize: '21px' }}>
-                {data.title}
-              </span>
-              <p style={{ margin: '2px' }}>{data.subtitle}</p>
-              <Row align='middle'>
-                <Col>
-                  <Rate />
-                </Col>
-                <Divider type='vertical' />
-                <Col>(0) Ratings</Col>
-                <Divider type='vertical' />
-                <Col>0 Sold</Col>
-              </Row>
-              <Divider style={{ margin: '2px 0' }} />
-              <Row align='middle'>
-                <Col>
-                  <div className='listing-preview'>
-                    <p>
-                      Condition: <strong>{data.condition}</strong>
-                    </p>
-
-                    <span>
-                      Quantity: <strong>{data.quantity} availabe</strong>
-                    </span>
-
-                    <p>
-                      Status: <strong>On Going</strong>
-                    </p>
-                    <span>
-                      Price:{' '}
-                      <span className='price-details' title={data.price}>
-                        US ${data.price}
-                      </span>
-                      <span style={{ color: '#777' }}>/Piece</span>
-                    </span>
-                    <Tag color='#89c9b8'>
-                      <EyeOutlined /> watch this item
+            <Col xl={8} lg={8} md={8} sm={24}>
+              <div className='middle-prev'>
+                <div>
+                  {data.estimatedDelivery ? (
+                    <Tag color='green'>Ready to ship</Tag>
+                  ) : null}
+                  <Tag color='warning'>{data.format}</Tag>
+                  {data.internationalShipping && (
+                    <Tag color='' icon={<FlagOutlined />}>
+                      International
                     </Tag>
-                  </div>
-                </Col>
-                <Col></Col>
-              </Row>
-              <Divider />
-              <Descriptions column={1}>
-                <Descriptions.Item label='returns'>
-                  {data.returns ? '30 day returns' : 'Returns are not allowed'}
-                </Descriptions.Item>
-                <Descriptions.Item label='Payment'>
-                  <PaymentIcons />
-                </Descriptions.Item>
-              </Descriptions>
+                  )}
+                  {data.shippingPrice <= 0 ? <Tag>Free shiping</Tag> : null}
+                </div>
+                <span
+                  style={{ margin: '2px', fontSize: '21px', fontWeight: '600' }}
+                >
+                  {data.title}
+                </span>
+                <p style={{ margin: '2px' }}>{data.subtitle}</p>
+                <Row align='middle'>
+                  <Col>
+                    <Rate />
+                  </Col>
+                  <Divider type='vertical' />
+                  <Col>(0) Ratings</Col>
+                  <Divider type='vertical' />
+                  <Col>0 Sold</Col>
+                </Row>
+                <Divider style={{ margin: '2px 0' }} />
+                <Row align='middle'>
+                  <Col>
+                    <div className='listing-preview'>
+                      <Row style={{ margin: '1em 0' }} gutter={6}>
+                        <Col>
+                          <span>
+                            Condition: <strong>{data.condition}</strong>
+                          </span>
+                        </Col>
+                        <Col>
+                          <span>
+                            Quantity: <strong>{data.quantity} availabe</strong>
+                          </span>
+                        </Col>
+                      </Row>
+
+                      <p style={{ margin: '1em 0' }}>
+                        Status: <strong>On Going</strong>
+                      </p>
+                      <p>
+                        <Link>
+                          <EyeOutlined /> watch this item
+                        </Link>
+                      </p>
+                      <span>
+                        Price:{' '}
+                        <span className='price-details' title={data.price}>
+                          US ${data.price}
+                        </span>
+                        <span style={{ color: '#777' }}>/Piece</span>
+                      </span>
+                    </div>
+                  </Col>
+                  <Col></Col>
+                </Row>
+                <Divider />
+                <span style={{ fontSize: '13px' }}>
+                  shippi.shop protects all orders made
+                </span>
+                <table className='prev-table'>
+                  <tbody>
+                    <tr>
+                      <td>Returns:</td>
+                      <td>
+                        <span style={{ fontSize: '13px' }}>
+                          {' '}
+                          {data.returns
+                            ? '30 day returns'
+                            : 'Returns are not allowed'}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Payments:</td>
+                      <td>
+                        {' '}
+                        <PaymentIcons />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Shipping</td>
+                      <td>
+                        <span style={{ fontSize: '13px' }}>
+                          {data.shippingPrice <= 0
+                            ? 'FREE shipping'
+                            : `$${data.shippingPrice}`}{' '}
+                          Domestic{' '}
+                          {data.internationalShipping
+                            ? '& international shipping'
+                            : 'shipping'}{' '}
+                          <Divider type='vertical' />{' '}
+                          <span style={{ fontSize: '10px', color: '#555' }}>
+                            International shipment of items may be subject to
+                            customs processing and additional charges.
+                          </span>
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </Col>
-            <Col xl={6}>
+            <Col xl={6} lg={6} md={8} sm={24}>
               <div className='checkout-box'>
                 <span>
                   Arrives:{' '}
@@ -240,9 +290,61 @@ const View = ({ data }) => {
                 ) : null}
                 <Divider style={{ margin: '4px 0' }} dashed />
                 <span style={{ fontWeight: '600', fontSize: '13px' }}>
-                  ${data.shippingPrice} by {data.nameOfService}
+                  {data.shippingPrice <= 0
+                    ? 'FREE shipping'
+                    : `$${data.shippingPrice}`}{' '}
+                  by {data.nameOfService}
                 </span>
               </div>
+            </Col>
+          </Row>
+        </div>
+        <div className='preview-description'>
+          <Row justify='center' gutter={6}>
+            <Col xl={16}>
+              <Tabs>
+                <TabList>
+                  <Tab>Description</Tab>
+                  <Tab>Customer Reviews</Tab>
+                </TabList>
+
+                <TabPanel>
+                  <div className='description-preview'>
+                    <p>Seller assumes all responsibility for this listing.</p>
+                    <div className='prev-spec'>
+                      <Descriptions column={{ sm: 1, md: 2, lg: 3, xl: 3 }}>
+                        <Descriptions.Item label='Condition'>
+                          {data.condition}
+                        </Descriptions.Item>
+                        <Descriptions.Item label='Size'>
+                          {data.size}
+                        </Descriptions.Item>
+                        <Descriptions.Item label='Model'>
+                          {data.modelNumber}
+                        </Descriptions.Item>
+                        <Descriptions.Item label='Color'>
+                          <strong>{data.color}</strong>
+                        </Descriptions.Item>
+                        <Descriptions.Item label='Brand'>
+                          <strong>{data.brandName}</strong>
+                        </Descriptions.Item>
+                        <Descriptions.Item label='Country Origin'>
+                          {data.countryOrigin}
+                        </Descriptions.Item>
+                      </Descriptions>
+                    </div>
+                    <p className='prev-desc'>{data.description}</p>
+                  </div>
+                </TabPanel>
+                <TabPanel>
+                  <div className='cs-feedback'>
+                    <Divider orientation='left'>0 Reviews</Divider>
+                    <p>Product has no reviews yet</p>
+                  </div>
+                </TabPanel>
+              </Tabs>
+            </Col>
+            <Col xl={6}>
               <div className='user-profile-view'>
                 <h3 style={{ margin: '2px' }}>Seller information</h3>
                 <List
@@ -278,7 +380,7 @@ const View = ({ data }) => {
                     <StarOutlined /> Give feedback
                   </Popover>
                 </p>
-              </div>
+              </div>{' '}
             </Col>
           </Row>
         </div>

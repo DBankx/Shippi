@@ -16,7 +16,6 @@ import PrivateRoute from './helpers/PrivateRoute';
 import EditProfile from './components/profile/editProfile/EditProfile';
 import ProfileSetup from './components/profile/profileSetup/ProfileSetup';
 import ProductForm from './components/product/createProduct/ProductForm';
-import Preview from './components/product/createProduct/Preview';
 
 if (localStorage.token) {
   setToken(localStorage.token);

@@ -19,6 +19,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-moment": "^0.9.7",
+    "react-query": "^2.5.11",
     "react-redux": "^7.2.0",
     "react-responsive-carousel": "^3.2.9",
     "react-router-dom": "^5.2.0",

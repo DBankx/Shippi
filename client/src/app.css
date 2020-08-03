@@ -733,6 +733,19 @@ small {
   margin-top: 5px;
 }
 
+@media (max-width: 600px) {
+  .checkout-box {
+    border: none;
+    width: 100%;
+    margin: 1em 0;
+  }
+  .user-profile-view {
+    border: none;
+    width: 100%;
+    margin: 1em 0;
+  }
+}
+
 .preview-body {
   margin-top: 3em;
 }
@@ -740,4 +753,27 @@ small {
 .item-location {
   font-size: 13px;
   margin-top: 1em;
+}
+
+.prev-spec {
+  border: 1px solid #dddddd;
+  padding: 1em;
+  margin: 1em 0;
+}
+
+.prev-select {
+  color: #89c9b8;
+}
+
+.prev-desc {
+  font-weight: 500;
+  font-size: 1.25rem;
+}
+
+.prev-table tr {
+  margin: 1em 0;
+}
+
+.middle-prev {
+  padding: 0 1em;
 }

@@ -366,4 +366,15 @@ router.delete('/', auth, async (req, res) => {
   }
 });
 
+// get all profiles
+router.get('/', async (req, res) => {
+  try {
+    const profiles = await Profile.find();
+    res.json(profiles);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
