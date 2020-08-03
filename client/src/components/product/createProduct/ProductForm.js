@@ -61,7 +61,7 @@ const ProductForm = ({
     height: 0,
     depth: 0,
     width: 0,
-    shippingPrice: '',
+    shippingPrice: 0,
     estimatedDevlivery: ''
   });
 

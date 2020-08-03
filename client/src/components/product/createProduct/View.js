@@ -12,26 +12,31 @@ import {
   Popover,
   Descriptions,
   Form,
-  Input
+  Input,
+  Tooltip
 } from 'antd';
 import { Link } from 'react-router-dom';
 import {
   HomeOutlined,
-  TwitterSquareFilled,
-  AmazonSquareFilled,
-  InstagramFilled,
-  YoutubeFilled,
-  FacebookFilled,
+  TwitterOutlined,
+  AmazonOutlined,
+  InstagramOutlined,
+  YoutubeOutlined,
+  FacebookOutlined,
   MailOutlined,
   StarOutlined,
   ShopOutlined,
   EyeOutlined,
   CreditCardOutlined,
-  ShoppingCartOutlined
+  ShoppingCartOutlined,
+  LockOutlined,
+  EnvironmentOutlined,
+  FlagOutlined
 } from '@ant-design/icons';
 import { Carousel } from 'react-responsive-carousel';
 import PaymentIcons from './PaymentIcons';
 import Moment from 'react-moment';
+import { getCode } from 'country-list';
 
 const View = ({ data }) => {
   console.log(data);
@@ -62,38 +67,26 @@ const View = ({ data }) => {
               </Row>
             </div>
             <div className='fake-links hide-sm'>
-              <Row align='middle' gutter={8}>
-                <Col>
-                  <TwitterSquareFilled
-                    style={{ fontSize: '20px', color: '#0e6cff' }}
-                  />
-                </Col>
-                <Col>
-                  <AmazonSquareFilled
-                    style={{ fontSize: '20px', color: '#000' }}
-                  />
-                </Col>
-                <Col>
-                  <InstagramFilled
-                    style={{ fontSize: '20px', color: '#DD2A7B' }}
-                  />
-                </Col>
-                <Col>
-                  <FacebookFilled
-                    style={{ fontSize: '20px', color: '#3B5998' }}
-                  />
-                </Col>
-                <Col>
-                  <YoutubeFilled
-                    style={{ fontSize: '20px', color: '#c4302b' }}
-                  />
-                </Col>
-              </Row>
+              <Tag icon={<TwitterOutlined />} color='#55acee'>
+                Twitter
+              </Tag>
+              <Tag icon={<YoutubeOutlined />} color='#cd201f'>
+                Youtube
+              </Tag>
+              <Tag icon={<FacebookOutlined />} color='#3b5999'>
+                Facebook
+              </Tag>
+              <Tag icon={<InstagramOutlined />} color='#55acee'>
+                Instagram
+              </Tag>
+              <Tag icon={<AmazonOutlined />} color='#333'>
+                Amazon
+              </Tag>
             </div>
           </Row>
         </div>
         <div className='preview-body'>
-          <Row gutter={6}>
+          <Row gutter={6} justify='center'>
             <Col xl={8}>
               <Carousel>
                 {data.fileList.map((file, index) => {
@@ -110,7 +103,12 @@ const View = ({ data }) => {
                 {data.shippingPrice ? (
                   <Tag color='green'>Ready to ship</Tag>
                 ) : null}
-                {data.shippingPrice <= 0 && <Tag>Free shipping</Tag>}
+                <Tag color='warning'>{data.format}</Tag>
+                {data.internationalShipping && (
+                  <Tag color='' icon={<FlagOutlined />}>
+                    International
+                  </Tag>
+                )}
               </div>
               <span style={{ margin: '2px', fontSize: '21px' }}>
                 {data.title}
@@ -122,6 +120,8 @@ const View = ({ data }) => {
                 </Col>
                 <Divider type='vertical' />
                 <Col>(0) Ratings</Col>
+                <Divider type='vertical' />
+                <Col>0 Sold</Col>
               </Row>
               <Divider style={{ margin: '2px 0' }} />
               <Row align='middle'>
@@ -132,8 +132,7 @@ const View = ({ data }) => {
                     </p>
 
                     <span>
-                      Quantity:{' '}
-                      <strong>{data.quantity} availabe/ 0 sold</strong>
+                      Quantity: <strong>{data.quantity} availabe</strong>
                     </span>
 
                     <p>
@@ -149,45 +148,6 @@ const View = ({ data }) => {
                     <Tag color='#89c9b8'>
                       <EyeOutlined /> watch this item
                     </Tag>
-                  </div>
-                  <div className='user-profile-view'>
-                    <h3 style={{ margin: '2px' }}>Seller information</h3>
-                    <List
-                      dataSource={listData}
-                      renderItem={(item) => (
-                        <List.Item>
-                          <List.Item.Meta
-                            avatar={
-                              <Avatar src={data.user.avatar} alt='avatar' />
-                            }
-                            title={<p>{item.title}</p>}
-                            description={
-                              <Link to={`/profile/${data.user.username}`}>
-                                View profile
-                              </Link>
-                            }
-                          ></List.Item.Meta>
-                        </List.Item>
-                      )}
-                    ></List>
-                    <Divider dashed />
-                    <p>
-                      <Popover placement='bottom' title='Contact seller'>
-                        <MailOutlined /> Contact seller
-                      </Popover>
-                    </p>
-
-                    <p>
-                      <Popover placement='bottom' title=''>
-                        <ShopOutlined /> View other items
-                      </Popover>
-                    </p>
-                    <p>
-                      <Popover placement='bottom'>
-                        <StarOutlined />
-                        Give feedback
-                      </Popover>
-                    </p>
                   </div>
                 </Col>
                 <Col></Col>
@@ -210,25 +170,114 @@ const View = ({ data }) => {
                     {<Moment fromNow>{data.estimatedDelivery}</Moment>}
                   </strong>
                 </span>
-                <h4>in stock.</h4>
-                <Form.Item
-                  label='Qty'
-                  name='quantity'
-                  rules={[{ required: true, message: 'Quantity is required' }]}
-                >
-                  <Input
-                    disabeled={true}
-                    style={{ width: '5opx' }}
-                    type='number'
-                    defaultValue={1}
-                  />
-                </Form.Item>
-                <Button type='default' icon={<CreditCardOutlined />}>
-                  Buy it now
-                </Button>
-                <Button type='primary' icon={<ShoppingCartOutlined />}>
-                  Add to cart
-                </Button>
+                <h4 className='stock-checkout'>in stock.</h4>
+                <Form>
+                  <Form.Item
+                    label='Qty'
+                    name='quantity'
+                    rules={[
+                      { required: true, message: 'Quantity is required' }
+                    ]}
+                  >
+                    <Input
+                      disabeled={true}
+                      style={{ width: '50%' }}
+                      type='number'
+                      defaultValue={1}
+                    />
+                    <span style={{ color: '#c4c4c4' }}> /{data.quantity}</span>
+                  </Form.Item>
+
+                  <Divider dashed style={{ color: '#777', margin: '4px 0' }} />
+                  <Row align='middle' justify='space-between'>
+                    <Col>
+                      <span style={{ marginRight: '2px' }}>Total</span>
+                    </Col>
+                    <Col>
+                      <span
+                        style={{
+                          fontWeight: '600',
+                          fontSize: '22px',
+                          marginRight: '2px'
+                        }}
+                      >
+                        ${data.price}
+                      </span>
+                    </Col>
+                  </Row>
+                  <Form.Item style={{ display: 'block' }}>
+                    <Button type='primary' icon={<CreditCardOutlined />}>
+                      Buy it now
+                    </Button>
+                    <Button
+                      type='default'
+                      style={{
+                        borderColor: '#89c9b8',
+                        color: '#89c9b8',
+                        marginTop: '1em'
+                      }}
+                      icon={<ShoppingCartOutlined />}
+                    >
+                      Add to cart
+                    </Button>
+                  </Form.Item>
+                </Form>
+                <span style={{ fontSize: '13px' }}>
+                  <LockOutlined /> Secure Transaction
+                </span>
+                {data.itemLocation ? (
+                  <p className='item-location'>
+                    <EnvironmentOutlined /> item ships from{' '}
+                    <Tooltip title={data.itemLocation} placement='top'>
+                      <img
+                        src={`https://www.countryflags.io/${getCode(
+                          data.itemLocation
+                        )}/shiny/64.png`}
+                        style={{ width: '20px' }}
+                      />
+                    </Tooltip>
+                  </p>
+                ) : null}
+                <Divider style={{ margin: '4px 0' }} dashed />
+                <span style={{ fontWeight: '600', fontSize: '13px' }}>
+                  ${data.shippingPrice} by {data.nameOfService}
+                </span>
+              </div>
+              <div className='user-profile-view'>
+                <h3 style={{ margin: '2px' }}>Seller information</h3>
+                <List
+                  dataSource={listData}
+                  renderItem={(item) => (
+                    <List.Item>
+                      <List.Item.Meta
+                        avatar={<Avatar src={data.user.avatar} alt='avatar' />}
+                        title={<p>{item.title}</p>}
+                        description={
+                          <Link to={`/profile/${data.user.username}`}>
+                            View profile
+                          </Link>
+                        }
+                      ></List.Item.Meta>
+                    </List.Item>
+                  )}
+                ></List>
+                <Divider dashed />
+                <p>
+                  <Popover placement='bottom' title='Contact seller'>
+                    <MailOutlined /> Contact seller
+                  </Popover>
+                </p>
+
+                <p>
+                  <Popover placement='bottom' title=''>
+                    <ShopOutlined /> View other items
+                  </Popover>
+                </p>
+                <p>
+                  <Popover placement='bottom'>
+                    <StarOutlined /> Give feedback
+                  </Popover>
+                </p>
               </div>
             </Col>
           </Row>

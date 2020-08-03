@@ -696,6 +696,8 @@ small {
   border: 1px solid #dddddd;
   padding: 1em;
   border-radius: 5px;
+  width: 70%;
+  margin: 3em auto;
 }
 
 .user-profile-view .ant-divider-horizontal {
@@ -707,11 +709,35 @@ small {
 }
 
 .price-details {
-  font-size: 23px;
+  font-size: 22px;
   font-weight: 600;
   color: #092532;
 }
 
 .checkout-box {
   border: 1px solid #dddddd;
+  padding: 1em;
+  width: 70%;
+  margin: 0 auto;
+  border-radius: 5px;
+}
+
+.checkout-box button {
+  width: 100% !important;
+  height: 35px;
+}
+
+.stock-checkout {
+  color: #2e6638;
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+.preview-body {
+  margin-top: 3em;
+}
+
+.item-location {
+  font-size: 13px;
+  margin-top: 1em;
 }

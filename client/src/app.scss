@@ -747,6 +747,8 @@ small {
   border: 1px solid #dddddd;
   padding: 1em;
   border-radius: 5px;
+  width: 70%;
+  margin: 3em auto;
 
   .ant-divider-horizontal {
     margin: 2px 0;
@@ -758,11 +760,35 @@ small {
 }
 
 .price-details {
-  font-size: 23px;
+  font-size: 22px;
   font-weight: 600;
   color: $dark-color;
 }
 
 .checkout-box {
   border: 1px solid #dddddd;
+  padding: 1em;
+  width: 70%;
+  margin: 0 auto;
+  border-radius: 5px;
+
+  button {
+    width: 100% !important;
+    height: 35px;
+  }
+}
+
+.stock-checkout {
+  color: #2e6638;
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+.preview-body {
+  margin-top: 3em;
+}
+
+.item-location {
+  font-size: 13px;
+  margin-top: 1em;
 }
