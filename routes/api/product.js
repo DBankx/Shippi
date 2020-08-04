@@ -437,21 +437,24 @@ router.get('/find', async (req, res) => {
   let page = req.query.page ? parseInt(req.query.page) : 0;
 
   // omit the pagination values from the query params
-  let queryParams = _.omit(req.query, [
-    'page',
-    'limit',
-    'order',
-    'sortBy',
-    'page'
-  ]);
-
-  console.log(queryParams);
+  let queryParams = _.omit(req.query, ['limit', 'order', 'sortBy', 'page']);
 
   try {
-    let products = await Product.find(queryParams)
-      .sort([[sortBy, order]])
-      .limit(limit)
-      .skip(page * limit);
+    var products;
+    if (queryParams.title) {
+      products = await Product.find({
+        ...queryParams,
+        title: { $regex: req.query.title, $options: 'i' }
+      })
+        .sort([[sortBy, order]])
+        .limit(limit)
+        .skip(page * limit);
+    } else if (!queryParams.title) {
+      products = await Product.find(queryParams)
+        .sort([[sortBy, order]])
+        .limit(limit)
+        .skip(page * limit);
+    }
 
     if (!products) {
       return res.status(404).json({ errors: [{ msg: 'No item was found' }] });

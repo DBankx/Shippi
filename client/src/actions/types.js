@@ -29,3 +29,4 @@ export const DELETE_ACCOUNT = 'DELETE_ACCOUNT';
 export const CREATE_LISTING = 'CREATE_LISTING';
 export const ITEM_ERROR = 'ITEM_ERROR';
 export const LOADING_PRODUCT = 'LOADING_PRODUCT';
+export const SEARCH_ITEM = 'SEARCH_ITEM';

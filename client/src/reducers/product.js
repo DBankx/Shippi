@@ -1,4 +1,9 @@
-import { CREATE_LISTING, ITEM_ERROR, LOADING_PRODUCT } from '../actions/types';
+import {
+  CREATE_LISTING,
+  ITEM_ERROR,
+  LOADING_PRODUCT,
+  SEARCH_ITEM
+} from '../actions/types';
 
 const initialState = {
   loading: false,
@@ -27,6 +32,12 @@ const product = (state = initialState, action) => {
         ...state,
         loading: false,
         errors: [payload]
+      };
+    case SEARCH_ITEM:
+      return {
+        ...state,
+        loading: false,
+        items: payload
       };
     default:
       return state;

@@ -5,14 +5,14 @@ import { SearchOutlined } from '@ant-design/icons';
 const InputTop = () => {
   const select = (
     <Select defaultValue='All'>
-      <option value='Arts & Craft'>Arts & Craft</option>
+      <option value='Arts and Craft'>Arts and Craft</option>
       <option value='Automotive'>Automotive</option>
       <option value='Technology'>Technology</option>
       <option value='Books'>Books</option>
       <option value='Electronics'>Electronics</option>
       <option value='Fashion'>Fashion</option>
-      <option value='Home & Kitchen'>Home & Kitchen</option>
-      <option value='Toys & Games'>Toys & Games</option>
+      <option value='Home and Kitchen'>Home and Kitchen</option>
+      <option value='Toys and Games'>Toys and Games</option>
       <option value='Video Games'>Video Games</option>
       <option value='Health'>Health</option>
       <option value='Tools'>Tools</option>

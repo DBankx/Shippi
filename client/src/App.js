@@ -16,6 +16,7 @@ import PrivateRoute from './helpers/PrivateRoute';
 import EditProfile from './components/profile/editProfile/EditProfile';
 import ProfileSetup from './components/profile/profileSetup/ProfileSetup';
 import ProductForm from './components/product/createProduct/ProductForm';
+import Products from './components/product/viewproducts/Products';
 
 if (localStorage.token) {
   setToken(localStorage.token);
@@ -44,6 +45,7 @@ function App() {
               component={ProfileSetup}
             />
             <Route exact path='/sell' component={ProductForm} />
+            <Route exact path='/search' component={Products} />
           </Switch>
         </Router>
       </Provider>
