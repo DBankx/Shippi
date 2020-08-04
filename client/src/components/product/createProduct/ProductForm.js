@@ -485,7 +485,7 @@ const ProductForm = ({
                   onChange={(value) => setFormat(value)}
                   size='large'
                 >
-                  <Option value='Fixed Price'>Fixed Price</Option>
+                  <Option value='Fixed Price'>Fixed price</Option>
                   <Option value='Negotiatable'>Negotiatable</Option>
                 </Select>
               </Form.Item>

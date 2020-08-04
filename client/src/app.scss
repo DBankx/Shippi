@@ -63,10 +63,6 @@ body {
   }
 }
 
-#root {
-  background: #f5f5f5;
-}
-
 .top-links {
   margin-left: 2em;
   button {
@@ -597,22 +593,7 @@ body {
 
 // radio buttons
 .ant-radio-inner::after {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  display: table;
-  width: 8px;
-  height: 8px;
   background-color: $main !important;
-  border-top: 0;
-  border-left: 0;
-  border-radius: 8px;
-  -webkit-transform: scale(0);
-  transform: scale(0);
-  opacity: 0;
-  -webkit-transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
-  transition: all 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
-  content: ' ';
 }
 
 .ant-radio-checked .ant-radio-inner {
@@ -830,4 +811,58 @@ small {
 
 .middle-prev {
   padding: 0 1em;
+}
+
+// styling the products section
+
+.ant-radio-button-wrapper > .ant-radio-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ant-radio-button:hover {
+  color: $main !important;
+}
+
+.ant-radio-group-solid
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+  color: #fff;
+  background: $main !important;
+  border-color: $main !important;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover::before {
+  background-color: $main !important;
+}
+
+.ant-radio-button-wrapper:hover {
+  color: $main !important;
+}
+
+.product-list-section {
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+}
+
+.refine {
+  padding: 1em;
+}
+
+.info-box {
+  border: 1px solid #dddddd;
+  border-top: 3px solid $main;
+}
+
+.productItems {
+  span {
+    display: block;
+    margin: 1em 0;
+  }
+}
+
+.item {
+  padding: 1em;
 }

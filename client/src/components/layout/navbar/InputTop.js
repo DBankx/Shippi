@@ -4,7 +4,7 @@ import { SearchOutlined } from '@ant-design/icons';
 
 const InputTop = () => {
   const select = (
-    <Select defaultValue='All'>
+    <Select defaultValue='All' dropdownMatchSelectWidth={false}>
       <option value='Arts and Craft'>Arts and Craft</option>
       <option value='Automotive'>Automotive</option>
       <option value='Technology'>Technology</option>

@@ -28,7 +28,11 @@ const storage = multer.diskStorage({
 
 const fileFilter = (req, file, cb) => {
   // only accept jpeg files or jpg files
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
+  if (
+    file.mimetype === 'image/jpeg' ||
+    file.mimetype === 'image/jpg' ||
+    file.mimetype === 'image/png'
+  ) {
     cb(null, true);
   } else {
     return cb(
@@ -115,7 +119,7 @@ router.post(
       req.files.forEach((file) =>
         images.push({
           image: {
-            data: fs.readFileSync(file.path),
+            data: file.path,
             contentType: file.mimetype
           }
         })
@@ -241,7 +245,7 @@ router.patch(
       req.files.forEach((file) =>
         images.push({
           image: {
-            data: fs.readFileSync(file.path),
+            data: file.path,
             contentType: file.mimetype
           }
         })

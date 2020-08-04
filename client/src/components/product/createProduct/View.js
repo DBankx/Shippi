@@ -94,7 +94,7 @@ const View = ({ data }) => {
                 {data.fileList.map((file, index) => {
                   return (
                     <div className='' key={index}>
-                      <img src={file.thumbUrl} alt='product-image' />
+                      <img src={file.thumbUrl} alt='product' />
                     </div>
                   );
                 })}

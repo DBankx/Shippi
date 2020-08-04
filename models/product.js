@@ -15,7 +15,7 @@ const productSchema = new mongoose.Schema({
   },
   productImages: [
     {
-      image: { data: Buffer, contentType: String }
+      image: { data: String, contentType: String }
     }
   ],
   details: {
