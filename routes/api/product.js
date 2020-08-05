@@ -514,24 +514,24 @@ router.put(
 
       await product.save();
 
-      // send notification to the owner of the product
-      const notificationData = {
-        sender: req.user.id,
-        reciever: [{ user: product.user }],
-        type: 'feedback',
-        message: `${user.username} left a feedback on ${product.title}`
-      };
+      // // send notification to the owner of the product
+      // const notificationData = {
+      //   sender: req.user.id,
+      //   reciever: [{ user: product.user }],
+      //   type: 'feedback',
+      //   message: `${user.username} left a feedback on ${product.title}`
+      // };
 
-      const newNotification = new Notification(notificationData);
+      // const newNotification = new Notification(notificationData);
 
-      await newNotification.save();
+      // await newNotification.save();
 
-      //   get the user you want to notify
-      const userBeingNotified = await User.findById(product.user);
+      // //   get the user you want to notify
+      // const userBeingNotified = await User.findById(product.user);
 
-      userBeingNotified.notifications.unshift(newNotification);
+      // userBeingNotified.notifications.unshift(newNotification);
 
-      await userBeingNotified.save();
+      // await userBeingNotified.save();
 
       res.json(product.feedback);
     } catch (err) {

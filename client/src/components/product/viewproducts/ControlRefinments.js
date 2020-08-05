@@ -1,11 +1,21 @@
 import React from 'react';
 import { Radio, Form, Row, Col, Select } from 'antd';
-import { FilterOutlined, HomeOutlined } from '@ant-design/icons';
+import { HomeOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 const { Option } = Select;
 
-const ControlRefinments = ({ searchData, handleSearchData, items }) => {
+const ControlRefinments = ({
+  searchData,
+  handleSearchData,
+  items,
+  setCondition,
+  setSortBy,
+  setOrder,
+  sortBy,
+  order,
+  condition
+}) => {
   return (
     <div className='refine'>
       <Form>
@@ -21,6 +31,7 @@ const ControlRefinments = ({ searchData, handleSearchData, items }) => {
                     size='middle'
                     name='format'
                     value={searchData.format}
+                    onChange={handleSearchData}
                   >
                     <Radio.Button value=''>All Listings</Radio.Button>
                     <Radio.Button value='Fixed price'>Fixed price</Radio.Button>
@@ -32,9 +43,13 @@ const ControlRefinments = ({ searchData, handleSearchData, items }) => {
               </Col>
               <Col>
                 <Select
-                  placeholder='Condition'
+                  defaultValue=''
                   dropdownMatchSelectWidth={false}
+                  name='condition'
+                  value={condition}
+                  onChange={(value) => setCondition(value)}
                 >
+                  <Option value=''>Any Condition</Option>
                   <Option value='New with box'>New with box</Option>
                   <Option value='New without box'>New without box</Option>
                   <Option value='New with defects'>New with defects</Option>
@@ -50,8 +65,9 @@ const ControlRefinments = ({ searchData, handleSearchData, items }) => {
                 <Form.Item label='Sort' name='sortBy'>
                   <Select
                     name='sortBy'
-                    value={searchData.sortBy}
+                    value={sortBy}
                     dropdownMatchSelectWidth={false}
+                    onChange={(value) => setSortBy(value)}
                   >
                     <Option value='price'>Price</Option>
                     <Option value='lastUpdated'>Date posted</Option>
@@ -62,10 +78,10 @@ const ControlRefinments = ({ searchData, handleSearchData, items }) => {
               <Col>
                 <Form.Item name='order' label='Order'>
                   <Select
-                    value={searchData.order}
                     name='order'
-                    value={searchData.order}
+                    value={order}
                     dropdownMatchSelectWidth={false}
+                    onChange={(value) => setOrder(value)}
                   >
                     <Option value='asc'>Lowest to Highest</Option>
                     <Option value='desc'>Highest to Lowest</Option>

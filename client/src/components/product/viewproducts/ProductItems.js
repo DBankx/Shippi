@@ -2,6 +2,9 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import CarouselItem from './CarouselItem';
 import MinDetails from './MinDetails';
+import Watching from './Watching';
+import { Link } from 'react-router-dom';
+import Moment from 'react-moment';
 
 const ProductItems = ({ items }) => {
   return (
@@ -21,28 +24,75 @@ const ProductItems = ({ items }) => {
           {items &&
             items.map((product) => {
               return (
-                <Col key={product._id} xl={6} className='item'>
+                <Col
+                  key={product._id}
+                  xl={6}
+                  lg={8}
+                  md={8}
+                  sm={8}
+                  xs={24}
+                  className='item'
+                >
                   <CarouselItem product={product} />
-                  <span style={{ fontSize: '16px' }}>{product.title}</span>
-                  <span
-                    style={{
-                      fontWeight: '700',
-                      fontSize: '17px'
-                    }}
-                  >
-                    ${product.price}
+                  <Link to='#'>
                     <span
                       style={{
-                        display: 'inline',
-                        color: '#999999',
-                        fontSize: '12px',
-                        fontWeight: 'normal'
+                        fontSize: '16px',
+                        display: 'block'
                       }}
+                      className='title'
                     >
-                      /piece
+                      {product.title}
                     </span>
-                  </span>
+                  </Link>
+                  <Row align='middle' justify='space-between'>
+                    <Col>
+                      <span
+                        style={{
+                          fontWeight: '700',
+                          fontSize: '17px',
+                          display: 'block'
+                        }}
+                      >
+                        ${product.price}
+                        <span
+                          style={{
+                            display: 'inline',
+                            color: '#999999',
+                            fontSize: '12px',
+                            fontWeight: 'normal'
+                          }}
+                        >
+                          /piece
+                        </span>
+                        <span
+                          style={{
+                            display: 'block',
+                            color: '#dddddd',
+                            fontWeight: 'normal',
+                            fontSize: '15px'
+                          }}
+                        >
+                          {product.format}
+                        </span>
+                      </span>
+                    </Col>
+
+                    <Col>
+                      <Watching ratings={product.feedback} />
+                    </Col>
+                  </Row>
                   <MinDetails item={product} />
+                  <Row
+                    align='middle'
+                    justify='space-between'
+                    style={{ marginTop: '1em' }}
+                  >
+                    <Col></Col>
+                    <Col>
+                      <Moment fromNow>{product.lastUpdated}</Moment>
+                    </Col>
+                  </Row>
                 </Col>
               );
             })}

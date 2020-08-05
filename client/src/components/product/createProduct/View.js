@@ -108,9 +108,7 @@ const View = ({ data }) => {
                   ) : null}
                   <Tag color='warning'>{data.format}</Tag>
                   {data.internationalShipping && (
-                    <Tag color='' icon={<FlagOutlined />}>
-                      International
-                    </Tag>
+                    <Tag icon={<FlagOutlined />}>International</Tag>
                   )}
                   {data.shippingPrice <= 0 ? <Tag>Free shiping</Tag> : null}
                 </div>

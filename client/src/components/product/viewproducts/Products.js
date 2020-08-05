@@ -4,22 +4,21 @@ import Spinner from '../../layout/layoutUtils/Spinner';
 import { searchItem } from '../../../actions/product';
 import { connect } from 'react-redux';
 import ProductColumn from './ProductsColumn';
+import CategoryPick from './CategoryPick';
 
 const Products = ({ searchItem, product: { loading, items } }) => {
-  useEffect(() => {
-    searchItem('', '', '', '', 0, '', 'Technology');
-  }, [searchItem]);
-
   // setting the search form data
   const [searchData, setSearchData] = useState({
-    title: '',
     format: '',
-    condition: '',
     page: 0,
-    order: '',
-    category: '',
-    sortBy: ''
+    category: ''
   });
+
+  const { format, page, category } = searchData;
+
+  const [condition, setCondition] = useState('');
+  const [sortBy, setSortBy] = useState('');
+  const [order, setOrder] = useState('');
 
   function handleSearchData({ target }) {
     const { name, value } = target;
@@ -31,6 +30,34 @@ const Products = ({ searchItem, product: { loading, items } }) => {
     });
   }
 
+  const allSearchData = {
+    format,
+    condition,
+    page,
+    category,
+    sortBy,
+    order
+  };
+
+  useEffect(() => {
+    searchItem(
+      allSearchData.format,
+      allSearchData.condition,
+      allSearchData.order,
+      allSearchData.sortBy,
+      allSearchData.page,
+      '',
+      allSearchData.category
+    );
+  }, [
+    searchItem,
+    allSearchData.format,
+    allSearchData.condition,
+    allSearchData.page,
+    allSearchData.category,
+    allSearchData.order
+  ]);
+
   return (
     <Fragment>
       {loading ? (
@@ -38,12 +65,23 @@ const Products = ({ searchItem, product: { loading, items } }) => {
       ) : (
         <div className='container'>
           <Row gutter={6}>
-            <Col xl={4}></Col>
-            <Col xl={16}>
+            <Col xl={4} lg={4} md={4} xs={0}>
+              <CategoryPick
+                searchData={searchData}
+                handleSearchData={handleSearchData}
+              />
+            </Col>
+            <Col xl={18} lg={20} md={20} xs={24}>
               <ProductColumn
                 items={items}
                 searchData={searchData}
                 handleSearchData={handleSearchData}
+                setCondition={setCondition}
+                setSortBy={setSortBy}
+                setOrder={setOrder}
+                condition={condition}
+                sortBy={sortBy}
+                order={order}
               />
             </Col>
           </Row>

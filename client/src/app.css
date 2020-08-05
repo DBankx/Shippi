@@ -7,6 +7,37 @@
 html {
   --antd-wave-shadow-color: $main !important;
   --scroll-bar: 0;
+  --lh: 1.5rem;
+  line-height: var(--lh);
+}
+
+.truncate-overflow {
+  --max-lines: 2;
+  max-height: calc(var(--lh) * var(--max-lines));
+  overflow: hidden;
+  flex: 1;
+  position: relative;
+}
+
+.truncate-overflow::before {
+  content: '...';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.truncate-overflow::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 1rem;
+  height: 1rem;
+  background: white;
+  display: none;
+}
+
+body {
+  place-items: center;
 }
 
 .container {
@@ -652,11 +683,11 @@ small {
 }
 
 .carousel.carousel-slider .control-arrow {
-  top: 130;
+  top: 170;
   color: #fff;
   background: #000;
   font-size: 26px;
-  bottom: 130;
+  bottom: 170;
   margin-top: 0;
   padding: 5px;
   z-index: 4;
@@ -803,10 +834,38 @@ small {
 }
 
 .productItems span {
-  display: block;
-  margin: 1em 0;
+  margin: 4px 0;
 }
 
 .item {
   padding: 1em;
+  border: 1px solid #dddddd;
+  border-top: 0;
+  border-right: 0;
+}
+
+.item:first-child {
+  border-left: 0;
+}
+
+.item:last-child {
+  border-right: 1px solid #dddddd;
+}
+
+.title {
+  color: #1890ff;
+}
+
+.title:hover {
+  text-decoration: underline;
+  color: #82187c;
+}
+
+.watch {
+  color: #333;
+}
+
+.watch:hover {
+  text-decoration: underline;
+  color: #1890ff;
 }
