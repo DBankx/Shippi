@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import CarouselItem from './CarouselItem';
 import MinDetails from './MinDetails';
-import Watching from './Watching';
+import ShippingDetail from './ShippingDetail';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 
@@ -10,11 +10,11 @@ const ProductItems = ({ items }) => {
   return (
     <div className='productItems'>
       {items && items.length <= 0 ? (
-        <div>
-          <p>
+        <div style={{ padding: '1em' }}>
+          <p style={{ fontSize: '16px' }}>
             <strong>No matches for item found</strong>
           </p>
-          <p style={{ fontSize: '16px' }}>
+          <p>
             Please input correct fields to match exactly what you are looking
             for
           </p>
@@ -70,7 +70,8 @@ const ProductItems = ({ items }) => {
                             display: 'block',
                             color: '#dddddd',
                             fontWeight: 'normal',
-                            fontSize: '15px'
+                            fontSize: '14px',
+                            marginTop: '-0.2em'
                           }}
                         >
                           {product.format}
@@ -79,7 +80,9 @@ const ProductItems = ({ items }) => {
                     </Col>
 
                     <Col>
-                      <Watching id={product._id} ratings={product.feedback} />
+                      <ShippingDetail
+                        shippingDetails={product.shippingDetails}
+                      />
                     </Col>
                   </Row>
                   <MinDetails item={product} />
@@ -88,7 +91,20 @@ const ProductItems = ({ items }) => {
                     justify='space-between'
                     style={{ marginTop: '1em' }}
                   >
-                    <Col></Col>
+                    <Col>
+                      {product.watchers.length > 0 ? (
+                        <span
+                          style={{
+                            display: 'inline',
+                            color: '#cd201f',
+                            fontSize: '12px',
+                            fontWeight: 'normal'
+                          }}
+                        >
+                          {product.watchers.length} watcher(s)
+                        </span>
+                      ) : null}
+                    </Col>
                     <Col>
                       <Moment fromNow>{product.lastUpdated}</Moment>
                     </Col>

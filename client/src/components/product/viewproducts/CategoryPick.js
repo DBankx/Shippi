@@ -1,5 +1,5 @@
 import React from 'react';
-import { Radio, Form } from 'antd';
+import { Radio } from 'antd';
 import queryString from 'query-string';
 import { useLocation, withRouter } from 'react-router-dom';
 

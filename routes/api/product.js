@@ -36,9 +36,11 @@ const fileFilter = (req, file, cb) => {
     cb(null, true);
   } else {
     return cb(
-      res
-        .status(400)
-        .json({ errors: [{ msg: '*only jpg and jpeg are allowed' }] })
+      res.status(400).json({
+        errors: [
+          { msg: '*only jpg and jpeg and png image formats are allowed' }
+        ]
+      })
     );
   }
 };
@@ -439,6 +441,8 @@ router.get('/find', async (req, res) => {
   let order = req.query.order ? req.query.order : 'desc';
   let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
   let page = req.query.page ? parseInt(req.query.page) : 0;
+  let priceMin = parseInt(req.query.priceMin);
+  let priceMax = parseInt(req.query.priceMax);
 
   // omit the pagination values from the query params
   let queryParams = _.omit(req.query, ['limit', 'order', 'sortBy', 'page']);
@@ -459,7 +463,6 @@ router.get('/find', async (req, res) => {
         .limit(limit)
         .skip(page * limit);
     }
-
     if (!products) {
       return res.status(404).json({ errors: [{ msg: 'No item was found' }] });
     }
@@ -514,24 +517,24 @@ router.put(
 
       await product.save();
 
-      // // send notification to the owner of the product
-      // const notificationData = {
-      //   sender: req.user.id,
-      //   reciever: [{ user: product.user }],
-      //   type: 'feedback',
-      //   message: `${user.username} left a feedback on ${product.title}`
-      // };
+      // send notification to the owner of the product
+      const notificationData = {
+        sender: req.user.id,
+        reciever: product.user,
+        type: 'feedback',
+        message: `${user.username} left a feedback on ${product.title}`
+      };
 
-      // const newNotification = new Notification(notificationData);
+      const newNotification = new Notification(notificationData);
 
-      // await newNotification.save();
+      await newNotification.save();
 
-      // //   get the user you want to notify
-      // const userBeingNotified = await User.findById(product.user);
+      //   get the user you want to notify
+      const userBeingNotified = await User.findById(product.user);
 
-      // userBeingNotified.notifications.unshift(newNotification);
+      userBeingNotified.notifications.unshift(newNotification);
 
-      // await userBeingNotified.save();
+      await userBeingNotified.save();
 
       res.json(product.feedback);
     } catch (err) {

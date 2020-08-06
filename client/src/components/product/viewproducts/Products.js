@@ -37,8 +37,6 @@ const Products = ({ searchItem, product: { loading, items } }) => {
   // get the query strings from the url
   let params = queryString.parse(location.search);
 
-  console.log(params);
-
   let mainParams = {
     ...params,
     condition,
@@ -48,8 +46,6 @@ const Products = ({ searchItem, product: { loading, items } }) => {
     sortBy,
     order
   };
-
-  console.log(mainParams);
 
   useEffect(() => {
     searchItem(
@@ -109,20 +105,3 @@ const mapState = ({ product }) => ({
 });
 
 export default connect(mapState, { searchItem })(withRouter(Products));
-
-// push new url strings to search for the products
-// history.push({
-//   pathname: '/search',
-//   search:
-//     '?' +
-//     new URLSearchParams({
-//       title: params.title ? params.title : '',
-//       category:
-//         category || params.category ? category || params.category : '',
-//       condition: condition,
-//       format: format,
-//       sortBy: sortBy,
-//       order: order,
-//       page: page
-//     })
-// });

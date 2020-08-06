@@ -32,7 +32,7 @@ const UserDisplay = ({ user }) => {
                     {item.title} <CaretDownOutlined />
                   </strong>
                 }
-                description={user && user.firstName + ' ' + user.lastName}
+                description={user && 'Hi' + ' ' + user.firstName}
                 avatar={<Avatar src={user && user.avatar} />}
               />
             </List.Item>

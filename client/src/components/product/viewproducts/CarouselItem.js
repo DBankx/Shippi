@@ -9,7 +9,7 @@ const CarouselItem = ({ product }) => {
         {product.productImages.map((img, index) => {
           return (
             <div className='' key={index}>
-              <img src={img.image.data} />
+              <img src={img.image.data} alt='product' />
             </div>
           );
         })}
