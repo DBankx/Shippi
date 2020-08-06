@@ -1,5 +1,7 @@
 import React from 'react';
 import { Radio, Form } from 'antd';
+import queryString from 'query-string';
+import { useLocation, withRouter } from 'react-router-dom';
 
 const CategoryPick = ({ searchData, handleSearchData }) => {
   const radioStyle = {
@@ -8,13 +10,17 @@ const CategoryPick = ({ searchData, handleSearchData }) => {
     lineHeight: '30px'
   };
 
+  // make the radio value already be selected to the one in the url
+  let location = useLocation();
+  let params = queryString.parse(location.search);
+
   return (
     <div style={{ padding: '1em' }}>
       <span style={{ fontSize: '17px', fontWeight: '600', display: 'block' }}>
         Category
       </span>
       <Radio.Group
-        defaultValue=''
+        defaultValue={params.category}
         name='category'
         value={searchData.category}
         onChange={handleSearchData}
@@ -60,4 +66,4 @@ const CategoryPick = ({ searchData, handleSearchData }) => {
   );
 };
 
-export default CategoryPick;
+export default withRouter(CategoryPick);

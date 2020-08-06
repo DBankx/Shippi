@@ -1,7 +1,8 @@
 import React from 'react';
 import { Radio, Form, Row, Col, Select } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import queryString from 'query-string';
 
 const { Option } = Select;
 
@@ -16,6 +17,10 @@ const ControlRefinments = ({
   order,
   condition
 }) => {
+  let location = useLocation();
+
+  let params = queryString.parse(location.search);
+
   return (
     <div className='refine'>
       <Form>

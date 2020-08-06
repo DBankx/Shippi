@@ -2,7 +2,9 @@ import {
   CREATE_LISTING,
   ITEM_ERROR,
   LOADING_PRODUCT,
-  SEARCH_ITEM
+  SEARCH_ITEM,
+  CLEAR_ITEMS,
+  WATCH_ITEM
 } from '../actions/types';
 
 const initialState = {
@@ -38,6 +40,20 @@ const product = (state = initialState, action) => {
         ...state,
         loading: false,
         items: payload
+      };
+    case CLEAR_ITEMS:
+      return {
+        ...state,
+        items: null
+      };
+    case WATCH_ITEM:
+      return {
+        ...state,
+        items: state.items.map((item) =>
+          item._id === payload.productId
+            ? { ...item, watchers: payload.watchers }
+            : item
+        )
       };
     default:
       return state;

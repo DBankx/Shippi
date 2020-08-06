@@ -3,9 +3,16 @@ import {
   CREATE_LISTING,
   ITEM_ERROR,
   LOADING_PRODUCT,
-  SEARCH_ITEM
+  SEARCH_ITEM,
+  CLEAR_ITEMS,
+  WATCH_ITEM
 } from './types';
 import { setAlert } from './alert';
+
+// clear the previous items
+export const clearItems = () => (dispatch) => {
+  dispatch({ type: CLEAR_ITEMS });
+};
 
 // dispatch loading state
 export const loading = () => (dispatch) => {
@@ -48,6 +55,7 @@ export const searchItem = (
   title,
   category
 ) => async (dispatch) => {
+  dispatch(clearItems());
   dispatch(loading());
 
   try {
@@ -61,9 +69,18 @@ export const searchItem = (
       }&page=${page}&limit=8`
     );
 
-    console.log(res);
-
     dispatch({ type: SEARCH_ITEM, payload: res.data });
+  } catch (err) {
+    dispatch({ type: ITEM_ERROR, payload: 'Error occured' });
+  }
+};
+
+// watch an item
+export const watchItem = (productId) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/api/products/watch/${productId}`);
+
+    dispatch({ type: WATCH_ITEM, payload: { productId, watchers: res.data } });
   } catch (err) {
     dispatch({ type: ITEM_ERROR, payload: 'Error occured' });
   }

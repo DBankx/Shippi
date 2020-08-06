@@ -5,6 +5,8 @@ import { searchItem } from '../../../actions/product';
 import { connect } from 'react-redux';
 import ProductColumn from './ProductsColumn';
 import CategoryPick from './CategoryPick';
+import { useLocation, useHistory, withRouter } from 'react-router-dom';
+import queryString from 'query-string';
 
 const Products = ({ searchItem, product: { loading, items } }) => {
   // setting the search form data
@@ -30,32 +32,43 @@ const Products = ({ searchItem, product: { loading, items } }) => {
     });
   }
 
-  const allSearchData = {
-    format,
+  let location = useLocation();
+  let history = useHistory();
+  // get the query strings from the url
+  let params = queryString.parse(location.search);
+
+  console.log(params);
+
+  let mainParams = {
+    ...params,
     condition,
+    format,
     page,
     category,
     sortBy,
     order
   };
 
+  console.log(mainParams);
+
   useEffect(() => {
     searchItem(
-      allSearchData.format,
-      allSearchData.condition,
-      allSearchData.order,
-      allSearchData.sortBy,
-      allSearchData.page,
-      '',
-      allSearchData.category
+      mainParams.format,
+      mainParams.condition,
+      mainParams.order,
+      mainParams.sortBy,
+      mainParams.page,
+      mainParams.title ? mainParams.title : '',
+      mainParams.category
     );
   }, [
     searchItem,
-    allSearchData.format,
-    allSearchData.condition,
-    allSearchData.page,
-    allSearchData.category,
-    allSearchData.order
+    mainParams.category,
+    mainParams.title,
+    mainParams.format,
+    mainParams.condition,
+    mainParams.page,
+    mainParams.order
   ]);
 
   return (
@@ -64,7 +77,7 @@ const Products = ({ searchItem, product: { loading, items } }) => {
         <Spinner />
       ) : (
         <div className='container'>
-          <Row gutter={6}>
+          <Row gutter={6} className='products-view'>
             <Col xl={4} lg={4} md={4} xs={0}>
               <CategoryPick
                 searchData={searchData}
@@ -95,4 +108,21 @@ const mapState = ({ product }) => ({
   product
 });
 
-export default connect(mapState, { searchItem })(Products);
+export default connect(mapState, { searchItem })(withRouter(Products));
+
+// push new url strings to search for the products
+// history.push({
+//   pathname: '/search',
+//   search:
+//     '?' +
+//     new URLSearchParams({
+//       title: params.title ? params.title : '',
+//       category:
+//         category || params.category ? category || params.category : '',
+//       condition: condition,
+//       format: format,
+//       sortBy: sortBy,
+//       order: order,
+//       page: page
+//     })
+// });

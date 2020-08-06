@@ -2,11 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { watchItem } from '../../../actions/product';
 
-const Watching = ({ ratings, auth: { user } }) => {
+const Watching = ({
+  ratings,
+  auth: { user, isAuthenticated, loading },
+  watchItem,
+  id
+}) => {
   // check if user is watching a product
   var isWatched;
-  console.log(ratings);
 
   async function isWatching() {
     if (user !== null) {
@@ -20,19 +25,21 @@ const Watching = ({ ratings, auth: { user } }) => {
 
   return (
     <div>
-      {isWatched == null ? (
-        <Link to='#' className='watch'>
-          <span>
-            <EyeOutlined /> watch
-          </span>
-        </Link>
-      ) : (
-        <Link to='#' className='watch'>
-          <span>
-            <EyeInvisibleOutlined /> unwatch
-          </span>
-        </Link>
-      )}
+      {!loading && isAuthenticated && user !== null ? (
+        isWatched == null ? (
+          <Link to='#' className='watch'>
+            <span onClick={() => watchItem(id)}>
+              <EyeOutlined /> watch
+            </span>
+          </Link>
+        ) : (
+          <Link to='#' className='watch'>
+            <span>
+              <EyeInvisibleOutlined /> unwatch
+            </span>
+          </Link>
+        )
+      ) : null}
     </div>
   );
 };
@@ -41,4 +48,4 @@ const mapState = ({ auth }) => ({
   auth
 });
 
-export default connect(mapState)(Watching);
+export default connect(mapState, { watchItem })(Watching);

@@ -20,9 +20,7 @@ const Preview = (props) => {
     externalWindow.addEventListener('beforeunload', () => {
       props.closeWindow();
     });
-    console.log('Created Popup Window');
     return function cleanup() {
-      console.log('Cleaned up Popup Window');
       externalWindow.close();
       externalWindow = null;
     };

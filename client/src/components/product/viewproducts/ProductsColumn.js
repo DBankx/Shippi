@@ -13,8 +13,7 @@ const ProductsColumn = ({
   setOrder,
   condition,
   sortBy,
-  order,
-  handleCondition
+  order
 }) => {
   return (
     <div className='product-list-section'>

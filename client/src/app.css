@@ -869,3 +869,7 @@ small {
   text-decoration: underline;
   color: #1890ff;
 }
+
+.products-view {
+  margin-top: 3em;
+}

@@ -79,7 +79,7 @@ const ProductItems = ({ items }) => {
                     </Col>
 
                     <Col>
-                      <Watching ratings={product.feedback} />
+                      <Watching id={product._id} ratings={product.feedback} />
                     </Col>
                   </Row>
                   <MinDetails item={product} />

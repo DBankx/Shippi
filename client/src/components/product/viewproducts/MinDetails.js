@@ -1,13 +1,7 @@
 import React from 'react';
 import { Tag, Row, Col, Tooltip } from 'antd';
 import { getCode } from 'country-list';
-import {
-  FlagOutlined,
-  StarFilled,
-  StarOutlined,
-  EyeOutlined,
-  GlobalOutlined
-} from '@ant-design/icons';
+import { StarOutlined, GlobalOutlined } from '@ant-design/icons';
 
 const MinDetails = ({ item }) => {
   return (
