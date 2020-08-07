@@ -924,3 +924,20 @@ small {
 .products-view {
   margin-top: 3em;
 }
+
+.action-box {
+  padding: 0.2em 0.5em;
+  background: #fff;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+
+  &:hover {
+    border: 1px solid $main;
+  }
+}
+
+@media (max-width: 525px) {
+  .up-small {
+    margin-top: 1.5em;
+  }
+}

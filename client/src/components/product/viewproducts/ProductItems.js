@@ -5,8 +5,9 @@ import MinDetails from './MinDetails';
 import ShippingDetail from './ShippingDetail';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
+import ProductsPaginate from './ProductsPaginate';
 
-const ProductItems = ({ items }) => {
+const ProductItems = ({ items, page, setPage }) => {
   return (
     <div className='productItems'>
       {items && items.length <= 0 ? (
@@ -29,7 +30,7 @@ const ProductItems = ({ items }) => {
                   xl={6}
                   lg={8}
                   md={8}
-                  sm={8}
+                  sm={24}
                   xs={24}
                   className='item'
                 >
@@ -114,6 +115,7 @@ const ProductItems = ({ items }) => {
             })}
         </Row>
       )}
+      <ProductsPaginate items={items} page={page} setPage={setPage} />
     </div>
   );
 };

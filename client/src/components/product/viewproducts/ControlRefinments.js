@@ -58,16 +58,18 @@ const ControlRefinments = ({
             </Row>
           </Col>
 
-          <Col>
+          <Col className='up-small'>
             <Row gutter={24}>
               <Col>
-                <Form.Item label='Sort' name='sortBy'>
+                <Form.Item>
                   <Select
                     name='sortBy'
                     value={sortBy}
                     dropdownMatchSelectWidth={false}
                     onChange={(value) => setSortBy(value)}
+                    defaultValue=''
                   >
+                    <Option value=''>Sort</Option>
                     <Option value='price'>Price</Option>
                     <Option value='lastUpdated'>Date posted</Option>
                     <Option value='quantity'>Quantity</Option>
@@ -75,13 +77,15 @@ const ControlRefinments = ({
                 </Form.Item>
               </Col>
               <Col>
-                <Form.Item name='order' label='Order'>
+                <Form.Item>
                   <Select
                     name='order'
                     value={order}
                     dropdownMatchSelectWidth={false}
                     onChange={(value) => setOrder(value)}
+                    defaultValue=''
                   >
+                    <Option value=''>Any order</Option>
                     <Option value='asc'>Lowest to Highest</Option>
                     <Option value='desc'>Highest to Lowest</Option>
                   </Select>

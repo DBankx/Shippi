@@ -12,11 +12,12 @@ const Products = ({ searchItem, product: { loading, items } }) => {
   // setting the search form data
   const [searchData, setSearchData] = useState({
     format: '',
-    page: 0,
     category: ''
   });
 
-  const { format, page, category } = searchData;
+  const { format, category } = searchData;
+
+  const [page, setPage] = useState(0);
 
   const [condition, setCondition] = useState('');
   const [sortBy, setSortBy] = useState('');
@@ -74,13 +75,13 @@ const Products = ({ searchItem, product: { loading, items } }) => {
       ) : (
         <div className='container'>
           <Row gutter={6} className='products-view'>
-            <Col xl={4} lg={4} md={4} xs={0}>
+            <Col xl={4} lg={4} md={0} xs={0} sm={0}>
               <CategoryPick
                 searchData={searchData}
                 handleSearchData={handleSearchData}
               />
             </Col>
-            <Col xl={18} lg={20} md={20} xs={24}>
+            <Col xl={18} lg={20} md={24} sm={24} xs={24}>
               <ProductColumn
                 items={items}
                 searchData={searchData}
@@ -91,6 +92,8 @@ const Products = ({ searchItem, product: { loading, items } }) => {
                 condition={condition}
                 sortBy={sortBy}
                 order={order}
+                page={page}
+                setPage={setPage}
               />
             </Col>
           </Row>

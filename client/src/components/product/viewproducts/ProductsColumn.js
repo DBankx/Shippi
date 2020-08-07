@@ -13,7 +13,9 @@ const ProductsColumn = ({
   setOrder,
   condition,
   sortBy,
-  order
+  order,
+  page,
+  setPage
 }) => {
   return (
     <div className='product-list-section'>
@@ -29,8 +31,13 @@ const ProductsColumn = ({
         order={order}
       />
       <Divider style={{ margin: '4px 0' }} />
-      <InfoBox />
-      <ProductItems items={items && items} />
+      <ProductItems
+        items={items && items}
+        searchData={searchData}
+        handleSearchData={handleSearchData}
+        page={page}
+        setPage={setPage}
+      />
     </div>
   );
 };
