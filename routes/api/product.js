@@ -441,8 +441,6 @@ router.get('/find', async (req, res) => {
   let order = req.query.order ? req.query.order : 'desc';
   let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
   let page = req.query.page ? parseInt(req.query.page) : 0;
-  let priceMin = parseInt(req.query.priceMin);
-  let priceMax = parseInt(req.query.priceMax);
 
   // omit the pagination values from the query params
   let queryParams = _.omit(req.query, ['limit', 'order', 'sortBy', 'page']);

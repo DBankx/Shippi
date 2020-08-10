@@ -17,6 +17,7 @@ import EditProfile from './components/profile/editProfile/EditProfile';
 import ProfileSetup from './components/profile/profileSetup/ProfileSetup';
 import ProductForm from './components/product/createProduct/ProductForm';
 import Products from './components/product/viewproducts/Products';
+import ItemPage from './components/product/itemPage/ItemPage';
 
 if (localStorage.token) {
   setToken(localStorage.token);
@@ -44,8 +45,9 @@ function App() {
               path='/profile-setup'
               component={ProfileSetup}
             />
-            <Route exact path='/sell' component={ProductForm} />
+            <PrivateRoute exact path='/sell' component={ProductForm} />
             <Route exact path='/search' component={Products} />
+            <Route exact path='/product/:itemId' component={ItemPage} />
           </Switch>
         </Router>
       </Provider>

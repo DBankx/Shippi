@@ -35,7 +35,7 @@ const ProductItems = ({ items, page, setPage }) => {
                   className='item'
                 >
                   <CarouselItem product={product} />
-                  <Link to='#'>
+                  <Link to={`/product/${product._id}`}>
                     <span
                       style={{
                         fontSize: '16px',

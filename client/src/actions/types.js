@@ -32,3 +32,5 @@ export const LOADING_PRODUCT = 'LOADING_PRODUCT';
 export const SEARCH_ITEM = 'SEARCH_ITEM';
 export const CLEAR_ITEMS = 'CLEAR_ITEMS';
 export const WATCH_ITEM = 'WATCH_ITEM';
+export const GET_ITEM_BY_ID = 'GET_ITEM_BY_ID';
+export const CLEAR_ITEM = 'CLEAR_ITEM';

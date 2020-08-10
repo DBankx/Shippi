@@ -5,7 +5,7 @@ import { searchItem } from '../../../actions/product';
 import { connect } from 'react-redux';
 import ProductColumn from './ProductsColumn';
 import CategoryPick from './CategoryPick';
-import { useLocation, useHistory, withRouter } from 'react-router-dom';
+import { useLocation, withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 
 const Products = ({ searchItem, product: { loading, items } }) => {
@@ -34,7 +34,6 @@ const Products = ({ searchItem, product: { loading, items } }) => {
   }
 
   let location = useLocation();
-  let history = useHistory();
   // get the query strings from the url
   let params = queryString.parse(location.search);
 

@@ -4,7 +4,9 @@ import {
   LOADING_PRODUCT,
   SEARCH_ITEM,
   CLEAR_ITEMS,
-  WATCH_ITEM
+  WATCH_ITEM,
+  CLEAR_ITEM,
+  GET_ITEM_BY_ID
 } from '../actions/types';
 
 const initialState = {
@@ -54,6 +56,17 @@ const product = (state = initialState, action) => {
             ? { ...item, watchers: payload.watchers }
             : item
         )
+      };
+    case CLEAR_ITEM:
+      return {
+        ...state,
+        item: null
+      };
+    case GET_ITEM_BY_ID:
+      return {
+        ...state,
+        item: payload,
+        loading: false
       };
     default:
       return state;

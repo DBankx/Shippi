@@ -7,6 +7,8 @@ const port = process.env.PORT || 4000;
 const connectDB = require('./config/database');
 const bodyParser = require('body-parser');
 
+app.use(cors());
+
 // connect to the database
 connectDB();
 
@@ -14,7 +16,6 @@ connectDB();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.json());
-app.use(cors());
 
 // home page
 app.get('/', (req, res) => {

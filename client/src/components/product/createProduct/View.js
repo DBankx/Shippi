@@ -280,6 +280,7 @@ const View = ({ data }) => {
                           data.itemLocation
                         )}/shiny/64.png`}
                         style={{ width: '20px' }}
+                        alt='country'
                       />
                     </Tooltip>
                   </p>
