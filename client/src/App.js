@@ -46,7 +46,7 @@ function App() {
               component={ProfileSetup}
             />
             <PrivateRoute exact path='/sell' component={ProductForm} />
-            <Route exact path='/search' component={Products} />
+            {/* <Route exact path='/search' component={Products} /> */}
             <Route exact path='/product/:itemId' component={ItemPage} />
           </Switch>
         </Router>
