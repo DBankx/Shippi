@@ -8,7 +8,7 @@ const ItemImages = ({ item }) => {
         {item.productImages.map((img) => {
           return (
             <div key={img._id}>
-              <img src={img.image.data} alt='product' />
+              <img itemType='image' src={img.image.data} alt='product' />
             </div>
           );
         })}
