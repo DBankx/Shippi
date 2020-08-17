@@ -18,7 +18,13 @@ const ItemPage = ({ match, getItemById, product: { loading, item } }) => {
             <Col>
               <ItemImages item={item} />
             </Col>
-            <Col>{item.title}</Col>
+            <Col>
+              <div className=''>
+                {item.title}
+                {item.price}
+                {item._id}
+              </div>
+            </Col>
             <Col>{item.price}</Col>
           </Row>
         </div>
