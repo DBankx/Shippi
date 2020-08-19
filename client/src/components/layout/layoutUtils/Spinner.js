@@ -4,7 +4,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 const Spinner = () => {
   const loadingIcon = (
-    <LoadingOutlined style={{ fontSize: 35, color: '#89c9b8' }} />
+    <LoadingOutlined style={{ fontSize: 50, color: '#89c9b8' }} />
   );
 
   return (
