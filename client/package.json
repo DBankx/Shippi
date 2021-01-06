@@ -10,7 +10,7 @@
     "ant-design": "^1.0.0",
     "antd": "^4.4.3",
     "antd-img-crop": "^3.9.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "country-code-lookup": "0.0.17",
     "country-list": "^2.2.0",
     "form-data": "^3.0.0",
